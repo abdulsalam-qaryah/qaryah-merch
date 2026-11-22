@@ -101,6 +101,14 @@ create policy docs_delete on public.docs for delete to authenticated using (
   or (public.is_approved() and collection in ('followups', 'pos', 'trips'))
 );
 
+-- 5ب) صلاحيات الوصول من التطبيق (Data API) حتى لو كان خيار «Grant API access» غير مفعّل
+grant usage on schema public to authenticated;
+grant select, insert, update, delete on public.docs to authenticated;
+revoke all on public.docs from anon;
+grant execute on function public.is_admin() to authenticated;
+grant execute on function public.is_approved() to authenticated;
+grant execute on function public.doc_merge(text, text, jsonb) to authenticated;
+
 -- 6) التحديث المباشر (Realtime)
 alter table public.docs replica identity full;
 do $$ begin
