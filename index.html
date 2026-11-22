@@ -1,4 +1,18 @@
-<title>متابعة المارشندايزر</title>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#AC1F23">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="مناديب القرية">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>متابعة المناديب – القرية</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,11 +202,21 @@ details.sum>summary::-webkit-details-marker{display:none}
 .rcard{cursor:pointer;gap:8px;padding:14px}
 .rcard.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .rnum{font-family:var(--f-display);font-size:1.5rem;color:var(--accent);font-variant-numeric:tabular-nums}
+
+#auth{position:fixed;inset:0;z-index:100;background:var(--bg);overflow-y:auto}
+.auth-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px max(16px,env(safe-area-inset-left,0px))}
+.auth-card{width:100%;max-width:400px;align-items:stretch;text-align:start}
+.auth-card .redlogo{align-self:center}.auth-card .slogan{align-self:center;margin-top:-6px}
 </style>
 
+</head>
+<body>
 <div id="app"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/preact/standalone.umd.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="config.js"></script>
+<script src="runtime.js"></script>
 <script>
 document.documentElement.lang='ar';document.documentElement.dir='rtl';
 const {html,render,useState,useEffect,useMemo,useRef}=htmPreact;
@@ -325,7 +349,7 @@ function Confirm({label,ask,onYes,cls}){
 const Empty=({t,children})=>html`<div class="empty"><svg width="44" height="52" viewBox="0 0 44 52" aria-hidden="true"><ellipse cx="22" cy="29" rx="18" ry="22" fill="var(--surface2)" stroke="var(--line)" stroke-width="2"/><circle cx="22" cy="32" r="7" fill="var(--yolk)" opacity=".75"/></svg><div>${t}</div>${children}</div>`;
 const Logo=({cls,style})=>html`<span class=${cls||'brandlogo'} style=${style||''} role="img" aria-label="القرية"></span>`;
 const Bar=({v,max,yolk})=>html`<div class=${'bar'+(yolk?' yolk':'')}><i style=${'width:'+(max?Math.min(100,Math.round(v/max*100)):0)+'%'}></i></div>`;
-const imgSrc=id=>'/_blob/'+id;
+const imgSrc=id=>window.APP_IMG?window.APP_IMG(id):'/_blob/'+id;
 function Photos({ids,onChange,label}){
   const[busy,setBusy]=useState(0);const list=ids||[];const can=!!S.assets&&onChange;
   async function pick(e){
@@ -627,7 +651,7 @@ function Pending(){
   const r=roleOf(S.uid);
   return html`<${Splash} t=${html`<div class="card gatecard"><h1>أهلاً ${S.profile.name}</h1>
     ${r.id&&r.approved===false&&r.disabledAt?html`<div class="notice bad">تم إيقاف حسابك. تواصل مع المدير.</div>`:html`<div class="notice info">تم تسجيلك. حسابك بانتظار اعتماد المدير وتحديد دورك والفروع المسؤول عنها.</div>`}
-    <div class="muted small">ستفتح لك الصفحة تلقائياً أول ما يعتمدك المدير.</div></div>`}/>`;
+    <div class="muted small">ستفتح لك الصفحة تلقائياً أول ما يعتمدك المدير.</div>${window.APP_SIGNOUT&&html`<button class="btn ghost" onClick=${()=>window.APP_SIGNOUT()}>تسجيل الخروج</button>`}</div>`}/>`;
 }
 
 /* ---------------- visit editor ---------------- */
@@ -1185,14 +1209,14 @@ function Team(){
   const saveRole=(uid,patch,msg)=>{const r={...roleOf(uid)};delete r.id;return W(()=>put('roles/'+uid,{role:'merch',approved:false,...r,...patch,updatedAt:Date.now(),by:S.uid}),msg||'تم التحديث')};
   const pending=s.profiles.filter(p=>st(p)==='wait').length;const td=today();
   return html`<div class="row between"><h1>الفريق والحسابات</h1></div>
-    <div class="notice info">كل موظف يفتح رابط الصفحة بحسابه ويسجّل بياناته، وبعدها يظهر هنا وتعتمده وتحدد مشرفه وموقعه. شارك الصفحة مع المناديب والمشرفين بصلاحية <b>Contributor</b>، ومع المدراء بصلاحية <b>Editor</b>.</div>
+    ${window.APP_STANDALONE?html`<div class="notice info">أرسل رابط التطبيق للمندوب. يضغط «حساب جديد» ويختار اسم مستخدم وكلمة مرور، وبعدها يظهر هنا وتعتمده وتحدد مشرفه وفروعه.</div>`:html`<div class="notice info">كل موظف يفتح رابط الصفحة بحسابه ويسجّل بياناته، وبعدها يظهر هنا وتعتمده وتحدد مشرفه وموقعه. شارك الصفحة مع المناديب والمشرفين بصلاحية <b>Contributor</b>، ومع المدراء بصلاحية <b>Editor</b>.</div>`}
     <div class="filters card"><${Fld} label="بحث بالاسم أو الجوال"><input value=${q} onInput=${x=>setQ(x.target.value)}/><//>
       <${Fld} label="عرض"><select value=${fl} onChange=${x=>setFl(x.target.value)}><option value="">الكل</option><option value="wait">بانتظار الاعتماد (${pending})</option><option value="ok">المعتمدين</option><option value="sup">المشرفين</option><option value="off">الموقوفين</option></select><//></div>
     ${rows.length?html`<div class="tgrid">${rows.map(p=>{const r=roleOf(p.id);const k=st(p);const sp=supOf(p.id);const nb=s.branches.filter(b=>b.merchUid===p.id).length;const rep=s.reports.find(x=>x.uid===p.id&&x.date===td&&!x.demo);
       return html`<div class=${'card tcard'+(k==='wait'?' wait':'')}>
         <div class="row between" style="align-items:flex-start"><div style="min-width:0"><h3>${p.name}${p.id===S.uid?html` <span class="pill t-info">أنت</span>`:''}</h3><div class="small muted">${k==='me'?ROLE.manager:ROLE[r.role||'merch']}${p.empNo?' · '+p.empNo:''}</div></div>
           ${k==='wait'?html`<${Pill} st=${['بانتظار الاعتماد','warn']}/>`:k==='off'?html`<${Pill} st=${['موقوف','muted']}/>`:k==='ok'?(rep?html`<${Pill} st=${['اليوم '+rep.visits.length+' زيارات','ok']}/>`:html`<${Pill} st=${['معتمد','ok']}/>`):null}</div>
-        <dl class="kv"><dt>الجوال</dt><dd><${Phone} n=${p.phone}/></dd>
+        <dl class="kv">${p.username&&html`<dt>المستخدم</dt><dd dir="ltr" style="text-align:end;justify-self:start">${p.username}</dd>`}<dt>الجوال</dt><dd><${Phone} n=${p.phone}/></dd>
           ${k!=='me'&&html`<dt>المشرف</dt><dd>${sp?html`${sp.name}${sp.phone?html` · <span dir="ltr">${sp.phone}</span>`:''}`:html`<span style="color:var(--bad)">غير محدد</span>`}</dd>`}
           <dt>الموقع</dt><dd>${r.area||p.city||'—'}${r.mapUrl?html` · <a href=${r.mapUrl} target="_blank" rel="noopener">الخريطة</a>`:''}</dd>
           ${k!=='me'&&html`<dt>الفروع</dt><dd>${nb}${r.repName?html` <span class="small muted">(${r.repName} في الملف)</span>`:''}</dd>`}</dl>
@@ -1304,7 +1328,8 @@ function Account(){
   const supRegs=s.regions.filter(r=>r.supervisorUid===s.uid);
   if(ed)return html`<${Register}/><div class="row"><button class="btn" onClick=${()=>setEd(false)}>رجوع</button></div>`;
   return html`<h1>حسابي</h1>
-    <div class="card"><div class="row between"><div><h2>${s.profile.name}</h2><div class="muted small">${ROLE[role]}${s.profile.city?' · '+s.profile.city:''}</div></div><button class="btn" onClick=${()=>setEd(true)}>تعديل بياناتي</button></div>
+    <div class="card"><div class="row between"><div><h2>${s.profile.name}</h2><div class="muted small">${ROLE[role]}${s.profile.city?' · '+s.profile.city:''}</div></div><div class="row"><button class="btn" onClick=${()=>setEd(true)}>تعديل بياناتي</button>${window.APP_SIGNOUT&&html`<button class="btn danger" onClick=${()=>window.APP_SIGNOUT()}>تسجيل الخروج</button>`}</div></div>
+      ${window.APP_USERNAME&&html`<div class="small muted">اسم المستخدم: <b dir="ltr">${window.APP_USERNAME}</b></div>`}
       <dl class="kv"><dt>الجوال</dt><dd><${Phone} n=${s.profile.phone}/></dd><dt>الرقم الوظيفي</dt><dd>${s.profile.empNo||'—'}</dd></dl></div>
     ${supRegs.length>0&&html`<div class="card"><h2>المناطق تحت إشرافك</h2><div class="chips">${supRegs.map(r=>html`<span class="pill t-info">${r.name} · ${s.branches.filter(b=>b.regionId===r.id).length} فرع</span>`)}</div></div>`}
     ${role!=='manager'&&html`<${MyCard} uid=${s.uid}/>`}
@@ -1351,3 +1376,7 @@ function Overlays(){
 render(html`<${App}/>`,document.getElementById('app'));
 boot().catch(e=>{console.error(e);S.noDb=true;S.ready=true;bump()});
 </script>
+
+<script>if('serviceWorker' in navigator){addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}))}</script>
+</body>
+</html>
