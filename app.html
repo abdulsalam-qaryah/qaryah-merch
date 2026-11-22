@@ -184,6 +184,10 @@ details.sum>summary::-webkit-details-marker{display:none}
 .sev{width:10px;height:10px;border-radius:50%;flex:none;background:var(--warn)}.sev.bad{background:var(--bad)}
 .sortb{background:none;border:0;padding:0;cursor:pointer;color:inherit;font:inherit;font-weight:600}.sortb.on{color:var(--accent);text-decoration:underline}
 .brief{white-space:pre-wrap;line-height:1.8}
+.rgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:12px}
+.rcard{cursor:pointer;gap:8px;padding:14px}
+.rcard.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.rnum{font-family:var(--f-display);font-size:1.5rem;color:var(--accent);font-variant-numeric:tabular-nums}
 </style>
 
 <div id="app"></div>
@@ -535,7 +539,8 @@ function BranchSheet({id,onClose}){
   const pos=s.pos.filter(p=>p.branchId===id).sort((a,c)=>(c.deliveryDate||'').localeCompare(a.deliveryDate||'')).slice(0,10);
   return html`<${Sheet} title=${branchName(id)} sub=${[b.type,b.city,(regionOf(b.regionId)||{}).name].filter(Boolean).join(' · ')} onClose=${onClose}>
     <section class="sec"><dl class="kv">
-      <dt>المندوب</dt><dd>${b.merchUid?html`${nameOf(b.merchUid)} <${Phone} n=${phoneOf(b.merchUid)}/>`:'—'}</dd>
+      <dt>المندوب</dt><dd>${b.merchUid?html`${nameOf(b.merchUid)} <${Phone} n=${phoneOf(b.merchUid)}/>`:html`<${RepCell} b=${b}/>`}</dd>
+      ${b.code&&html`<dt>رقم العميل</dt><dd dir="ltr" style="text-align:end;justify-self:start">${b.code}</dd>`}${b.type&&html`<dt>التصنيف</dt><dd>${b.type}</dd>`}
       <dt>المشرف</dt><dd>${sp?html`${sp.name} <${Phone} n=${sp.phone}/>`:'—'}</dd>
       <dt>أيام الزيارة</dt><dd>${(b.visitDays||[]).slice().sort().map(d=>DAYS[d]).join('، ')||'—'}</dd>
       ${b.contact&&html`<dt>مسؤول الفرع</dt><dd>${b.contact}</dd>`}
@@ -1086,43 +1091,89 @@ function TrucksSheet({onClose}){
 }
 
 /* ---------------- regions & branches ---------------- */
+const repNames=()=>[...new Set(S.branches.map(b=>b.repName).filter(Boolean))].sort();
+const regOrder=id=>{const r=regionOf(id);return r&&r.order!=null?r.order:99};
+function RepCell({b}){return b.merchUid?html`${nameOf(b.merchUid)}`:b.repName?html`<span>${b.repName}</span> <span class="pill t-muted" title="من ملف الفروع، لم يُربط بحساب بعد">من الملف</span>`:html`<span style="color:var(--bad)">غير محدد</span>`}
 function Branches(){
-  const s=useS();const[q,setQ]=useState('');const[reg,setReg]=useState('');const[e,setE]=useState(null);const[er,setEr]=useState(null);const[hist,setHist]=useState(null);
+  const s=useS();const[f,setF]=useState({q:'',reg:'',chain:'',type:'',rep:'',days:''});const[e,setE]=useState(null);const[er,setEr]=useState(null);const[hist,setHist]=useState(null);const[bulk,setBulk]=useState(false);const[lim,setLim]=useState(80);
   const people=s.roles.filter(r=>r.approved).map(r=>r.id);
-  const rows=s.branches.filter(b=>(!reg||b.regionId===reg||(reg==='none'&&!b.regionId))&&(!q||branchName(b.id).includes(q)||(b.city||'').includes(q)||(b.code||'').includes(q))).sort((a,b)=>branchName(a.id).localeCompare(branchName(b.id)));
-  return html`<div class="row between"><h1>المناطق والفروع</h1><div class="row"><button class="btn" onClick=${()=>setEr({name:'',supervisorUid:'',notes:''})}>＋ منطقة</button><button class="btn pri" onClick=${()=>setE({name:'',chain:'',type:'',code:'',city:'',regionId:reg&&reg!=='none'?reg:'',merchUid:'',visitDays:[],mapUrl:'',contact:'',active:true})}>＋ فرع</button></div></div>
-    <div class="grid2">${s.regions.map(r=>{const bs=s.branches.filter(b=>b.regionId===r.id);const ms=[...new Set(bs.map(b=>b.merchUid).filter(Boolean))];return html`<div class="card" style="cursor:pointer" onClick=${()=>setEr(clone2(r))}>
-      <div class="row between"><h2>${r.name}</h2><span class="pill t-muted">${bs.length} فرع</span></div>
-      <dl class="kv"><dt>مسؤول المنطقة</dt><dd>${r.supervisorUid?nameOf(r.supervisorUid):(r.supervisorName||'—')}</dd><dt>المناديب</dt><dd>${ms.length?ms.map(nameOf).join('، '):'—'}</dd></dl></div>`})}
+  const repOf=b=>b.merchUid?'u:'+b.merchUid:b.repName?'n:'+b.repName:'none';
+  const rows=s.branches.filter(b=>(!f.reg||b.regionId===f.reg||(f.reg==='none'&&!b.regionId))&&(!f.chain||b.chain===f.chain)&&(!f.type||b.type===f.type)&&(!f.rep||repOf(b)===f.rep)
+      &&(!f.days||(f.days==='none'?!(b.visitDays||[]).length:f.days==='dup'?!!b.notes:!!(b.visitDays||[]).length))
+      &&(!f.q||[branchName(b.id),b.city,b.code,b.area].some(x=>(x||'').includes(f.q))))
+    .sort((a,b)=>regOrder(a.regionId)-regOrder(b.regionId)||(a.area||a.name).localeCompare(b.area||b.name,'ar')||(a.chain||'').localeCompare(b.chain||'','ar'));
+  const chains=[...new Set(s.branches.map(b=>b.chain).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ar'));
+  const types=[...new Set(s.branches.map(b=>b.type).filter(Boolean))];
+  const reps=[...people.map(u=>['u:'+u,nameOf(u)]),...repNames().map(n=>['n:'+n,n+' (من الملف)'])];
+  const noDays=s.branches.filter(b=>b.active!==false&&!(b.visitDays||[]).length).length;const dups=s.branches.filter(b=>b.notes).length;
+  const regs=[...s.regions].sort((a,b)=>(a.order??99)-(b.order??99));
+  return html`<div class="row between"><div><h1>المناطق والفروع</h1><div class="muted small">${s.branches.length} فرع في ${s.regions.length} مناطق</div></div><div class="row"><button class="btn" onClick=${()=>setEr({name:'',supervisorUid:'',notes:'',areas:[]})}>＋ منطقة</button><button class="btn pri" onClick=${()=>setE({name:'',chain:'',type:'',code:'',city:'الرياض',area:'',regionId:f.reg&&f.reg!=='none'?f.reg:'',merchUid:'',visitDays:[],mapUrl:'',contact:'',active:true})}>＋ فرع</button></div></div>
+    ${(noDays>0||dups>0)&&html`<div class="notice">${noDays>0&&html`<span>${noDays} فرع بدون أيام زيارة، حددها من «تعديل جماعي» عشان تشتغل لوحة المتابعة وجدول المناديب. </span>`}${dups>0&&html`<button class="btn sm" onClick=${()=>setF({...f,days:'dup'})}>عرض ${dups} فروع أرقامها مكررة في الملف</button>`}</div>`}
+    <div class="rgrid">${regs.map(r=>{const bs=s.branches.filter(b=>b.regionId===r.id);const ms=[...new Set(bs.map(b=>b.merchUid?nameOf(b.merchUid):b.repName).filter(Boolean))];const by=collections(bs.map(b=>b.chain));return html`<div class=${'card rcard'+(f.reg===r.id?' on':'')} onClick=${()=>setF({...f,reg:f.reg===r.id?'':r.id})}>
+      <div class="row between"><h2>${r.name}</h2><b class="rnum">${bs.length}</b></div>
+      <div class="small"><span class="muted">المسؤول: </span>${r.supervisorUid?nameOf(r.supervisorUid):(r.supervisorName||'—')}</div>
+      <div class="small"><span class="muted">المناديب: </span>${ms.join('، ')||'—'}</div>
+      <div class="chips">${by.slice(0,4).map(([c,n])=>html`<span class="pill t-muted">${c} ${n}</span>`)}</div>
+      <div class="row between"><span class="small muted">${(r.areas||[]).length} حي ضمن التغطية</span><button class="btn sm ghost" onClick=${x=>{x.stopPropagation();setEr(clone2(r))}}>تعديل</button></div></div>`})}
       ${!s.regions.length&&html`<div class="card"><${Empty} t="ما فيه مناطق. أضف منطقة وحدد مسؤولها."/></div>`}</div>
-    <div class="filters card"><${Fld} label="بحث"><input value=${q} onInput=${x=>setQ(x.target.value)} placeholder="اسم الفرع أو المدينة أو الكود"/><//>
-      <${Fld} label="المنطقة"><select value=${reg} onChange=${x=>setReg(x.target.value)}><option value="">الكل</option>${s.regions.map(r=>html`<option value=${r.id}>${r.name}</option>`)}<option value="none">بدون منطقة</option></select><//></div>
-    <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>الفرع</th><th>النوع</th><th>المدينة</th><th>المنطقة</th><th>المندوب</th><th>أيام الزيارة</th><th></th></tr></thead><tbody>
-      ${rows.map(b=>html`<tr class="click" onClick=${()=>setE(clone2(b))}><td><b>${branchName(b.id)}</b>${b.code?html` <span class="muted small" dir="ltr">${b.code}</span>`:''}${b.active===false?html` <${Pill} st=${['موقوف','muted']}/>`:''}</td><td>${b.type||'—'}</td><td>${b.city||'—'}</td><td>${(regionOf(b.regionId)||{}).name||'—'}</td><td>${b.merchUid?nameOf(b.merchUid):html`<span style="color:var(--bad)">غير محدد</span>`}</td><td class="small">${(b.visitDays||[]).slice().sort().map(d=>DAYS[d]).join('، ')||'—'}</td><td><button class="btn sm" onClick=${x=>{x.stopPropagation();setHist(b.id)}}>السجل</button></td></tr>`)}</tbody></table></div>`:html`<${Empty} t="لا توجد فروع. أضفها يدوياً أو أرسل ملف الإكسل لاستيرادها."/>`}</div>
-    ${e&&html`<${Sheet} title=${e.id?'تعديل فرع':'فرع جديد'} onClose=${()=>setE(null)} footer=${html`<button class="btn pri grow" onClick=${()=>{if(!e.name)return toast('اكتب اسم الفرع','bad');W(()=>put('branches/'+(e.id||rid()),{...e,id:undefined}),'تم حفظ الفرع').then(()=>setE(null))}}>حفظ</button>${e.id&&html`<${Confirm} label="حذف" onYes=${()=>W(()=>S.db.doc('branches/'+e.id).delete(),'تم الحذف').then(()=>setE(null))}/>`}`}>
+    <div class="filters card"><${Fld} label="بحث"><input value=${f.q} onInput=${x=>setF({...f,q:x.target.value})} placeholder="الحي أو الكود"/><//>
+      <${Fld} label="المنطقة"><select value=${f.reg} onChange=${x=>setF({...f,reg:x.target.value})}><option value="">الكل</option>${regs.map(r=>html`<option value=${r.id}>${r.name}</option>`)}<option value="none">بدون منطقة</option></select><//>
+      <${Fld} label="السلسلة"><select value=${f.chain} onChange=${x=>setF({...f,chain:x.target.value})}><option value="">الكل</option>${chains.map(c=>html`<option>${c}</option>`)}</select><//>
+      <${Fld} label="التصنيف"><select value=${f.type} onChange=${x=>setF({...f,type:x.target.value})}><option value="">الكل</option>${types.map(c=>html`<option>${c}</option>`)}</select><//>
+      <${Fld} label="المندوب"><select value=${f.rep} onChange=${x=>setF({...f,rep:x.target.value})}><option value="">الكل</option>${reps.map(([k,n])=>html`<option value=${k}>${n}</option>`)}<option value="none">غير محدد</option></select><//>
+      <${Fld} label="الجدول"><select value=${f.days} onChange=${x=>setF({...f,days:x.target.value})}><option value="">الكل</option><option value="none">بدون أيام زيارة</option><option value="has">له أيام زيارة</option><option value="dup">رقم مكرر يحتاج تأكيد</option></select><//></div>
+    <div class="row between"><b>${rows.length} فرع</b>${rows.length>0&&html`<button class="btn" onClick=${()=>setBulk(true)}>تعديل جماعي للـ ${rows.length} فرع المعروضة</button>`}</div>
+    <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>الفرع</th><th>الكود</th><th>التصنيف</th><th>المنطقة</th><th>المندوب</th><th>أيام الزيارة</th><th></th></tr></thead><tbody>
+      ${rows.slice(0,lim).map(b=>html`<tr class="click" onClick=${()=>setE(clone2(b))}><td><b>${branchName(b.id)}</b>${b.active===false?html` <${Pill} st=${['موقوف','muted']}/>`:''}${b.notes?html` <span class="pill t-warn" title=${b.notes}>يحتاج تأكيد</span>`:''}</td><td dir="ltr" style="text-align:end">${b.code||'—'}</td><td>${b.type||'—'}</td><td>${(regionOf(b.regionId)||{}).name||'—'}</td><td><${RepCell} b=${b}/></td><td class="small">${(b.visitDays||[]).slice().sort().map(d=>DAYS[d]).join('، ')||html`<span class="muted">—</span>`}</td><td><button class="btn sm" onClick=${x=>{x.stopPropagation();setHist(b.id)}}>السجل</button></td></tr>`)}</tbody></table></div>
+      ${rows.length>lim&&html`<div style="padding:12px;text-align:center"><button class="btn" onClick=${()=>setLim(lim+200)}>عرض المزيد (${rows.length-lim})</button></div>`}`:html`<${Empty} t="لا توجد فروع بهذه الفلاتر."/>`}</div>
+    ${bulk&&html`<${BulkSheet} rows=${rows} people=${people} onClose=${()=>setBulk(false)}/>`}
+    ${e&&html`<${Sheet} title=${e.id?'تعديل فرع':'فرع جديد'} sub=${e.sourceRef?'المصدر: '+e.source+' · '+e.sourceRef:''} onClose=${()=>setE(null)} footer=${html`<button class="btn pri grow" onClick=${()=>{if(!e.name)return toast('اكتب اسم الفرع','bad');W(()=>put('branches/'+(e.id||rid()),{...e,id:undefined}),'تم حفظ الفرع').then(()=>setE(null))}}>حفظ</button>${e.id&&html`<${Confirm} label="حذف" onYes=${()=>W(()=>S.db.doc('branches/'+e.id).delete(),'تم الحذف').then(()=>setE(null))}/>`}`}>
+      ${e.notes&&html`<div class="notice">${e.notes}</div>`}
       <section class="sec"><div class="fgrid">
-        <${Fld} label="اسم الفرع *"><input id="b-name" value=${e.name} onInput=${x=>setE({...e,name:x.target.value})} placeholder="مثال: حي النرجس"/><//>
-        <${Fld} label="السلسلة"><select value=${e.chain} onChange=${x=>setE({...e,chain:x.target.value})}><option value="">—</option>${L('chains').map(c=>html`<option>${c}</option>`)}</select><//>
-        <${Fld} label="نوع السوق"><select value=${e.type} onChange=${x=>setE({...e,type:x.target.value})}><option value="">—</option>${L('branchTypes').map(c=>html`<option>${c}</option>`)}</select><//>
-        <${Fld} label="كود الفرع عند العميل"><input dir="ltr" value=${e.code} onInput=${x=>setE({...e,code:x.target.value})}/><//>
+        <${Fld} label="اسم الفرع *"><input id="b-name" value=${e.name} onInput=${x=>setE({...e,name:x.target.value})} placeholder="مثال: النرجس"/><//>
+        <${Fld} label="السلسلة"><select value=${e.chain} onChange=${x=>setE({...e,chain:x.target.value})}><option value="">—</option>${[...new Set([...L('chains'),...chains])].map(c=>html`<option>${c}</option>`)}</select><//>
+        <${Fld} label="التصنيف"><select value=${e.type} onChange=${x=>setE({...e,type:x.target.value})}><option value="">—</option>${[...new Set([...L('branchTypes'),...types])].map(c=>html`<option>${c}</option>`)}</select><//>
+        <${Fld} label="رقم العميل / كود الفرع"><input dir="ltr" value=${e.code} onInput=${x=>setE({...e,code:x.target.value})}/><//>
+        <${Fld} label="الحي"><input value=${e.area||''} onInput=${x=>setE({...e,area:x.target.value})}/><//>
         <${Fld} label="المدينة"><input value=${e.city} onInput=${x=>setE({...e,city:x.target.value})}/><//>
-        <${Fld} label="المنطقة"><select value=${e.regionId} onChange=${x=>setE({...e,regionId:x.target.value})}><option value="">—</option>${s.regions.map(r=>html`<option value=${r.id}>${r.name}</option>`)}</select><//>
-        <${Fld} label="المندوب المسؤول"><select value=${e.merchUid} onChange=${x=>setE({...e,merchUid:x.target.value})}><option value="">—</option>${people.map(u=>html`<option value=${u}>${nameOf(u)} (${ROLE[roleOf(u).role||'merch']})</option>`)}</select><//>
+        <${Fld} label="المنطقة"><select value=${e.regionId} onChange=${x=>setE({...e,regionId:x.target.value})}><option value="">—</option>${regs.map(r=>html`<option value=${r.id}>${r.name}</option>`)}</select><//>
+        <${Fld} label="المندوب المسؤول"><select value=${e.merchUid} onChange=${x=>setE({...e,merchUid:x.target.value})}><option value="">${e.repName?'— '+e.repName+' (من الملف، غير مربوط) —':'—'}</option>${people.map(u=>html`<option value=${u}>${nameOf(u)} (${ROLE[roleOf(u).role||'merch']})</option>`)}</select><//>
         <${Fld} label="مسؤول الفرع وجواله"><input value=${e.contact} onInput=${x=>setE({...e,contact:x.target.value})}/><//>
         <${Fld} label="رابط الموقع (قوقل ماب)"><input dir="ltr" value=${e.mapUrl} onInput=${x=>setE({...e,mapUrl:x.target.value})}/><//>
         <${Fld} label="الحالة"><select value=${e.active===false?'0':'1'} onChange=${x=>setE({...e,active:x.target.value==='1'})}><option value="1">نشط</option><option value="0">موقوف</option></select><//>
       </div>
-      <div class="fld"><span>أيام الزيارة</span><div class="days">${DAYS.map((d,i)=>html`<button type="button" class=${'chip'+((e.visitDays||[]).includes(i)?' on':'')} onClick=${()=>setE({...e,visitDays:(e.visitDays||[]).includes(i)?e.visitDays.filter(x=>x!==i):[...(e.visitDays||[]),i]})}>${d}</button>`)}</div></div></section>
+      <div class="fld"><span>أيام الزيارة</span><div class="days">${DAYS.map((d,i)=>html`<button type="button" class=${'chip'+((e.visitDays||[]).includes(i)?' on':'')} onClick=${()=>setE({...e,visitDays:(e.visitDays||[]).includes(i)?e.visitDays.filter(x=>x!==i):[...(e.visitDays||[]),i]})}>${d}</button>`)}</div></div>
+      ${e.notes!==undefined&&html`<${Fld} label="ملاحظات"><textarea value=${e.notes} onInput=${x=>setE({...e,notes:x.target.value})} placeholder="امسحها بعد التأكد"></textarea><//>`}</section>
     <//>`}
     ${hist&&html`<${BranchSheet} id=${hist} onClose=${()=>setHist(null)}/>`}
-    ${er&&html`<${Sheet} title=${er.id?'تعديل منطقة':'منطقة جديدة'} onClose=${()=>setEr(null)} footer=${html`<button class="btn pri grow" onClick=${()=>{if(!er.name)return toast('اكتب اسم المنطقة','bad');W(()=>put('regions/'+(er.id||rid()),{...er,id:undefined}),'تم حفظ المنطقة').then(()=>setEr(null))}}>حفظ</button>${er.id&&html`<${Confirm} label="حذف" onYes=${()=>W(()=>S.db.doc('regions/'+er.id).delete(),'تم الحذف').then(()=>setEr(null))}/>`}`}>
+    ${er&&html`<${Sheet} title=${er.id?'تعديل منطقة':'منطقة جديدة'} onClose=${()=>setEr(null)} footer=${html`<button class="btn pri grow" onClick=${()=>{if(!er.name)return toast('اكتب اسم المنطقة','bad');W(()=>put('regions/'+(er.id||rid()),{...er,id:undefined,areas:typeof er.areas==='string'?er.areas.split('\n').map(x=>x.trim()).filter(Boolean):(er.areas||[])}),'تم حفظ المنطقة').then(()=>setEr(null))}}>حفظ</button>${er.id&&html`<${Confirm} label="حذف" onYes=${()=>W(()=>S.db.doc('regions/'+er.id).delete(),'تم الحذف').then(()=>setEr(null))}/>`}`}>
       <section class="sec"><div class="fgrid">
         <${Fld} label="اسم المنطقة *"><input id="rg-name" value=${er.name} onInput=${x=>setEr({...er,name:x.target.value})} placeholder="مثال: شمال الرياض"/><//>
         <${Fld} label="مسؤول المنطقة (من الفريق)"><select value=${er.supervisorUid} onChange=${x=>setEr({...er,supervisorUid:x.target.value})}><option value="">—</option>${people.map(u=>html`<option value=${u}>${nameOf(u)}</option>`)}</select><//>
         <${Fld} label="أو اسم المسؤول (إذا ما عنده حساب)"><input value=${er.supervisorName||''} onInput=${x=>setEr({...er,supervisorName:x.target.value})}/><//>
         <${Fld} label="جوال مسؤول المنطقة"><input dir="ltr" inputmode="tel" value=${er.supervisorPhone||''} onInput=${x=>setEr({...er,supervisorPhone:x.target.value})}/><//>
-      </div><${Fld} label="ملاحظات"><textarea value=${er.notes} onInput=${x=>setEr({...er,notes:x.target.value})}></textarea><//></section>
+      </div>
+      <${Fld} label="الأحياء ضمن التغطية (سطر لكل حي)"><textarea style="min-height:140px" value=${Array.isArray(er.areas)?er.areas.join('\n'):(er.areas||'')} onInput=${x=>setEr({...er,areas:x.target.value})}></textarea><//>
+      <${Fld} label="ملاحظات"><textarea value=${er.notes} onInput=${x=>setEr({...er,notes:x.target.value})}></textarea><//></section>
     <//>`}`;
+}
+function collections(arr){const m={};arr.forEach(x=>{if(x)m[x]=(m[x]||0)+1});return Object.entries(m).sort((a,b)=>b[1]-a[1])}
+function BulkSheet({rows,people,onClose}){
+  const[f,setF]=useState({merch:'keep',days:null,region:'keep',active:'keep'});const[busy,setBusy]=useState('');
+  const run=async()=>{const patch={};if(f.merch!=='keep')patch.merchUid=f.merch==='none'?'':f.merch;if(f.days)patch.visitDays=f.days;if(f.region!=='keep')patch.regionId=f.region;if(f.active!=='keep')patch.active=f.active==='1';
+    if(!Object.keys(patch).length)return toast('اختر تعديل واحد على الأقل','bad');
+    let n=0;setBusy('0/'+rows.length);
+    try{for(const b of rows){await S.db.doc('branches/'+b.id).update(clean(patch));n++;setBusy(n+'/'+rows.length)}toast('تم تعديل '+n+' فرع');onClose()}catch(e){toast(errMsg(e)+' (تم '+n+')','bad')}setBusy('')};
+  const d=f.days||[];
+  return html`<${Sheet} title=${'تعديل جماعي · '+rows.length+' فرع'} sub="يطبّق على الفروع المعروضة حسب الفلاتر" onClose=${()=>!busy&&onClose()} footer=${html`<button class="btn pri grow" disabled=${!!busy} onClick=${run}>${busy?'جاري التعديل… '+busy:'تطبيق على '+rows.length+' فرع'}</button>`}>
+    <section class="sec"><div class="fgrid">
+      <${Fld} label="المندوب المسؤول"><select value=${f.merch} onChange=${x=>setF({...f,merch:x.target.value})}><option value="keep">بدون تغيير</option>${people.map(u=>html`<option value=${u}>${nameOf(u)}</option>`)}<option value="none">إزالة المندوب</option></select><//>
+      <${Fld} label="المنطقة"><select value=${f.region} onChange=${x=>setF({...f,region:x.target.value})}><option value="keep">بدون تغيير</option>${S.regions.map(r=>html`<option value=${r.id}>${r.name}</option>`)}</select><//>
+      <${Fld} label="الحالة"><select value=${f.active} onChange=${x=>setF({...f,active:x.target.value})}><option value="keep">بدون تغيير</option><option value="1">نشط</option><option value="0">موقوف</option></select><//>
+    </div>
+    <div class="fld"><span>أيام الزيارة ${f.days?'(تستبدل الأيام الحالية)':'(بدون تغيير)'}</span><div class="days">${DAYS.map((x,i)=>html`<button type="button" class=${'chip'+(d.includes(i)?' on':'')} onClick=${()=>setF({...f,days:d.includes(i)?d.filter(y=>y!==i):[...d,i]})}>${x}</button>`)}${f.days&&html`<button type="button" class="btn sm ghost" onClick=${()=>setF({...f,days:null})}>بدون تغيير</button>`}</div></div></section>
+    <div class="small muted">${rows.slice(0,12).map(b=>branchName(b.id)).join('، ')}${rows.length>12?' … و'+(rows.length-12)+' فرع':''}</div>
+  <//>`;
 }
 
 /* ---------------- team ---------------- */
@@ -1144,8 +1195,8 @@ function Team(){
         <dl class="kv"><dt>الجوال</dt><dd><${Phone} n=${p.phone}/></dd>
           ${k!=='me'&&html`<dt>المشرف</dt><dd>${sp?html`${sp.name}${sp.phone?html` · <span dir="ltr">${sp.phone}</span>`:''}`:html`<span style="color:var(--bad)">غير محدد</span>`}</dd>`}
           <dt>الموقع</dt><dd>${r.area||p.city||'—'}${r.mapUrl?html` · <a href=${r.mapUrl} target="_blank" rel="noopener">الخريطة</a>`:''}</dd>
-          ${k!=='me'&&html`<dt>الفروع</dt><dd>${nb}</dd>`}</dl>
-        ${k!=='me'&&html`<div class="row">${k==='wait'||k==='off'?html`<button class="btn sm pri" onClick=${()=>saveRole(p.id,{approved:true,disabledAt:null},'تم اعتماد '+p.name)}>اعتماد</button>`:''}<button class="btn sm" onClick=${()=>setE({uid:p.id,name:p.name||'',phone:p.phone||'',role:r.role||'merch',supervisorUid:r.supervisorUid||'',supName:r.supName||'',supPhone:r.supPhone||'',area:r.area||'',mapUrl:r.mapUrl||'',notes:r.notes||'',approved:!!r.approved})}>تعديل البيانات</button>
+          ${k!=='me'&&html`<dt>الفروع</dt><dd>${nb}${r.repName?html` <span class="small muted">(${r.repName} في الملف)</span>`:''}</dd>`}</dl>
+        ${k!=='me'&&html`<div class="row">${k==='wait'||k==='off'?html`<button class="btn sm pri" onClick=${()=>saveRole(p.id,{approved:true,disabledAt:null},'تم اعتماد '+p.name)}>اعتماد</button>`:''}<button class="btn sm" onClick=${()=>setE({uid:p.id,repName:r.repName||'',name:p.name||'',phone:p.phone||'',role:r.role||'merch',supervisorUid:r.supervisorUid||'',supName:r.supName||'',supPhone:r.supPhone||'',area:r.area||'',mapUrl:r.mapUrl||'',notes:r.notes||'',approved:!!r.approved})}>تعديل البيانات</button>
           ${k==='ok'&&html`<${Confirm} cls="ghost sm" label="إيقاف" ask="إيقاف الحساب؟" onYes=${()=>saveRole(p.id,{approved:false,disabledAt:Date.now()},'تم إيقاف الحساب')}/>`}</div>`}
       </div>`})}</div>`:html`<div class="card"><${Empty} t="ما سجّل أحد بعد. شارك رابط الصفحة مع فريقك."/></div>`}
     ${e&&html`<${TeamSheet} e=${e} setE=${setE} saveRole=${saveRole}/>`}`;
@@ -1155,7 +1206,8 @@ function TeamSheet({e,setE,saveRole}){
   const[busy,setBusy]=useState(false);
   const save=async()=>{if(!e.name.trim())return toast('اكتب الاسم','bad');setBusy(true);try{
     const pr=S.profiles.find(p=>p.id===e.uid)||{};if(pr.name!==e.name.trim()||(pr.phone||'')!==e.phone)await W(()=>S.db.doc('profiles/'+e.uid).update({name:e.name.trim(),phone:e.phone,updatedAt:Date.now()}));
-    await saveRole(e.uid,{role:e.role,supervisorUid:e.supervisorUid==='manual'?'':e.supervisorUid,supName:e.supervisorUid==='manual'?e.supName:'',supPhone:e.supPhone,area:e.area,mapUrl:e.mapUrl,notes:e.notes},'تم حفظ بيانات '+e.name);setE(null)}catch(x){}setBusy(false)};
+    if(e.repName){const bs=S.branches.filter(b=>b.repName===e.repName&&!b.merchUid);let n=0;for(const b of bs){await S.db.doc('branches/'+b.id).update({merchUid:e.uid});n++}if(n)toast('تم ربط '+n+' فرع بـ'+e.name)}
+    await saveRole(e.uid,{repName:e.repName||'',role:e.role,supervisorUid:e.supervisorUid==='manual'?'':e.supervisorUid,supName:e.supervisorUid==='manual'?e.supName:'',supPhone:e.supPhone,area:e.area,mapUrl:e.mapUrl,notes:e.notes},'تم حفظ بيانات '+e.name);setE(null)}catch(x){}setBusy(false)};
   const manual=e.supervisorUid==='manual'||(!e.supervisorUid&&e.supName);
   return html`<${Sheet} title=${'بيانات '+e.name} onClose=${()=>setE(null)} footer=${html`<button class="btn pri grow" disabled=${busy} onClick=${save}>${busy?'جاري الحفظ…':'حفظ'}</button>`}>
     <section class="sec"><h3>الموظف</h3><div class="fgrid">
@@ -1163,6 +1215,7 @@ function TeamSheet({e,setE,saveRole}){
       <${Fld} label="جوال الموظف"><input id="tm-phone" dir="ltr" inputmode="tel" value=${e.phone} onInput=${x=>setE({...e,phone:x.target.value})}/><//>
       <${Fld} label="الدور"><select id="tm-role" value=${e.role} onChange=${x=>setE({...e,role:x.target.value})}><option value="merch">${ROLE.merch}</option><option value="supervisor">${ROLE.supervisor}</option></select><//>
     </div></section>
+    ${repNames().length>0&&html`<section class="sec"><h3>فروعه في ملف الفروع</h3><${Fld} label="اسمه في ملف الإكسل"><select id="tm-rep" value=${e.repName} onChange=${x=>setE({...e,repName:x.target.value})}><option value="">—</option>${repNames().map(n=>html`<option value=${n}>${n} · ${S.branches.filter(b=>b.repName===n).length} فرع (${S.branches.filter(b=>b.repName===n&&!b.merchUid).length} غير مربوط)</option>`)}</select><//><div class="small muted">عند الحفظ تنربط كل فروعه غير المربوطة بحسابه، وتصير تطلع له في «تقرير اليوم».</div></section>`}
     <section class="sec"><h3>موقع المندوب</h3><div class="fgrid">
       <${Fld} label="المدينة والحي أو نقطة الانطلاق"><input id="tm-area" value=${e.area} placeholder="مثال: الرياض – حي الملقا" onInput=${x=>setE({...e,area:x.target.value})}/><//>
       <${Fld} label="رابط الموقع على قوقل ماب"><input id="tm-map" dir="ltr" value=${e.mapUrl} placeholder="https://maps.app.goo.gl/…" onInput=${x=>setE({...e,mapUrl:x.target.value})}/><//>
@@ -1210,6 +1263,8 @@ function Exports(){
   const getRange=async(col,field)=>(await S.db.collection(col).where(field,'>=',r.from).where(field,'<=',r.to).get()).docs.map(d=>({id:d.id,...d.data()})).filter(x=>!x.demo);
   const prods=L('products');
   const run=async(kind)=>{setBusy(kind);try{
+    if(kind==='branches'){const rows=[...S.branches].sort((a,b)=>regOrder(a.regionId)-regOrder(b.regionId)||(a.area||'').localeCompare(b.area||'','ar')).map(b=>[(regionOf(b.regionId)||{}).name||'',b.area||b.name,b.chain,b.code,b.type,b.merchUid?nameOf(b.merchUid):(b.repName||''),(b.visitDays||[]).slice().sort().map(d=>DAYS[d]).join(' | '),b.active===false?'موقوف':'نشط',b.notes||'']);
+      await saveFile('الفروع_'+today()+'.csv',toCSV(['المنطقة','الحي','السلسلة','رقم العميل','التصنيف','المندوب','أيام الزيارة','الحالة','ملاحظات'],rows));setBusy('');return}
     if(kind==='visits'){const reps=await getRange('reports','date');const head=['التاريخ','الموظف','الفرع','المنطقة','الدخول','الخروج',...prods.flatMap(p=>QCOLS.map(c=>c[1]+' - '+p.name)),...prods.map(p=>'سعر الرف - '+p.name),'نفاد','أقرب انتهاء','الواجهات','حصة الرف %','المشاكل','تفاصيل المشكلة','العرض','سعر العرض','صور قبل','صور بعد','ملاحظات','التحديات اليومية'];
       const rows=reps.flatMap(rp=>rp.visits.map(v=>[rp.date,nameOf(rp.uid),branchName(v.branchId),(regionOf((branchOf(v.branchId)||{}).regionId)||{}).name||'',v.at,v.out,...prods.flatMap(p=>QCOLS.map(c=>(v[c[0]]||{})[p.id]??'')),...prods.map(p=>(v.prices||{})[p.id]??''),(v.oos||[]).map(prodName).join(' | '),v.expiry,v.facings,v.share,(v.issues||[]).join(' | '),v.issueNote,v.promo&&v.promo.active?v.promo.type||'نعم':'',v.promo&&v.promo.price,(v.before||[]).length,(v.after||[]).length,v.notes,[(rp.challengeTags||[]).join(' | '),rp.challenges].filter(Boolean).join(' - ')]));
       await saveFile('زيارات_'+r.from+'_'+r.to+'.csv',toCSV(head,rows))}
@@ -1222,7 +1277,7 @@ function Exports(){
   }catch(e){console.error(e);toast('تعذّر تجهيز الملف','bad')}setBusy('')};
   return html`<div class="card"><h2>تصدير إلى إكسل <span class="sub">ملف CSV يفتح في Excel</span></h2>
     <div class="filters"><${Fld} label="من"><input type="date" value=${r.from} onInput=${e=>setR({...r,from:e.target.value})}/><//><${Fld} label="إلى"><input type="date" value=${r.to} onInput=${e=>setR({...r,to:e.target.value})}/><//></div>
-    <div class="row">${[['visits','الزيارات والكميات'],['prices','أسعار المنافسين'],['pos','طلبات الشراء'],['trips','الرحلات']].map(([k,l])=>html`<button class="btn" disabled=${!!busy} onClick=${()=>run(k)}>${busy===k?'جاري التجهيز…':l}</button>`)}</div>
+    <div class="row">${[['branches','الفروع'],['visits','الزيارات والكميات'],['prices','أسعار المنافسين'],['pos','طلبات الشراء'],['trips','الرحلات']].map(([k,l])=>html`<button class="btn" disabled=${!!busy} onClick=${()=>run(k)}>${busy===k?'جاري التجهيز…':l}</button>`)}</div>
     ${!S.downloads&&html`<div class="muted small">التنزيل غير متاح في هذا العرض.</div>`}</div>`;
 }
 function Archive(){
