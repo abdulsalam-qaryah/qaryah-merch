@@ -36,26 +36,40 @@
   };
   function gate(inner) {
     var el = document.getElementById('auth') || document.body.appendChild(Object.assign(document.createElement('div'), { id: 'auth' }));
-    el.innerHTML = '<div class="auth-wrap"><div class="card auth-card"><span class="redlogo" role="img" aria-label="القرية"></span><div class="slogan">جودة تُصدر للعالم</div>' + inner + '</div></div>';
+    var lang = 'ar'; try { lang = localStorage.getItem('lang') === 'ur' ? 'ur' : 'ar'; } catch (e) {}
+    var sw = '<div class="gate-lang"><div class="langsw" data-notr role="group" aria-label="اللغة / زبان">' +
+      '<button type="button" data-lang="ar" class="' + (lang === 'ar' ? 'on' : '') + '">العربية</button>' +
+      '<button type="button" data-lang="ur" lang="ur" class="' + (lang === 'ur' ? 'on' : '') + '">اردو</button></div></div>';
+    el.innerHTML = '<div class="auth-wrap"><div class="card auth-card">' + sw + '<span class="redlogo" role="img" aria-label="القرية"></span><div class="slogan">جودة تُصدر للعالم</div>' + inner + '</div></div>';
+    el.querySelectorAll('[data-lang]').forEach(function (b) { b.onclick = function () { if (b.dataset.lang === lang) return; try { localStorage.setItem('lang', b.dataset.lang); } catch (e) {} location.reload(); }; });
     return el;
   }
+  // Same rules as the in-app registration form (claude-artifact/app.html → Register).
+  var digits = function (s) { return String(s || '').replace(/[٠-٩]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'.indexOf(d); }).replace(/[۰-۹]/g, function (d) { return '۰۱۲۳۴۵۶۷۸۹'.indexOf(d); }).replace(/[^\d]/g, ''); };
+  var normPhone = function (s) { var d = digits(s); if (d.indexOf('00966') === 0) d = d.slice(5); else if (d.indexOf('966') === 0) d = d.slice(3); if (d.length === 9 && d[0] === '5') d = '0' + d; return d; };
   function loginUI() {
     return new Promise(function (resolve) {
-      var mode = 'in';
+      var mode = 'in', kept = {};
       function draw(msg) {
+        var prev = document.querySelectorAll('#af input');
+        prev.forEach(function (i) { kept[i.id] = i.value; });
         var up = mode === 'up';
         var el = gate(
           '<h1>' + (up ? 'حساب جديد' : 'تسجيل الدخول') + '</h1>' +
-          '<form id="af" class="stack" autocomplete="on">' +
+          '<form id="af" class="stack" autocomplete="on" novalidate>' +
           '<label class="fld"><span>اسم المستخدم</span><input id="a-user" name="username" dir="ltr" autocomplete="username" autocapitalize="none" required placeholder="مثال: mahmoud"></label>' +
           '<label class="fld"><span>كلمة المرور</span><input id="a-pass" name="password" type="password" dir="ltr" autocomplete="' + (up ? 'new-password' : 'current-password') + '" required minlength="8"></label>' +
           (up ? '<label class="fld"><span>تأكيد كلمة المرور</span><input id="a-pass2" type="password" dir="ltr" autocomplete="new-password" required minlength="8"></label>' +
-            '<label class="fld"><span>الاسم الكامل</span><input id="a-name" required></label>' +
-            '<label class="fld"><span>رقم الجوال</span><input id="a-phone" dir="ltr" inputmode="tel" placeholder="05xxxxxxxx"></label>' : '') +
+            '<div class="notice info">كل الخانات إجبارية</div>' +
+            '<label class="fld"><span>الاسم الكامل *</span><input id="a-name" autocomplete="name" placeholder="الاسم الثلاثي كما في الإقامة" required></label>' +
+            '<label class="fld"><span>رقم الجوال *</span><input id="a-phone" type="tel" dir="ltr" inputmode="tel" autocomplete="tel" placeholder="05xxxxxxxx" required></label>' +
+            '<label class="fld"><span>الرقم الوظيفي *</span><input id="a-emp" dir="ltr" required></label>' +
+            '<label class="fld"><span>المدينة *</span><input id="a-city" placeholder="مثال: الرياض" required></label>' : '') +
           (msg ? '<div class="notice ' + (msg.ok ? 'info' : 'bad') + '">' + esc(msg.t) + '</div>' : '') +
           '<button class="btn pri" id="a-go">' + (up ? 'إنشاء الحساب' : 'دخول') + '</button>' +
           '<button type="button" class="btn ghost" id="a-sw">' + (up ? 'عندي حساب، تسجيل الدخول' : 'موظف جديد؟ إنشاء حساب') + '</button>' +
           '</form>');
+        el.querySelectorAll('#af input').forEach(function (i) { if (kept[i.id] != null) i.value = kept[i.id]; });
         el.querySelector('#a-sw').onclick = function () { mode = up ? 'in' : 'up'; draw(); };
         el.querySelector('#af').onsubmit = async function (ev) {
           ev.preventDefault();
@@ -63,14 +77,20 @@
           var u = el.querySelector('#a-user').value.trim().toLowerCase();
           var p = el.querySelector('#a-pass').value;
           if (!/^[a-z0-9._-]{3,30}$/.test(u)) { draw({ t: 'اسم المستخدم بالإنجليزي أو أرقام فقط، من 3 إلى 30 حرف، بدون مسافات.' }); return; }
+          if (p.length < 8) { draw({ t: 'كلمة المرور قصيرة. استخدم 8 أحرف أو أرقام على الأقل.' }); return; }
           try {
             if (up) {
               if (p !== el.querySelector('#a-pass2').value) { draw({ t: 'كلمتا المرور غير متطابقتين.' }); return; }
-              var name = el.querySelector('#a-name').value.trim(), phone = el.querySelector('#a-phone').value.trim();
+              var name = el.querySelector('#a-name').value.trim().replace(/\s+/g, ' '), phone = normPhone(el.querySelector('#a-phone').value);
+              var empNo = el.querySelector('#a-emp').value.trim(), city = el.querySelector('#a-city').value.trim();
+              if (name.split(' ').length < 2) { draw({ t: 'اكتب اسمك الكامل (اسمين على الأقل)' }); return; }
+              if (!/^05\d{8}$/.test(phone)) { draw({ t: 'اكتب رقم جوال صحيح يبدأ بـ 05 (10 أرقام)' }); return; }
+              if (!empNo) { draw({ t: 'اكتب الرقم الوظيفي' }); return; }
+              if (!city) { draw({ t: 'اكتب المدينة' }); return; }
               var r = await sb.auth.signUp({ email: toEmail(u), password: p, options: { data: { username: u, name: name, phone: phone } } });
               if (r.error) throw r.error;
               if (!r.data.session) { draw({ t: 'تم إنشاء الحساب لكنه يحتاج تفعيل. اطلب من المدير إيقاف «Confirm email» في Supabase ثم سجّل دخول.' }); return; }
-              await sb.from(T).upsert({ collection: 'profiles', id: r.data.user.id, data: { name: name, phone: phone, username: u, createdAt: Date.now() } });
+              await sb.from(T).upsert({ collection: 'profiles', id: r.data.user.id, data: { name: name, phone: phone, empNo: empNo, city: city, username: u, createdAt: Date.now() } });
               resolve(r.data.session);
             } else {
               var s = await sb.auth.signInWithPassword({ email: toEmail(u), password: p });

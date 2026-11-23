@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Readex+Pro:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Noto+Naskh+Arabic:wght@400;600;700&family=Readex+Pro:wght@500;600;700&display=swap">
 <style>
 /* Layout: Al Qaryah red header band (logo + tabs), cream work surface, yellow for highlights only (60/30/10 brand ratio) */
 :root{
@@ -170,6 +170,22 @@ details.sum>summary::-webkit-details-marker{display:none}
 .ai-tag{font-family:var(--f-display);font-weight:600;color:var(--accent);font-size:.9rem}
 .ai-list{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:2px}
 .ai-btn{border-color:var(--accent);color:var(--accent)}
+.ai-btn.big{background:var(--accent);color:var(--accent-fg);font-size:1rem;padding:10px 18px;min-height:46px}
+.qty input.miss,.fld input.miss,.fld select.miss{border-color:var(--bad);background:var(--bad-soft)}
+.qty th.req::after,.reqm::after{content:" *";color:var(--bad)}
+.qty tfoot td{font-weight:600;background:var(--surface2)}
+.langsw{display:inline-flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--surface);flex-shrink:0}
+.langsw button{border:0;background:transparent;padding:4px 12px;font:inherit;font-size:.85rem;cursor:pointer;color:var(--fg);min-height:30px}
+.langsw button.on{background:var(--accent);color:var(--accent-fg);font-weight:600}
+.me .langsw{background:transparent;border-color:color-mix(in srgb,var(--brand-cream) 45%,transparent)}
+.me .langsw button{color:var(--brand-cream)}
+.me .langsw button.on{background:var(--brand-cream);color:var(--brand-red)}
+.gate-lang{display:flex;justify-content:flex-end}
+.updbar{position:fixed;z-index:95;top:calc(8px + env(safe-area-inset-top,0px));inset-inline:16px;margin-inline:auto;max-width:460px;display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--brand-wine);color:var(--brand-cream);padding:8px 12px;border-radius:12px;box-shadow:var(--shadow);font-weight:600}
+.appver{font-size:.8rem;color:var(--muted);text-align:center;margin-top:8px}
+@media (max-width:560px){.me>.pill{display:none}.me .langsw button{padding:4px 9px}.me{gap:6px}}
+html[lang=ur]{--f-body:"Noto Naskh Arabic","IBM Plex Sans Arabic",Tahoma,sans-serif;--f-display:"Noto Naskh Arabic","Readex Pro",Tahoma,sans-serif}
+html[lang=ur] body{line-height:1.75}
 .ai-run{display:inline-flex;align-items:center;gap:8px;color:var(--accent)}
 .spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--accent-soft);border-top-color:var(--accent);display:inline-block;animation:sp 1s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
@@ -194,8 +210,156 @@ details.sum>summary::-webkit-details-marker{display:none}
 
 <script src="https://cdn.jsdelivr.net/npm/htm@3.1.1/preact/standalone.umd.js"></script>
 <script>
-document.documentElement.lang='ar';document.documentElement.dir='rtl';
 const {html,render,useState,useEffect,useMemo,useRef}=htmPreact;
+
+/* ---------------- language: العربية / اردو ----------------
+   The UI is written in Arabic. In Urdu mode a translator swaps every visible Arabic
+   string (text, placeholders, labels) for its Urdu equivalent; saved data stays Arabic. */
+const LANG=(()=>{try{return localStorage.getItem('lang')==='ur'?'ur':'ar'}catch(e){return 'ar'}})();
+document.documentElement.lang=LANG;document.documentElement.dir='rtl';
+function setLang(l){try{localStorage.setItem('lang',l)}catch(e){}location.reload()}
+const DAY_UR={'الأحد':'اتوار','الاثنين':'پیر','الثلاثاء':'منگل','الأربعاء':'بدھ','الخميس':'جمعرات','الجمعة':'جمعہ','السبت':'ہفتہ'};
+const UR={...DAY_UR,
+ // shell
+ 'متابعة المناديب':'نمائندوں کی نگرانی','قسم البيض':'انڈوں کا شعبہ','تقرير اليوم':'آج کی رپورٹ','سجلي':'میرا ریکارڈ','طلبات الشراء':'خریداری آرڈرز','الشاحنات':'ٹرک','حسابي':'میرا اکاؤنٹ','زيارتي':'میرا دورہ',
+ 'مندوب':'نمائندہ','مشرف منطقة':'علاقائی سپروائزر','مدير':'مینیجر','تجربة: مندوب':'آزمائش: نمائندہ','تجربة كمندوب':'نمائندے کے طور پر آزمائیں','رجوع لحساب المدير':'مینیجر اکاؤنٹ پر واپس',
+ 'لوحة المتابعة':'نگرانی کا ڈیش بورڈ','أداء الفريق':'ٹیم کی کارکردگی','الزيارات':'دورے','المتابعة':'فالو اپ','أسعار المنافسين':'حریف کمپنیوں کی قیمتیں','الشاحنات والرحلات':'ٹرک اور سفر','المناطق والفروع':'علاقے اور برانچیں','الفريق':'ٹیم','الإعدادات':'ترتیبات',
+ 'جاري التحميل…':'لوڈ ہو رہا ہے…','جاري تحميل حسابك…':'آپ کا اکاؤنٹ لوڈ ہو رہا ہے…','جودة تُصدر للعالم':'ایسا معیار جو دنیا کو برآمد ہوتا ہے',
+ 'الاتصال بطيء، ما قدرنا نجيب البيانات بعد. تأكد من الإنترنت.':'کنکشن سست ہے، ابھی تک ڈیٹا نہیں مل سکا۔ اپنا انٹرنیٹ چیک کریں۔',
+ 'افتح الصفحة بحسابك':'اپنے اکاؤنٹ سے صفحہ کھولیں',
+ 'النظام يحتاج تسجيل دخول إلى claude.ai وصلاحية على هذه الصفحة. اطلب الرابط من مديرك وافتحه وأنت مسجّل دخول.':'سسٹم کے لیے claude.ai میں لاگ اِن اور اس صفحے کی اجازت ضروری ہے۔ اپنے مینیجر سے لنک لیں اور لاگ اِن ہو کر کھولیں۔',
+ 'بعض البيانات ما تحمّلت. أعد فتح الصفحة، وإذا تكرر تواصل مع المدير.':'کچھ ڈیٹا لوڈ نہیں ہوا۔ صفحہ دوبارہ کھولیں، اگر دوبارہ ہو تو مینیجر سے رابطہ کریں۔',
+ // register / pending
+ 'تسجيل حساب جديد':'نیا اکاؤنٹ رجسٹر کریں','سجّل بياناتك كاملة مرة وحدة، بعدها يعتمدك المدير':'اپنی مکمل معلومات ایک بار درج کریں، اس کے بعد مینیجر آپ کو منظور کرے گا',
+ 'كل الخانات إجبارية':'تمام خانے لازمی ہیں','أكمل بياناتك الناقصة قبل المتابعة':'آگے بڑھنے سے پہلے اپنی نامکمل معلومات مکمل کریں',
+ 'الاسم الكامل':'پورا نام','رقم الجوال':'موبائل نمبر','الرقم الوظيفي':'ملازم نمبر','المدينة':'شہر','تسجيل':'رجسٹر کریں','حفظ البيانات':'معلومات محفوظ کریں',
+ 'الاسم الثلاثي كما في الإقامة':'اقامہ کے مطابق پورا نام','مثال: الرياض':'مثال: ریاض',
+ 'جاري الحفظ…':'محفوظ ہو رہا ہے…','تم حفظ بياناتك':'آپ کی معلومات محفوظ ہو گئیں',
+ 'اكتب اسمك الكامل (اسمين على الأقل)':'اپنا پورا نام لکھیں (کم از کم دو نام)','اكتب رقم جوال صحيح يبدأ بـ 05 (10 أرقام)':'05 سے شروع ہونے والا درست موبائل نمبر لکھیں (10 ہندسے)','اكتب الرقم الوظيفي':'اپنا ملازم نمبر لکھیں','اكتب المدينة':'اپنا شہر لکھیں',
+ 'أهلاً':'خوش آمدید','تسجيل الخروج':'لاگ آؤٹ','تم إيقاف حسابك. تواصل مع المدير.':'آپ کا اکاؤنٹ معطل کر دیا گیا ہے۔ مینیجر سے رابطہ کریں۔',
+ 'تم تسجيلك. حسابك بانتظار اعتماد المدير وتحديد دورك والفروع المسؤول عنها.':'آپ کی رجسٹریشن ہو گئی ہے۔ آپ کا اکاؤنٹ مینیجر کی منظوری اور آپ کے کردار و برانچوں کے تعین کا منتظر ہے۔',
+ 'ستفتح لك الصفحة تلقائياً أول ما يعتمدك المدير.':'مینیجر کی منظوری ملتے ہی صفحہ خود بخود کھل جائے گا۔',
+ // my card / account
+ 'مشرفي':'میرا سپروائزر','لم يُحدد بعد':'ابھی طے نہیں ہوا','لم يُحدد':'طے نہیں ہوا','جوال المشرف':'سپروائزر کا موبائل','موقعي':'میرا مقام','فتح على الخريطة':'نقشے پر کھولیں','مسؤول منطقة':'علاقے کا ذمہ دار',
+ 'تعديل بياناتي':'اپنی معلومات میں ترمیم','اسم المستخدم:':'یوزر نیم:','الجوال':'موبائل','رجوع':'واپس','المناطق تحت إشرافك':'آپ کی نگرانی کے علاقے',
+ 'فروعي وجدول الزيارة':'میری برانچیں اور دوروں کا شیڈول','الفرع':'برانچ','أيام الزيارة':'دوروں کے دن','الموقع':'مقام','الخريطة':'نقشہ','ما تم ربطك بفروع بعد':'ابھی تک آپ کو کسی برانچ سے منسلک نہیں کیا گیا','فرع':'برانچ',
+ 'نسخ':'کاپی','تم النسخ':'کاپی ہو گیا',
+ // today
+ 'تم الإرسال للمدير':'مینیجر کو بھیج دی گئی','لم يُرسل بعد':'ابھی نہیں بھیجی گئی','＋ زيارة جديدة':'＋ نیا دورہ','زيارة جديدة':'نیا دورہ',
+ 'زيارات مسجلة':'درج شدہ دورے','من الفروع المجدولة اليوم':'آج کی طے شدہ برانچوں میں سے','زيارات فيها مشاكل':'مسائل والے دورے',
+ 'أسعار اليوم مسجلة':'آج کی قیمتیں درج ہو گئیں','أسعار اليوم مطلوبة':'آج کی قیمتیں درج کرنا باقی ہے',
+ 'فروعي المجدولة يوم':'میری طے شدہ برانچیں بروز','ابدأ الزيارة':'دورہ شروع کریں','زيارات اليوم':'آج کے دورے','زيارات هذا اليوم':'اس دن کے دورے',
+ 'ما عندك فروع مجدولة لهذا اليوم. تقدر تسجل زيارة لأي فرع من «زيارة جديدة».':'اس دن آپ کی کوئی طے شدہ برانچ نہیں ہے۔ آپ «نیا دورہ» سے کسی بھی برانچ کا دورہ درج کر سکتے ہیں۔',
+ 'ما تم ربطك بفروع بعد. المدير يحدد فروعك وأيام زيارتها.':'ابھی تک آپ کو کسی برانچ سے منسلک نہیں کیا گیا۔ مینیجر آپ کی برانچیں اور دوروں کے دن طے کرے گا۔',
+ 'واجهات':'فیسنگز','صور':'تصاویر','ما سجلت زيارات لهذا اليوم بعد':'آپ نے اس دن کا ابھی کوئی دورہ درج نہیں کیا','سجّل أول زيارة':'پہلا دورہ درج کریں',
+ 'ختام اليوم والتحديات':'دن کا اختتام اور مشکلات','بداية الدوام':'ڈیوٹی کا آغاز','نهاية الدوام':'ڈیوٹی کا اختتام','التحديات اللي واجهتك اليوم':'آج آپ کو پیش آنے والی مشکلات','اشرح التحديات':'مشکلات کی وضاحت کریں',
+ 'مثال: الشاحنة وصلت الساعة 11 بدل 7، والفرع رفض التنزيل وقت الذروة':'مثال: ٹرک 7 کے بجائے 11 بجے پہنچا، اور برانچ نے رش کے وقت سامان اتارنے سے انکار کر دیا',
+ 'تحديث التقرير المرسل':'بھیجی گئی رپورٹ اپ ڈیٹ کریں','إرسال تقرير اليوم للمدير':'آج کی رپورٹ مینیجر کو بھیجیں','حفظ بدون إرسال':'بھیجے بغیر محفوظ کریں',
+ 'تم إرسال تقرير اليوم للمدير':'آج کی رپورٹ مینیجر کو بھیج دی گئی','تم الحفظ':'محفوظ ہو گیا','تم حفظ الزيارة':'دورہ محفوظ ہو گیا','تم حذف الزيارة':'دورہ حذف ہو گیا',
+ 'سجّل أسعار الرف لكل منتجاتنا في زيارة وحدة على الأقل قبل إرسال التقرير':'رپورٹ بھیجنے سے پہلے کم از کم ایک دورے میں ہماری تمام مصنوعات کی شیلف قیمتیں درج کریں',
+ // visit editor
+ 'تسجيل زيارة فرع':'برانچ کا دورہ درج کریں','اختر الفرع':'برانچ منتخب کریں','حفظ الزيارة':'دورہ محفوظ کریں','حذف الزيارة':'دورہ حذف کریں','متأكد؟':'کیا آپ کو یقین ہے؟','نعم':'جی ہاں','تراجع':'واپس','إغلاق':'بند کریں',
+ 'رجّعنا لك آخر مسودة محفوظة على جهازك لهذه الزيارة.':'اس دورے کا آپ کے فون پر محفوظ آخری مسودہ بحال کر دیا گیا ہے۔',
+ 'الفرع والوقت':'برانچ اور وقت','— اختر الفرع —':'— برانچ منتخب کریں —','فروعي':'میری برانچیں','فروع أخرى':'دیگر برانچیں','وقت الدخول':'آمد کا وقت','وقت الخروج':'روانگی کا وقت',
+ 'ما فيه فروع مسجلة. المدير يضيفها من صفحة «المناطق والفروع».':'کوئی برانچ درج نہیں ہے۔ مینیجر انہیں «علاقے اور برانچیں» صفحے سے شامل کرتا ہے۔',
+ 'صور الرف':'شیلف کی تصاویر','قبل الترتيب':'ترتیب سے پہلے','بعد الترتيب':'ترتیب کے بعد','إضافة صورة':'تصویر شامل کریں','جاري الرفع…':'اپ لوڈ ہو رہی ہے…','لا توجد صور':'کوئی تصویر نہیں','حذف الصورة':'تصویر حذف کریں','صورة الرف':'شیلف کی تصویر','الرف قبل':'شیلف پہلے','الرف بعد':'شیلف بعد',
+ 'رفع الصور غير متاح لحسابك. اطلب من المدير صلاحية Contributor على الصفحة.':'آپ کے اکاؤنٹ کے لیے تصاویر اپ لوڈ کرنا دستیاب نہیں۔ مینیجر سے اس صفحے پر Contributor کی اجازت مانگیں۔',
+ 'الصورة كبيرة جداً':'تصویر بہت بڑی ہے','تعذّر رفع الصورة، أعد المحاولة':'تصویر اپ لوڈ نہیں ہو سکی، دوبارہ کوشش کریں',
+ // AI
+ 'قراءة الرف بالذكاء الاصطناعي':'مصنوعی ذہانت سے شیلف کا تجزیہ','اقرأ الرف بالذكاء الاصطناعي':'مصنوعی ذہانت سے شیلف پڑھیں','أعد قراءة الرف':'شیلف دوبارہ پڑھیں',
+ 'تحليل تلقائي بعد كل صورة':'ہر تصویر کے بعد خودکار تجزیہ',
+ 'صوّر الرف قبل وبعد الترتيب، والذكاء الاصطناعي يقرأ المنتجات والأسعار والعروض والمنافسين والفراغات، ويعبّي النموذج عنك.':'ترتیب سے پہلے اور بعد شیلف کی تصویر لیں، مصنوعی ذہانت مصنوعات، قیمتیں، آفرز، حریف کمپنیاں اور خالی جگہیں پڑھ کر آپ کے لیے فارم بھر دے گی۔',
+ '✦ قراءة الذكاء الاصطناعي':'✦ مصنوعی ذہانت کا تجزیہ','عبّي النموذج من القراءة':'تجزیے سے فارم بھریں','تعبئة الحقول الفاضية مرة ثانية':'خالی خانے دوبارہ بھریں',
+ 'يعبّي الحقول الفاضية فقط، ولا يغيّر اللي كتبته.':'صرف خالی خانے بھرتا ہے، آپ کا لکھا ہوا تبدیل نہیں کرتا۔','جاري إرسال الصور…':'تصاویر بھیجی جا رہی ہیں…','يقرأ الصور…':'تصاویر پڑھی جا رہی ہیں…',
+ 'منتجنا':'ہماری پروڈکٹ','كراتين':'کارٹن','السعر':'قیمت','نفد':'ختم','تلف':'خراب','عرض ظاهر:':'نظر آنے والی آفر:','قبل وبعد:':'پہلے اور بعد:','عرض':'آفر',
+ 'تحليل الصور بالذكاء الاصطناعي غير متاح في هذا العرض.':'اس منظر میں مصنوعی ذہانت سے تصاویر کا تجزیہ دستیاب نہیں۔','ارفع صورة للرف أولاً.':'پہلے شیلف کی تصویر اپ لوڈ کریں۔',
+ 'تعذّر تحليل الصور. أعد المحاولة.':'تصاویر کا تجزیہ نہیں ہو سکا۔ دوبارہ کوشش کریں۔','كل الحقول معبّأة مسبقاً، ما تغيّر شيء':'تمام خانے پہلے سے بھرے ہوئے ہیں، کچھ تبدیل نہیں ہوا',
+ 'ما تم السماح للذكاء الاصطناعي في هذه الصفحة. تقدر تفعّله من قائمة الصلاحيات.':'اس صفحے پر مصنوعی ذہانت کی اجازت نہیں دی گئی۔ آپ اسے اجازتوں کی فہرست سے فعال کر سکتے ہیں۔',
+ 'وصلت حد الاستخدام المؤقت، جرّب بعد شوي.':'آپ عارضی استعمال کی حد تک پہنچ گئے ہیں، تھوڑی دیر بعد کوشش کریں۔','نوع الصورة غير مدعوم، صوّرها مرة ثانية.':'تصویر کی قسم معاون نہیں، دوبارہ تصویر لیں۔',
+ 'ما قدر يقرأ الصور بشكل واضح. أعد التحليل أو صوّر الرف من مسافة أقرب.':'تصاویر واضح طور پر نہیں پڑھی جا سکیں۔ دوبارہ تجزیہ کریں یا شیلف کی تصویر قریب سے لیں۔',
+ 'رفض الذكاء الاصطناعي تحليل هذه الصور.':'مصنوعی ذہانت نے ان تصاویر کا تجزیہ کرنے سے انکار کر دیا۔','تحليل الصور غير متاح في هذا العرض.':'اس منظر میں تصاویر کا تجزیہ دستیاب نہیں۔',
+ 'الصور كثيرة، احذف بعضها وأعد المحاولة.':'تصاویر زیادہ ہیں، کچھ حذف کر کے دوبارہ کوشش کریں۔','انتهت الجلسة، أعد فتح الصفحة.':'سیشن ختم ہو گیا، صفحہ دوبارہ کھولیں۔','الذكاء الاصطناعي موقوف لحسابك.':'آپ کے اکاؤنٹ کے لیے مصنوعی ذہانت بند ہے۔','تم الإلغاء.':'منسوخ کر دیا گیا۔',
+ 'ممتاز':'بہترین','جيد':'اچھا','متوسط':'درمیانہ','ضعيف':'کمزور',
+ // stock / prices / facings
+ 'المخزون والأسعار':'اسٹاک اور قیمتیں','بالكرتون':'کارٹن میں','المنتج':'پروڈکٹ','المخزون الداخلي':'اندرونی اسٹاک','على الرف':'شیلف پر','تالف أو مرتجع':'خراب یا واپسی',
+ 'عدد الواجهات':'فیسنگز کی تعداد','سعر الرف':'شیلف قیمت','الإجمالي':'کل','إجمالي الواجهات':'کل فیسنگز','أقرب تاريخ انتهاء على الرف':'شیلف پر قریب ترین میعاد ختم ہونے کی تاریخ','حصتنا من رف البيض %':'انڈوں کے شیلف میں ہمارا حصہ %',
+ 'أسعار رفنا إجبارية في هذه الزيارة لأنها أول تسجيل أسعار اليوم (مرة وحدة باليوم). اكتب سعر كل منتج غير نافد.':'اس دورے میں ہماری شیلف قیمتیں لازمی ہیں کیونکہ یہ آج قیمتوں کا پہلا اندراج ہے (دن میں ایک بار)۔ ہر اس پروڈکٹ کی قیمت لکھیں جو ختم نہیں ہوئی۔',
+ '✓ أسعار اليوم مسجلة في زيارة سابقة، تعبئتها هنا اختيارية.':'✓ آج کی قیمتیں پچھلے دورے میں درج ہو چکی ہیں، یہاں درج کرنا اختیاری ہے۔',
+ 'عدد الواجهات إجباري لكل منتج، اكتب 0 إذا المنتج غير موجود على الرف.':'ہر پروڈکٹ کے لیے فیسنگز کی تعداد لازمی ہے، اگر پروڈکٹ شیلف پر نہیں تو 0 لکھیں۔',
+ 'اكتب عدد الواجهات لكل المنتجات (0 إذا غير موجود)':'تمام مصنوعات کی فیسنگز کی تعداد لکھیں (اگر موجود نہیں تو 0)','اكتب سعر الرف لكل المنتجات غير النافدة (مطلوب مرة وحدة باليوم)':'ختم نہ ہونے والی تمام مصنوعات کی شیلف قیمت لکھیں (دن میں ایک بار لازمی)',
+ 'اختر الفرع أولاً':'پہلے برانچ منتخب کریں',
+ // issues / promo / competitors / notes
+ 'المشاكل في الفرع':'برانچ میں مسائل','تفاصيل المشكلة':'مسئلے کی تفصیل','وش صار بالضبط، ومع من تكلمت في الفرع؟':'بالکل کیا ہوا، اور برانچ میں آپ نے کس سے بات کی؟',
+ 'نفاد المنتج من الرف':'شیلف سے پروڈکٹ ختم','منتج منتهي أو قريب الانتهاء':'میعاد ختم یا ختم ہونے کے قریب پروڈکٹ','كسر أو تلف':'ٹوٹ پھوٹ یا خرابی','سعر خاطئ على الرف':'شیلف پر غلط قیمت','العرض غير مطبق':'آفر نافذ نہیں',
+ 'منافس أخذ مساحتنا':'حریف نے ہماری جگہ لے لی','التبريد لا يعمل':'کولنگ کام نہیں کر رہی','بضاعة في المستودع لم تُنزّل':'گودام کا سامان شیلف پر نہیں لگایا گیا','الشحنة تأخرت أو لم تصل':'شپمنٹ تاخیر سے آئی یا نہیں پہنچی',
+ 'نقص في الكمية المستلمة':'وصول شدہ مقدار میں کمی','الفرع رفض الاستلام':'برانچ نے وصولی سے انکار کر دیا','مشكلة مع إدارة الفرع':'برانچ انتظامیہ کے ساتھ مسئلہ','أخرى':'دیگر',
+ 'زحمة وتأخر في الطريق':'ٹریفک اور راستے میں تاخیر','تأخر الشاحنة':'ٹرک کی تاخیر','عدم تعاون الفرع':'برانچ کا عدم تعاون','فروع كثيرة في يوم واحد':'ایک دن میں بہت زیادہ برانچیں','مشكلة في السيارة أو المواصلات':'گاڑی یا آمد و رفت کا مسئلہ','نقص بضاعة':'سامان کی کمی','مشكلة في الإنترنت أو التطبيق':'انٹرنیٹ یا ایپ کا مسئلہ',
+ 'تخفيض سعر':'قیمت میں کمی','اشترِ واحصل':'خریدیں اور حاصل کریں','عرض كمية':'مقدار پر آفر','رف إضافي أو جندولة':'اضافی شیلف یا گنڈولا','ستاند أرضي':'فلور اسٹینڈ','نشرة عروض الفرع':'برانچ کا آفرز پمفلٹ','تذوق وتجربة':'چکھنا اور آزمانا',
+ 'العرض الترويجي':'پروموشنل آفر','يوجد عرض على منتجاتنا في هذا الفرع':'اس برانچ میں ہماری مصنوعات پر آفر موجود ہے','نوع العرض':'آفر کی قسم','سعر العرض':'آفر کی قیمت','من':'سے','إلى':'تک','ملاحظات العرض':'آفر کے نوٹس',
+ 'الشركة المنافسة':'حریف کمپنی','اختر من القائمة أو اكتب اسم الشركة':'فہرست سے منتخب کریں یا کمپنی کا نام لکھیں','يقابل منتجنا':'ہماری کس پروڈکٹ کے مقابل','وصف المنتج':'پروڈکٹ کی تفصیل','مثال: بيض أحمر 30':'مثال: سرخ انڈے 30',
+ 'عليه عرض؟':'کیا اس پر آفر ہے؟','لا':'نہیں','حذف السطر':'لائن حذف کریں','＋ إضافة سعر منافس':'＋ حریف کی قیمت شامل کریں','العلامة الخاصة للسوق':'اسٹور کا اپنا برانڈ','اكتب اسم الشركة المنافسة في كل سطر':'ہر لائن میں حریف کمپنی کا نام لکھیں',
+ 'ملاحظات عامة':'عمومی نوٹس','أي شيء ثاني يفيد المدير':'کوئی اور بات جو مینیجر کے لیے مفید ہو',
+ // history / detail / flags
+ 'سجل تقاريري':'میری رپورٹس کا ریکارڈ','زيارات':'دورے','فيه مشاكل':'مسائل ہیں','مرسل':'بھیجی گئی','مسودة':'مسودہ','ما عندك تقارير سابقة':'آپ کی کوئی پچھلی رپورٹ نہیں',
+ 'قبل':'پہلے','أقرب انتهاء':'قریب ترین میعاد','الواجهات':'فیسنگز','حصة الرف':'شیلف کا حصہ','العرض':'آفر','ملاحظات:':'نوٹس:','المنافس':'حریف','يقابل':'مقابل',
+ 'مفتوحة':'کھلی','قيد المعالجة':'زیر کارروائی','مغلقة':'بند','بدون صورة قبل':'پہلے کی تصویر نہیں','بدون صورة بعد':'بعد کی تصویر نہیں','أقل من 5 دقائق':'5 منٹ سے کم','بدون كميات':'مقدار درج نہیں','مكتملة':'مکمل','ملاحظات':'نوٹس',
+ // POs / trips
+ 'طلبات الشراء (PO)':'خریداری آرڈرز (PO)','تاريخ التوريد':'ترسیل کی تاریخ','الحالة':'حالت','الكل':'سب','بحث برقم الطلب أو الفرع':'آرڈر نمبر یا برانچ سے تلاش کریں','إجمالي الكميات':'کل مقدار','مطلوب / مستلم':'مطلوب / وصول شدہ',
+ 'رقم الطلب':'آرڈر نمبر','التوريد':'ترسیل','الكمية':'مقدار','المستلم':'وصول شدہ','الشاحنة':'ٹرک','لا توجد طلبات توريد لهذا اليوم':'اس دن کے لیے کوئی ترسیلی آرڈر نہیں','لا توجد طلبات':'کوئی آرڈر نہیں',
+ 'جديد':'نیا','معتمد':'منظور شدہ','قيد التحميل':'لوڈنگ جاری','في الطريق':'راستے میں','مستلم':'وصول شدہ','مستلم جزئياً':'جزوی وصول','ملغي أو مرفوض':'منسوخ یا مسترد',
+ 'تأكيد الاستلام في الفرع':'برانچ میں وصولی کی تصدیق','المطلوب':'مطلوب','المستلم فعلياً':'اصل وصول شدہ','ملاحظة الاستلام':'وصولی کا نوٹ','مثال: 3 كراتين مكسورة':'مثال: 3 کارٹن ٹوٹے ہوئے','تأكيد الاستلام':'وصولی کی تصدیق کریں','تم تأكيد الاستلام':'وصولی کی تصدیق ہو گئی','آخر تأكيد:':'آخری تصدیق:',
+ 'لا توجد رحلات لهذا اليوم':'اس دن کوئی سفر نہیں','وصلت الفرع':'برانچ پہنچ گیا','تم التنزيل':'سامان اتار دیا گیا','بالانتظار':'انتظار میں','لم يتم':'نہیں ہوا','مخططة':'طے شدہ','تحميل':'لوڈنگ','تم تحديث الوقفة':'اسٹاپ اپ ڈیٹ ہو گیا','شاحنة':'ٹرک','فروع':'برانچیں','كرتون':'کارٹن',
+ // errors
+ 'ما عندك صلاحية لهذا التعديل، أو البيانات غير مكتملة':'آپ کو اس ترمیم کی اجازت نہیں، یا معلومات نامکمل ہیں','طلبات كثيرة في وقت قصير، انتظر لحظة وأعد المحاولة':'کم وقت میں بہت زیادہ درخواستیں، تھوڑا انتظار کر کے دوبارہ کوشش کریں',
+ 'الاتصال متقطع، أعد المحاولة':'کنکشن منقطع ہے، دوبارہ کوشش کریں','انتهت صلاحية الوصول، أعد فتح الصفحة':'رسائی کی مدت ختم ہو گئی، صفحہ دوبارہ کھولیں','تعذّر الحفظ، أعد المحاولة':'محفوظ نہیں ہو سکا، دوبارہ کوشش کریں'
+};
+Object.assign(UR,{'حساب جديد':'نیا اکاؤنٹ','تسجيل الدخول':'لاگ اِن','اسم المستخدم':'یوزر نیم','كلمة المرور':'پاس ورڈ','تأكيد كلمة المرور':'پاس ورڈ کی تصدیق','مثال: mahmoud':'مثال: mahmoud',
+ 'إنشاء الحساب':'اکاؤنٹ بنائیں','دخول':'داخل ہوں','عندي حساب، تسجيل الدخول':'میرا اکاؤنٹ ہے، لاگ اِن کریں','موظف جديد؟ إنشاء حساب':'نئے ملازم ہیں؟ اکاؤنٹ بنائیں','لحظة…':'ذرا انتظار کریں…',
+ 'اسم المستخدم أو كلمة المرور غير صحيحة.':'یوزر نیم یا پاس ورڈ غلط ہے۔','اسم المستخدم مستخدم من قبل. اختر اسم ثاني أو سجّل دخول.':'یہ یوزر نیم پہلے سے استعمال میں ہے۔ کوئی اور نام چنیں یا لاگ اِن کریں۔',
+ 'كلمة المرور قصيرة. استخدم 8 أحرف أو أرقام على الأقل.':'پاس ورڈ چھوٹا ہے۔ کم از کم 8 حروف یا ہندسے استعمال کریں۔','تعذّر الاتصال. تأكد من الإنترنت وأعد المحاولة.':'رابطہ نہیں ہو سکا۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔',
+ 'اسم المستخدم بالإنجليزي أو أرقام فقط، من 3 إلى 30 حرف، بدون مسافات.':'یوزر نیم صرف انگریزی حروف یا ہندسوں میں، 3 سے 30 حروف، بغیر خالی جگہ کے۔','كلمتا المرور غير متطابقتين.':'دونوں پاس ورڈ ایک جیسے نہیں ہیں۔'});
+Object.assign(UR,{'فيه تحديث جديد للتطبيق':'ایپ کی نئی اپ ڈیٹ دستیاب ہے','حدّث الآن':'ابھی اپ ڈیٹ کریں','إصدار التطبيق':'ایپ ورژن','تحديث الصفحة':'صفحہ ریفریش کریں','اسم المستخدم':'یوزر نیم','عرض ظاهر':'نظر آنے والی آفر','قبل وبعد':'پہلے اور بعد','آخر تأكيد':'آخری تصدیق','قراءة الذكاء الاصطناعي':'مصنوعی ذہانت کا تجزیہ','ملاحظات':'نوٹس','إجمالي الواجهات':'کل فیسنگز'});
+const EGG_UR={'أبيض':'سفید','بني':'براؤن','أحمر':'سرخ','بلدي':'دیسی','عضوي':'آرگینک','أوميغا':'اومیگا'};
+const URX=[
+ [/^تقرير (.+)$/,m=>'رپورٹ: '+(urIn(m[1])||m[1])],
+ [/^تمت (.+)$/,m=>'مکمل '+m[1]],
+ [/^يكتب النتيجة… (\d+)%$/,m=>'نتیجہ لکھا جا رہا ہے… '+m[1]+'%'],
+ [/^تمت تعبئة (\d+) حقل من قراءة الصور\. راجعها قبل الحفظ\.$/,m=>'تصاویر کے تجزیے سے '+m[1]+' خانے بھر دیے گئے۔ محفوظ کرنے سے پہلے چیک کر لیں۔'],
+ [/^ما قدر يقرأ: (.+)$/,m=>'پڑھا نہیں جا سکا: '+m[1]],
+ [/^(\d+) صور$/,m=>m[1]+' تصاویر'],
+ [/^(\d+) ملاحظات$/,m=>m[1]+' نوٹس'],
+ [/^(\d+) مشكلة$/,m=>m[1]+' مسائل'],
+ [/^(\d+) فرع$/,m=>m[1]+' برانچیں'],
+ [/^متوقع (.+)$/,m=>'متوقع '+m[1]],
+ [/^طلب (.*)$/,m=>'آرڈر '+m[1]],
+ [/^بيض(?=\s|$) ?(أبيض|بني|أحمر|بلدي|عضوي|أوميغا)? ?(\d+)? ?(حبة|حبات)?(.*)$/,m=>[(EGG_UR[m[1]]||''),'انڈے',m[2]?m[2]+' عدد':'',(m[4]||'').trim()].filter(Boolean).join(' ')]
+];
+const DAY_RE=/الأحد|الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|السبت/g;
+function urIn(s){if(UR[s]!=null)return UR[s];for(const[re,f]of URX){const m=s.match(re);if(m)return f(m)}const t=s.replace(DAY_RE,d=>DAY_UR[d]);return t!==s?t:null}
+function urStr(s){
+  if(!s||!/[ء-ي]/.test(s))return null;
+  const m=s.match(/^([\s·:،✦*\-–]*)([\s\S]*?)([\s·:،*\-–]*)$/);if(!m||!m[2])return null;
+  const t=urIn(m[2]);return t==null?null:m[1]+t+m[3];
+}
+const TR_ATTRS=['placeholder','aria-label','title','label'];
+function trOne(n){
+  if(n.nodeType===3){const p=n.parentNode;if(!p||(p.closest&&p.closest('[data-notr],textarea,script,style')))return;
+    const t=urStr(n.data);if(t!=null&&t!==n.data){if(p.tagName==='OPTION'&&!p.hasAttribute('value'))p.setAttribute('value',p.textContent);n.data=t}}
+  else if(n.nodeType===1){if(n.closest('[data-notr]'))return;
+    for(const a of TR_ATTRS){const v=n.getAttribute(a);if(v){const t=urStr(v);if(t!=null&&t!==v)n.setAttribute(a,t)}}}
+}
+function trTree(root){trOne(root);if(root.nodeType!==1)return;const w=document.createTreeWalker(root,NodeFilter.SHOW_ELEMENT|NodeFilter.SHOW_TEXT);let x;while((x=w.nextNode()))trOne(x)}
+function startUrdu(){
+  if(LANG!=='ur')return;
+  trTree(document.body);
+  new MutationObserver(list=>{for(const r of list){if(r.type==='childList')r.addedNodes.forEach(trTree);else trOne(r.target)}})
+    .observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:TR_ATTRS});
+}
+function LangSw(){
+  return html`<div class="langsw" data-notr role="group" aria-label="اللغة / زبان">
+    <button type="button" class=${LANG==='ar'?'on':''} aria-pressed=${LANG==='ar'} onClick=${()=>LANG!=='ar'&&setLang('ar')}>العربية</button>
+    <button type="button" lang="ur" class=${LANG==='ur'?'on':''} aria-pressed=${LANG==='ur'} onClick=${()=>LANG!=='ur'&&setLang('ur')}>اردو</button></div>`;
+}
 
 /* ---------------- utils ---------------- */
 const pad=n=>String(n).padStart(2,'0');
@@ -230,7 +394,12 @@ const TRIP_ST={planned:['مخططة','info'],loading:['تحميل','yolk'],onrou
 const STOP_ST={pending:['بالانتظار','muted'],arrived:['وصلت الفرع','yolk'],unloaded:['تم التنزيل','ok'],skipped:['لم يتم','bad']};
 const FU_ST={open:['مفتوحة','bad'],progress:['قيد المعالجة','warn'],closed:['مغلقة','ok']};
 const ROLE={merch:'مندوب',supervisor:'مشرف منطقة',manager:'مدير'};
-const QCOLS=[['internal','المخزون الداخلي'],['shelf','على الرف'],['delivered','تنزيل اليوم'],['damaged','تالف أو مرتجع']];
+const QCOLS=[['internal','المخزون الداخلي'],['shelf','على الرف'],['damaged','تالف أو مرتجع']]; // "تنزيل اليوم" removed from the rep's entry
+const faceTot=v=>v&&v.face&&Object.keys(v.face).length?sum(v.face):(+(v&&v.facings)||0);
+const hasNum=x=>x!==undefined&&x!==null&&x!==''&&!isNaN(+x);
+// our shelf prices are required once a day: every active product that is not marked out of stock
+const pricesDone=v=>products().every(p=>(v.oos||[]).includes(p.id)||+(v.prices||{})[p.id]>0);
+const facesDone=v=>products().every(p=>hasNum((v.face||{})[p.id]));
 
 /* ---------------- store ---------------- */
 const S={ready:false,noDb:false,db:null,user:null,assets:null,downloads:null,uid:null,canEdit:false,isOwner:false,
@@ -286,6 +455,7 @@ async function boot(){
   resub('roles',db.collection('roles'));
   resub('settings',db.doc('settings/lists'),true);
   resub('backupInfo',db.doc('settings/backup'),true);
+  resub('appInfo',db.doc('settings/app'),true);
   resub('regions',db.collection('regions'));
   resub('branches',db.collection('branches'));
   resub('trucks',db.collection('trucks'));
@@ -380,14 +550,14 @@ async function analyzeShelf(v,onText){
 أنواع المشاكل المسموحة (اختر منها فقط): ${L('issueTypes').join('، ')}
 أنواع العروض المسموحة: ${L('promoTypes').join('، ')}
 
-اقرأ كل تفاصيل الصور: أسماء العلامات على الكراتين، أحجام العبوات (6، 15، 30 حبة…)، لون البيض، بطاقات الأسعار وأرقامها، لافتات العروض والتخفيضات، تواريخ الانتهاء إن كانت مقروءة، الفراغات في الرف، الكراتين المكسورة أو المتسخة أو المفتوحة، ترتيب المنتجات ونظافة الرف، وعدد واجهات كل منتج، ونسبة مساحة منتجاتنا من رف البيض.
+اقرأ كل تفاصيل الصور: أسماء العلامات على الكراتين، أحجام العبوات (6، 15، 30 حبة…)، لون البيض، بطاقات الأسعار وأرقامها، لافتات العروض والتخفيضات، تواريخ الانتهاء إن كانت مقروءة، الفراغات في الرف، الكراتين المكسورة أو المتسخة أو المفتوحة، ترتيب المنتجات ونظافة الرف، ونسبة مساحة منتجاتنا من رف البيض.
 قارن صور «قبل» و«بعد» إن وُجدت.
 لا تخمّن: أي رقم غير مقروء بوضوح اكتبه null واذكره في unreadable. اذكر فقط المنتجات التي تظهر فعلاً.
 
 أجب بـ JSON فقط بهذا الشكل:
-{"summary":"ملخص عربي من جملتين أو ثلاث","condition":"ممتاز|جيد|متوسط|ضعيف","score":0-100,"sharePct":رقم أو null,"ourFacings":رقم أو null,
-"products":[{"id":"id منتجنا","facings":رقم أو null,"cartons":عدد الكراتين الظاهرة أو null,"price":السعر المقروء أو null,"oos":true/false,"damaged":true/false}],
-"competitors":[{"brand":"اسم الشركة","desc":"وصف العبوة","vs":"id منتجنا المقابل أو null","price":رقم أو null,"promo":true/false,"promoPrice":رقم أو null,"facings":رقم أو null}],
+{"summary":"ملخص عربي من جملتين أو ثلاث","summaryUr":"نفس الملخص مترجم إلى الأردية (Urdu) بلغة بسيطة وصحيحة","actionsUr":["نفس التوصيات بالأردية"],"condition":"ممتاز|جيد|متوسط|ضعيف","score":0-100,"sharePct":رقم أو null,"ourFacings":رقم أو null,
+"products":[{"id":"id منتجنا","cartons":عدد الكراتين الظاهرة أو null,"price":السعر المقروء أو null,"oos":true/false,"damaged":true/false}],
+"competitors":[{"brand":"اسم الشركة","desc":"وصف العبوة","vs":"id منتجنا المقابل أو null","price":رقم أو null,"promo":true/false,"promoPrice":رقم أو null}],
 "issues":["من القائمة فقط"],"promo":{"active":true/false,"type":"من القائمة أو null","price":رقم أو null,"note":"نص اللافتة"},
 "expiry":"YYYY-MM-DD أو null","beforeAfter":"مقارنة قبل وبعد أو null","actions":["توصيات قصيرة وعملية للمندوب"],"unreadable":["ما لم يمكن قراءته"]}`;
   const r=await ai.sm.json(prompt,{images:blobs,modelTier:'default',cache:false,onText});
@@ -395,12 +565,11 @@ async function analyzeShelf(v,onText){
 }
 function applyAI(v,a){
   const n=clone2(v);const ids=new Set(products().map(p=>p.id));const empty=x=>x===undefined||x===null||x==='';let c=0;
-  n.shelf=n.shelf||{};n.prices=n.prices||{};n.oos=n.oos||[];
+  n.shelf=n.shelf||{};n.prices=n.prices||{};n.oos=n.oos||[];n.face=n.face||{};
   for(const p of a.products||[]){if(!ids.has(p.id))continue;
     if(p.cartons!=null&&empty(n.shelf[p.id])){n.shelf[p.id]=+p.cartons;c++}
     if(p.price!=null&&+p.price>0&&empty(n.prices[p.id])){n.prices[p.id]=+p.price;c++}
     if(p.oos&&!n.oos.includes(p.id)){n.oos.push(p.id);c++}}
-  if(a.ourFacings!=null&&empty(n.facings)){n.facings=String(a.ourFacings);c++}
   if(a.sharePct!=null&&empty(n.share)){n.share=String(Math.round(a.sharePct));c++}
   if(a.expiry&&/^\d{4}-\d\d-\d\d$/.test(a.expiry)&&empty(n.expiry)){n.expiry=a.expiry;c++}
   const it=L('issueTypes');let iss=(a.issues||[]).filter(x=>it.includes(x));
@@ -417,9 +586,10 @@ const Score=({n})=>html`<span class=${'pill t-'+(n>=75?'ok':n>=50?'warn':'bad')}
 function AiSummary({a,children}){
   return html`<div class="ai">
     <div class="row between"><div class="row" style="gap:8px"><span class="ai-tag">✦ قراءة الذكاء الاصطناعي</span>${a.score!=null&&html`<${Score} n=${a.score}/>`}${a.condition&&html`<${Pill} st=${[a.condition,COND[a.condition]||'muted']}/>`}</div><span class="small muted">${a.photos?a.photos+' صور · ':''}${fmtTs(a.at)}</span></div>
-    ${a.summary&&html`<div>${a.summary}</div>`}
-    ${a.beforeAfter&&html`<div class="small"><b>قبل وبعد: </b>${a.beforeAfter}</div>`}
-    ${(a.actions||[]).length>0&&html`<ul class="ai-list">${a.actions.map(x=>html`<li>${x}</li>`)}</ul>`}
+    ${LANG==='ur'&&a.summaryUr?html`<div lang="ur" data-notr>${a.summaryUr}</div>`:a.summary&&html`<div>${a.summary}</div>`}
+    ${a.beforeAfter&&LANG!=='ur'&&html`<div class="small"><b>قبل وبعد: </b>${a.beforeAfter}</div>`}
+    ${LANG==='ur'&&(a.actionsUr||[]).length?html`<ul class="ai-list" lang="ur" data-notr>${a.actionsUr.map(x=>html`<li>${x}</li>`)}</ul>`
+      :(a.actions||[]).length>0&&html`<ul class="ai-list">${a.actions.map(x=>html`<li>${x}</li>`)}</ul>`}
     ${children}
     ${(a.unreadable||[]).length>0&&html`<div class="small muted">ما قدر يقرأ: ${a.unreadable.join('، ')}</div>`}
   </div>`;
@@ -432,7 +602,7 @@ function AiPanel({v,up,setV,dk}){
   async function run(){
     if(busy.current)return;busy.current=true;setSt('run');setErr('');setProg('جاري إرسال الصور…');
     try{const a=await analyzeShelf(v,({text})=>setProg(text.length<40?'يقرأ الصور…':'يكتب النتيجة… '+Math.min(99,Math.round(text.length/18))+'%'));
-      const ai={summary:a.summary,condition:a.condition,score:a.score==null?null:Math.max(0,Math.min(100,+a.score)),sharePct:a.sharePct,ourFacings:a.ourFacings,beforeAfter:a.beforeAfter,actions:a.actions||[],unreadable:a.unreadable||[],issues:a.issues||[],products:a.products||[],competitors:a.competitors||[],promo:a.promo||null,expiry:a.expiry||null,photos:a.photos,at:a.at,applied:false};
+      const ai={summary:a.summary,summaryUr:a.summaryUr||null,actionsUr:Array.isArray(a.actionsUr)?a.actionsUr:[],condition:a.condition,score:a.score==null?null:Math.max(0,Math.min(100,+a.score)),sharePct:a.sharePct,ourFacings:a.ourFacings,beforeAfter:a.beforeAfter,actions:a.actions||[],unreadable:a.unreadable||[],issues:a.issues||[],products:a.products||[],competitors:a.competitors||[],promo:a.promo||null,expiry:a.expiry||null,photos:a.photos,at:a.at,applied:false};
       up({ai});setSt('done');
     }catch(e){console.error(e);setErr(e&&e.code==='no_images'?'ارفع صورة للرف أولاً.':(AI_ERR[e&&e.code]||'تعذّر تحليل الصور. أعد المحاولة.'));setSt('err');if(e&&e.code==='not_granted')setOk(false)}
     busy.current=false;
@@ -443,13 +613,14 @@ function AiPanel({v,up,setV,dk}){
   if(ok===null)return null;
   const a=v.ai;const prods=(a&&a.products)||[];
   return html`<div class="stack" style="gap:10px">
-    <div class="row between"><div class="row" style="gap:8px"><button type="button" class="btn ai-btn" disabled=${st==='run'||!cnt} onClick=${run}>✦ ${a?'أعد قراءة الصور':'اقرأ الصور بالذكاء الاصطناعي'}</button>
+    <div class="small muted">صوّر الرف قبل وبعد الترتيب، والذكاء الاصطناعي يقرأ المنتجات والأسعار والعروض والمنافسين والفراغات، ويعبّي النموذج عنك.</div>
+    <div class="row between"><div class="row" style="gap:8px"><button type="button" class=${'btn ai-btn'+(a?'':' big')} disabled=${st==='run'||!cnt} onClick=${run}>✦ ${a?'أعد قراءة الرف':'اقرأ الرف بالذكاء الاصطناعي'}</button>
       <label class="row small" style="gap:4px"><input type="checkbox" checked=${auto} onChange=${e=>{setAuto(e.target.checked);ls.set('aiAuto',e.target.checked)}}/>تحليل تلقائي بعد كل صورة</label></div>
       ${st==='run'&&html`<span class="small ai-run"><span class="spin"></span>${prog}</span>`}</div>
-    ${!cnt&&html`<div class="small muted">ارفع صور الرف، والذكاء الاصطناعي يقرأ المنتجات والأسعار والعروض والمنافسين والفراغات ويعبّي النموذج.</div>`}
+    ${!cnt&&html`<div class="small muted">ارفع صورة للرف أولاً.</div>`}
     ${err&&html`<div class="notice bad">${err}</div>`}
     ${a&&html`<${AiSummary} a=${a}>
-      ${prods.length>0&&html`<div class="tw"><table><thead><tr><th>منتجنا</th><th class="n">واجهات</th><th class="n">كراتين</th><th class="n">السعر</th><th></th></tr></thead><tbody>${prods.map(p=>html`<tr><td>${prodName(p.id)}</td><td class="n">${p.facings??'—'}</td><td class="n">${p.cartons??'—'}</td><td class="n">${p.price??'—'}</td><td>${p.oos?html`<${Pill} st=${['نفد','bad']}/>`:''}${p.damaged?html` <${Pill} st=${['تلف','bad']}/>`:''}</td></tr>`)}</tbody></table></div>`}
+      ${prods.length>0&&html`<div class="tw"><table><thead><tr><th>منتجنا</th><th class="n">كراتين</th><th class="n">السعر</th><th></th></tr></thead><tbody>${prods.map(p=>html`<tr><td>${prodName(p.id)}</td><td class="n">${p.cartons??'—'}</td><td class="n">${p.price??'—'}</td><td>${p.oos?html`<${Pill} st=${['نفد','bad']}/>`:''}${p.damaged?html` <${Pill} st=${['تلف','bad']}/>`:''}</td></tr>`)}</tbody></table></div>`}
       ${(a.competitors||[]).length>0&&html`<div class="chips">${a.competitors.map(c=>html`<span class="pill t-muted">${c.brand}${c.desc?' · '+c.desc:''}${c.price!=null?' · '+c.price+' ر.س':''}${c.promo?' · عرض':''}</span>`)}</div>`}
       ${(a.issues||[]).length>0&&html`<div class="chips">${a.issues.map(i=>html`<${Pill} st=${[i,'bad']}/>`)}</div>`}
       ${a.promo&&a.promo.active&&html`<div class="small"><b>عرض ظاهر: </b>${a.promo.type||''} ${a.promo.price?a.promo.price+' ر.س':''} ${a.promo.note||''}</div>`}
@@ -549,7 +720,7 @@ function BranchSheet({id,onClose}){
     </dl></section>
     ${lastPh&&html`<section class="sec"><h3>آخر صورة للرف <span class="muted small">${fmtDate(lastPh.r.date)}</span></h3><${Photos} ids=${lastPh.v.after}/>${lastPh.v.ai&&html`<${AiSummary} a=${lastPh.v.ai}/>`}</section>`}
     <section class="sec"><h3>آخر الزيارات <span class="muted small">${vs.length}</span></h3>
-      ${vs.length?html`<div class="tw"><table><thead><tr><th>التاريخ</th><th>المندوب</th><th class="n">تنزيل</th><th>التقييم</th><th>الجودة</th><th>المشاكل</th></tr></thead><tbody>${vs.slice(0,15).map(({v,r})=>html`<tr class="click" onClick=${()=>setOpen({rep:r,focus:v.id})}><td>${fmtDate(r.date)}</td><td>${nameOf(r.uid)}</td><td class="n">${num(sum(v.delivered))}</td><td>${v.ai&&v.ai.score!=null?html`<${Score} n=${v.ai.score}/>`:'—'}</td><td><${Flags} v=${v}/></td><td>${(v.issues||[]).length?html`<${Pill} st=${[v.issues.length+' مشكلة','bad']}/>`:'—'}</td></tr>`)}</tbody></table></div>`:html`<div class="muted small">لا توجد زيارات في آخر شهر</div>`}</section>
+      ${vs.length?html`<div class="tw"><table><thead><tr><th>التاريخ</th><th>المندوب</th><th>التقييم</th><th>الجودة</th><th>المشاكل</th></tr></thead><tbody>${vs.slice(0,15).map(({v,r})=>html`<tr class="click" onClick=${()=>setOpen({rep:r,focus:v.id})}><td>${fmtDate(r.date)}</td><td>${nameOf(r.uid)}</td><td>${v.ai&&v.ai.score!=null?html`<${Score} n=${v.ai.score}/>`:'—'}</td><td><${Flags} v=${v}/></td><td>${(v.issues||[]).length?html`<${Pill} st=${[v.issues.length+' مشكلة','bad']}/>`:'—'}</td></tr>`)}</tbody></table></div>`:html`<div class="muted small">لا توجد زيارات في آخر شهر</div>`}</section>
     ${pr.length>0&&html`<section class="sec"><h3>الأسعار في الفرع</h3><div class="tw"><table><thead><tr><th>منتجنا</th><th class="n">آخر سعر لنا</th><th>آخر أسعار المنافسين</th></tr></thead><tbody>${pr.map(x=>html`<tr><td>${x.p.name}</td><td class="n">${x.last||'—'}</td><td class="small">${x.comp.map(c=>c.brand+' '+c.price).join('، ')||'—'}</td></tr>`)}</tbody></table></div></section>`}
     ${pos.length>0&&html`<section class="sec"><h3>طلبات الشراء</h3><div class="tw"><table><thead><tr><th>الطلب</th><th>التوريد</th><th class="n">مطلوب</th><th class="n">مستلم</th><th>الحالة</th></tr></thead><tbody>${pos.map(p=>html`<tr><td>${p.number||'—'}</td><td>${fmtDate(p.deliveryDate)}</td><td class="n">${num(sum(p.items))}</td><td class="n">${p.received?num(sum(p.received)):'—'}</td><td><${Pill} st=${PO_ST[p.status||'new']}/></td></tr>`)}</tbody></table></div></section>`}
     ${open&&html`<${ReportSheet} rep=${open.rep} focus=${open.focus} onClose=${()=>setOpen(null)}/>`}
@@ -567,18 +738,18 @@ function Perf(){
     for(const d of days){const pl=br.filter(b=>(b.visitDays||[]).includes(weekday(d)));if(pl.length)work++;planned+=pl.length;const r=by[d];if(r){const vb=new Set(r.visits.map(v=>v.branchId));doneP+=pl.filter(b=>vb.has(b.id)).length}}
     const vs=rs.flatMap(r=>r.visits);const sc=vs.map(v=>v.ai&&v.ai.score).filter(x=>x!=null);const ds=vs.map(dur).filter(x=>x!=null);
     return{u,visits:vs.length,planned,doneP,comp:planned?doneP/planned*100:null,sent:rs.filter(r=>r.status==='submitted').length,work,score:sc.length?avg(sc):null,dur:ds.length?avg(ds):null,
-      photo:vs.length?vs.filter(v=>(v.before||[]).length&&(v.after||[]).length).length/vs.length*100:null,issues:vs.filter(v=>(v.issues||[]).length).length,oos:vs.reduce((a,v)=>a+(v.oos||[]).length,0),del:vs.reduce((a,v)=>a+sum(v.delivered),0)};
+      photo:vs.length?vs.filter(v=>(v.before||[]).length&&(v.after||[]).length).length/vs.length*100:null,issues:vs.filter(v=>(v.issues||[]).length).length,oos:vs.reduce((a,v)=>a+(v.oos||[]).length,0)};
   }).sort((a,b)=>(b[sort]??-1)-(a[sort]??-1));
   const P=(x)=>x==null?'—':Math.round(x)+'%';
   const tone=x=>x==null?'':x>=90?'var(--ok)':x>=70?'var(--warn)':'var(--bad)';
   const H=(k,l)=>html`<th class="n"><button type="button" class=${'sortb'+(sort===k?' on':'')} onClick=${()=>setSort(k)}>${l}</button></th>`;
   return html`<h1>أداء الفريق</h1>
     <${RangeFilters} f=${f} setF=${setF}/>
-    <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>المندوب</th>${H('comp','الالتزام بالجدول')}${H('visits','الزيارات')}${H('sent','تقارير مرسلة')}${H('score','تقييم الرف')}${H('photo','اكتمال الصور')}${H('dur','متوسط الزيارة')}${H('issues','مشاكل مرصودة')}${H('del','التنزيل')}</tr></thead><tbody>
+    <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>المندوب</th>${H('comp','الالتزام بالجدول')}${H('visits','الزيارات')}${H('sent','تقارير مرسلة')}${H('score','تقييم الرف')}${H('photo','اكتمال الصور')}${H('dur','متوسط الزيارة')}${H('issues','مشاكل مرصودة')}</tr></thead><tbody>
       ${rows.map(x=>html`<tr><td><b>${nameOf(x.u)}</b><div class="small muted">${(supOf(x.u)||{}).name||''}</div></td>
         <td class="n"><div class="row" style="gap:8px;justify-content:flex-end"><span style=${'color:'+tone(x.comp)+';font-weight:600'}>${P(x.comp)}</span><div style="width:70px"><${Bar} v=${x.comp||0} max=${100}/></div></div><div class="small muted">${x.doneP}/${x.planned}</div></td>
         <td class="n">${x.visits}</td><td class="n">${x.sent}/${x.work}</td><td class="n">${x.score==null?'—':html`<${Score} n=${x.score}/>`}</td>
-        <td class="n" style=${'color:'+tone(x.photo)}>${P(x.photo)}</td><td class="n">${x.dur==null?'—':Math.round(x.dur)+' د'}</td><td class="n">${x.issues}${x.oos?html`<div class="small muted">نفاد ${x.oos}</div>`:''}</td><td class="n">${num(x.del)}</td></tr>`)}</tbody></table></div>`
+        <td class="n" style=${'color:'+tone(x.photo)}>${P(x.photo)}</td><td class="n">${x.dur==null?'—':Math.round(x.dur)+' د'}</td><td class="n">${x.issues}${x.oos?html`<div class="small muted">نفاد ${x.oos}</div>`:''}</td></tr>`)}</tbody></table></div>`
       :html`<${Empty} t="لا يوجد مندوبين في هذا النطاق"/>`}</div>
     <div class="muted small">الالتزام = الفروع المجدولة اللي تمت زيارتها في يومها ÷ كل الزيارات المجدولة. اكتمال الصور = الزيارات اللي فيها صور قبل وبعد.</div>`;
 }
@@ -608,22 +779,33 @@ ${JSON.stringify(ctx).slice(0,60000)}
 }
 
 /* ---------------- gate screens ---------------- */
-function Splash({t,children}){return html`<div class="splash"><${Logo} cls="redlogo"/><div class="slogan">جودة تُصدر للعالم</div><div>${t}</div>${children}</div>`}
+function Splash({t,children}){return html`<div class="splash"><${LangSw}/><${Logo} cls="redlogo"/><div class="slogan">جودة تُصدر للعالم</div><div>${t}</div>${children}</div>`}
 function Register(){
   const p=S.profile||{};
   const[f,setF]=useState({name:p.name||'',phone:p.phone||'',empNo:p.empNo||'',city:p.city||''});
-  const[busy,setBusy]=useState(false);
-  async function save(e){e.preventDefault();if(!f.name.trim())return toast('اكتب اسمك','bad');setBusy(true);
-    try{await W(()=>put('profiles/'+S.uid,{...f,name:f.name.trim(),createdAt:p.createdAt||Date.now(),updatedAt:Date.now()}),'تم حفظ بياناتك')}catch(e){}setBusy(false)}
-  return html`<div class="splash"><form class="card gatecard" onSubmit=${save}>
-    <div class="row"><${Logo} cls="redlogo" style="width:110px;height:60px"/><div><h1>تسجيل حساب جديد</h1><div class="muted small">سجّل بياناتك مرة وحدة، بعدها يعتمدك المدير</div></div></div>
-    <${Fld} label="الاسم الكامل *"><input id="r-name" value=${f.name} onInput=${e=>setF({...f,name:e.target.value})} required/><//>
-    <${Fld} label="رقم الجوال"><input id="r-phone" inputmode="tel" dir="ltr" value=${f.phone} onInput=${e=>setF({...f,phone:e.target.value})}/><//>
-    <div class="fgrid"><${Fld} label="الرقم الوظيفي"><input id="r-emp" value=${f.empNo} onInput=${e=>setF({...f,empNo:e.target.value})}/><//>
-    <${Fld} label="المدينة"><input id="r-city" value=${f.city} onInput=${e=>setF({...f,city:e.target.value})}/><//></div>
-    <button class="btn pri" disabled=${busy}>${busy?'جاري الحفظ…':'تسجيل'}</button>
+  const[busy,setBusy]=useState(false);const[tried,setTried]=useState(false);
+  const digits=s=>String(s||'').replace(/[٠-٩]/g,d=>'٠١٢٣٤٥٦٧٨٩'.indexOf(d)).replace(/[۰-۹]/g,d=>'۰۱۲۳۴۵۶۷۸۹'.indexOf(d)).replace(/[^\d]/g,'');
+  const normPhone=s=>{let d=digits(s);if(d.startsWith('00966'))d=d.slice(5);else if(d.startsWith('966'))d=d.slice(3);if(d.length===9&&d[0]==='5')d='0'+d;return d};
+  const bad={name:f.name.trim().split(/\s+/).filter(Boolean).length<2,phone:!/^05\d{8}$/.test(normPhone(f.phone)),empNo:!f.empNo.trim(),city:!f.city.trim()};
+  const MSG={name:'اكتب اسمك الكامل (اسمين على الأقل)',phone:'اكتب رقم جوال صحيح يبدأ بـ 05 (10 أرقام)',empNo:'اكتب الرقم الوظيفي',city:'اكتب المدينة'};
+  async function save(e){e.preventDefault();setTried(true);const k=Object.keys(bad).find(x=>bad[x]);
+    if(k){toast(MSG[k],'bad');const el=document.getElementById({name:'r-name',phone:'r-phone',empNo:'r-emp',city:'r-city'}[k]);el&&el.focus();return}
+    setBusy(true);
+    try{await W(()=>put('profiles/'+S.uid,{...f,name:f.name.trim().replace(/\s+/g,' '),phone:normPhone(f.phone),empNo:f.empNo.trim(),city:f.city.trim(),createdAt:p.createdAt||Date.now(),updatedAt:Date.now()}),'تم حفظ بياناتك')}catch(e){}setBusy(false)}
+  const cls=k=>tried&&bad[k]?'miss':'';
+  const incomplete=!!S.profile&&!profileDone(S.profile);
+  return html`<div class="splash"><form class="card gatecard" onSubmit=${save} noValidate>
+    <div class="gate-lang"><${LangSw}/></div>
+    <div class="row"><${Logo} cls="redlogo" style="width:110px;height:60px"/><div><h1>تسجيل حساب جديد</h1><div class="muted small">سجّل بياناتك كاملة مرة وحدة، بعدها يعتمدك المدير</div></div></div>
+    ${incomplete?html`<div class="notice bad">أكمل بياناتك الناقصة قبل المتابعة</div>`:html`<div class="notice info">كل الخانات إجبارية</div>`}
+    <${Fld} label="الاسم الكامل *"><input id="r-name" class=${cls('name')} autocomplete="name" placeholder="الاسم الثلاثي كما في الإقامة" value=${f.name} onInput=${e=>setF({...f,name:e.target.value})} required/><//>
+    <${Fld} label="رقم الجوال *"><input id="r-phone" class=${cls('phone')} type="tel" inputmode="tel" autocomplete="tel" dir="ltr" placeholder="05xxxxxxxx" value=${f.phone} onInput=${e=>setF({...f,phone:e.target.value})} required/><//>
+    <div class="fgrid"><${Fld} label="الرقم الوظيفي *"><input id="r-emp" class=${cls('empNo')} dir="ltr" value=${f.empNo} onInput=${e=>setF({...f,empNo:e.target.value})} required/><//>
+    <${Fld} label="المدينة *"><input id="r-city" class=${cls('city')} placeholder="مثال: الرياض" value=${f.city} onInput=${e=>setF({...f,city:e.target.value})} required/><//></div>
+    <button class="btn pri" disabled=${busy}>${busy?'جاري الحفظ…':S.profile?'حفظ البيانات':'تسجيل'}</button>
   </form></div>`;
 }
+const profileDone=p=>!!(p&&p.name&&String(p.name).trim().split(/\s+/).length>=2&&/^05\d{8}$/.test(String(p.phone||''))&&String(p.empNo||'').trim()&&String(p.city||'').trim());
 function Pending(){
   const r=roleOf(S.uid);
   return html`<${Splash} t=${html`<div class="card gatecard"><h1>أهلاً ${S.profile.name}</h1>
@@ -632,8 +814,8 @@ function Pending(){
 }
 
 /* ---------------- visit editor ---------------- */
-function blankVisit(branchId){return{id:rid(),branchId:branchId||'',at:timeNow(),out:'',before:[],after:[],internal:{},shelf:{},delivered:{},damaged:{},prices:{},oos:[],expiry:'',facings:'',share:'',issues:[],issueNote:'',promo:{active:false,type:'',price:'',from:'',to:'',note:''},comp:[],notes:''}}
-function VisitEditor({visit,repKey,onSave,onDelete,onClose}){
+function blankVisit(branchId){return{id:rid(),branchId:branchId||'',at:timeNow(),out:'',before:[],after:[],internal:{},shelf:{},damaged:{},face:{},prices:{},oos:[],expiry:'',facings:'',share:'',issues:[],issueNote:'',promo:{active:false,type:'',price:'',from:'',to:'',note:''},comp:[],notes:''}}
+function VisitEditor({visit,repKey,onSave,onDelete,onClose,pricesReq}){
   const dk='draft:'+repKey+':'+visit.id;
   const[v,setV]=useState(()=>{const d=ls.get(dk);return d&&d._t>(visit._t||0)?d:clone2(visit)});
   const[busy,setBusy]=useState(false);
@@ -642,8 +824,19 @@ function VisitEditor({visit,repKey,onSave,onDelete,onClose}){
   const upQ=(col,pid,val)=>up({[col]:{...(v[col]||{}),[pid]:val===''?'':+val}});
   const my=S.branches.filter(b=>isMine(b)&&b.active!==false);const others=S.branches.filter(b=>!isMine(b)&&b.active!==false);
   const prods=products();
-  async function save(){if(!v.branchId)return toast('اختر الفرع أولاً','bad');setBusy(true);try{await onSave({...v,_t:Date.now()});ls.del(dk);onClose()}catch(e){}setBusy(false)}
+  const[tried,setTried]=useState(false);
+  const focus=id=>{const el=document.getElementById(id);if(el){el.scrollIntoView({block:'center',behavior:'smooth'});setTimeout(()=>el.focus(),300)}};
+  async function save(){
+    setTried(true);
+    if(!v.branchId){focus('v-branch');return toast('اختر الفرع أولاً','bad')}
+    if(pricesReq){const noPrice=prods.find(p=>!(v.oos||[]).includes(p.id)&&!(+(v.prices||{})[p.id]>0));
+      if(noPrice){focus('v-price-'+noPrice.id);return toast('اكتب سعر الرف لكل المنتجات غير النافدة (مطلوب مرة وحدة باليوم)','bad')}}
+    const comp=(v.comp||[]).map(c=>({...c,brand:(c.brand||'').trim()})).filter(c=>c.brand||c.desc||hasNum(c.price));
+    const ci=comp.findIndex(c=>!c.brand);if(ci>=0){focus('v-cbrand-'+ci);return toast('اكتب اسم الشركة المنافسة في كل سطر','bad')}
+    setBusy(true);try{await onSave({...v,comp,_t:Date.now()});ls.del(dk);onClose()}catch(e){}setBusy(false)}
   const setComp=(i,patch)=>up({comp:v.comp.map((c,j)=>j===i?{...c,...patch}:c)});
+  const compList=[...new Set([...L('competitors').filter(x=>x!=='أخرى'),...S.reports.concat(S.myReports).flatMap(r=>(r.visits||[]).flatMap(x=>(x.comp||[]).map(c=>c.brand))).filter(Boolean)])];
+  const miss=(ok)=>tried&&!ok?'miss':'';
   return html`<${Sheet} title="تسجيل زيارة فرع" sub=${v.branchId?branchName(v.branchId):'اختر الفرع'} onClose=${onClose}
     footer=${html`<button class="btn pri grow" disabled=${busy} onClick=${save}>${busy?'جاري الحفظ…':'حفظ الزيارة'}</button>${onDelete&&html`<${Confirm} label="حذف الزيارة" onYes=${()=>{ls.del(dk);onDelete();onClose()}}/>`}`}>
     ${hadDraft.current&&html`<div class="notice">رجّعنا لك آخر مسودة محفوظة على جهازك لهذه الزيارة.</div>`}
@@ -662,25 +855,28 @@ function VisitEditor({visit,repKey,onSave,onDelete,onClose}){
     <section class="sec"><h3><span class="num">2</span>صور الرف</h3>
       <div class="ba"><div><b class="small">قبل الترتيب</b><${Photos} ids=${v.before} label="الرف قبل" onChange=${ids=>up({before:ids})}/></div>
       <div><b class="small">بعد الترتيب</b><${Photos} ids=${v.after} label="الرف بعد" onChange=${ids=>up({after:ids})}/></div></div>
+    </section>
+    <section class="sec"><h3><span class="num">3</span>قراءة الرف بالذكاء الاصطناعي</h3>
       <${AiPanel} v=${v} up=${up} setV=${setV} dk=${dk}/>
     </section>
-    <section class="sec"><h3><span class="num">3</span>المخزون والتنزيل <span class="muted small">بالكرتون</span></h3>
-      <div class="tw"><table class="qty"><thead><tr><th>المنتج</th>${QCOLS.map(c=>html`<th>${c[1]}</th>`)}<th>سعر الرف</th><th>نفد</th></tr></thead>
-      <tbody>${prods.map(p=>html`<tr><td>${p.name}</td>
+    <section class="sec"><h3><span class="num">4</span>المخزون والأسعار <span class="muted small">بالكرتون</span></h3>
+      ${pricesReq?html`<div class="notice bad">أسعار رفنا إجبارية في هذه الزيارة لأنها أول تسجيل أسعار اليوم (مرة وحدة باليوم). اكتب سعر كل منتج غير نافد.</div>`
+        :html`<div class="notice info">✓ أسعار اليوم مسجلة في زيارة سابقة، تعبئتها هنا اختيارية.</div>`}
+      <div class="tw"><table class="qty"><thead><tr><th>المنتج</th>${QCOLS.map(c=>html`<th>${c[1]}</th>`)}<th class=${pricesReq?'req':''}>سعر الرف</th><th>نفد</th></tr></thead>
+      <tbody>${prods.map(p=>{const out=(v.oos||[]).includes(p.id);return html`<tr><td>${p.name}</td>
         ${QCOLS.map(c=>html`<td><input type="number" inputmode="decimal" min="0" aria-label=${c[1]+' '+p.name} value=${(v[c[0]]||{})[p.id]??''} onInput=${e=>upQ(c[0],p.id,e.target.value)}/></td>`)}
-        <td><input type="number" inputmode="decimal" step="0.05" min="0" aria-label=${'سعر '+p.name} value=${(v.prices||{})[p.id]??''} onInput=${e=>upQ('prices',p.id,e.target.value)}/></td>
-        <td><input type="checkbox" style="width:22px;height:22px;min-height:0" aria-label=${'نفد '+p.name} checked=${(v.oos||[]).includes(p.id)} onChange=${e=>up({oos:e.target.checked?[...(v.oos||[]),p.id]:(v.oos||[]).filter(x=>x!==p.id)})}/></td></tr>`)}</tbody></table></div>
+        <td><input id=${'v-price-'+p.id} class=${pricesReq?miss(out||+(v.prices||{})[p.id]>0):''} type="number" inputmode="decimal" step="0.05" min="0" aria-label=${'سعر الرف '+p.name} value=${(v.prices||{})[p.id]??''} onInput=${e=>upQ('prices',p.id,e.target.value)}/></td>
+        <td><input type="checkbox" style="width:22px;height:22px;min-height:0" aria-label=${'نفد '+p.name} checked=${out} onChange=${e=>up({oos:e.target.checked?[...(v.oos||[]),p.id]:(v.oos||[]).filter(x=>x!==p.id)})}/></td></tr>`})}</tbody></table></div>
       <div class="fgrid">
         <${Fld} label="أقرب تاريخ انتهاء على الرف"><input id="v-exp" type="date" value=${v.expiry} onInput=${e=>up({expiry:e.target.value})}/><//>
-        <${Fld} label="عدد الواجهات (Facings)"><input id="v-face" type="number" inputmode="numeric" value=${v.facings} onInput=${e=>up({facings:e.target.value})}/><//>
         <${Fld} label="حصتنا من رف البيض %"><input id="v-share" type="number" inputmode="numeric" min="0" max="100" value=${v.share} onInput=${e=>up({share:e.target.value})}/><//>
       </div>
     </section>
-    <section class="sec"><h3><span class="num">4</span>المشاكل في الفرع</h3>
+    <section class="sec"><h3><span class="num">5</span>المشاكل في الفرع</h3>
       <${Chips} bad options=${L('issueTypes')} value=${v.issues} onChange=${x=>up({issues:x})}/>
       ${(v.issues||[]).length>0&&html`<${Fld} label="تفاصيل المشكلة"><textarea id="v-inote" value=${v.issueNote} onInput=${e=>up({issueNote:e.target.value})} placeholder="وش صار بالضبط، ومع من تكلمت في الفرع؟"></textarea><//>`}
     </section>
-    <section class="sec"><h3><span class="num">5</span>العرض الترويجي</h3>
+    <section class="sec"><h3><span class="num">6</span>العرض الترويجي</h3>
       <label class="row"><input type="checkbox" id="v-promo" checked=${v.promo.active} onChange=${e=>up({promo:{...v.promo,active:e.target.checked}})}/> يوجد عرض على منتجاتنا في هذا الفرع</label>
       ${v.promo.active&&html`<div class="fgrid">
         <${Fld} label="نوع العرض"><select id="v-ptype" value=${v.promo.type} onChange=${e=>up({promo:{...v.promo,type:e.target.value}})}><option value="">—</option>${L('promoTypes').map(t=>html`<option>${t}</option>`)}</select><//>
@@ -690,9 +886,10 @@ function VisitEditor({visit,repKey,onSave,onDelete,onClose}){
       </div>
       <${Fld} label="ملاحظات العرض"><input id="v-pnote" value=${v.promo.note} onInput=${e=>up({promo:{...v.promo,note:e.target.value}})}/><//>`}
     </section>
-    <section class="sec"><h3><span class="num">6</span>أسعار المنافسين</h3>
+    <section class="sec"><h3><span class="num">7</span>أسعار المنافسين</h3>
+      <datalist id="comp-list">${compList.map(t=>html`<option value=${t}/>`)}</datalist>
       ${v.comp.map((c,i)=>html`<div class="fgrid" style="padding-bottom:10px;border-bottom:1px dashed var(--line)">
-        <${Fld} label="الشركة المنافسة"><select value=${c.brand} onChange=${e=>setComp(i,{brand:e.target.value})}><option value="">—</option>${[...L('competitors'),...(c.brand&&!L('competitors').includes(c.brand)?[c.brand]:[])].map(t=>html`<option>${t}</option>`)}</select><//>
+        <${Fld} label="الشركة المنافسة *"><input id=${'v-cbrand-'+i} class=${tried&&!(c.brand||'').trim()&&(c.desc||hasNum(c.price))?'miss':''} list="comp-list" autocomplete="off" placeholder="اختر من القائمة أو اكتب اسم الشركة" value=${c.brand} onInput=${e=>setComp(i,{brand:e.target.value})}/><//>
         <${Fld} label="يقابل منتجنا"><select value=${c.vs} onChange=${e=>setComp(i,{vs:e.target.value})}><option value="">—</option>${prods.map(p=>html`<option value=${p.id}>${p.name}</option>`)}</select><//>
         <${Fld} label="وصف المنتج"><input value=${c.desc} placeholder="مثال: بيض أحمر 30" onInput=${e=>setComp(i,{desc:e.target.value})}/><//>
         <${Fld} label="السعر"><input type="number" inputmode="decimal" value=${c.price} onInput=${e=>setComp(i,{price:e.target.value})}/><//>
@@ -702,7 +899,7 @@ function VisitEditor({visit,repKey,onSave,onDelete,onClose}){
       </div>`)}
       <div><button type="button" class="btn" onClick=${()=>up({comp:[...v.comp,{id:rid(),brand:'',vs:'',desc:'',price:'',promo:false,promoPrice:''}]})}>＋ إضافة سعر منافس</button></div>
     </section>
-    <section class="sec"><h3><span class="num">7</span>ملاحظات عامة</h3>
+    <section class="sec"><h3><span class="num">8</span>ملاحظات عامة</h3>
       <textarea class="inp" id="v-notes" style="min-height:80px" value=${v.notes} onInput=${e=>up({notes:e.target.value})} placeholder="أي شيء ثاني يفيد المدير"></textarea>
     </section>
   <//>`;
@@ -721,7 +918,6 @@ function VisitDetail({v,rep,canFollow}){
       ${used.map(p=>html`<tr><td>${p.name}</td>${QCOLS.map(c=>html`<td class="n">${(v[c[0]]||{})[p.id]??'—'}</td>`)}<td class="n">${(v.prices||{})[p.id]||'—'}</td><td>${(v.oos||[]).includes(p.id)&&html`<${Pill} st=${['نفد','bad']}/>`}</td></tr>`)}</tbody></table></div>`}
     <dl class="kv">
       ${v.expiry&&html`<dt>أقرب انتهاء</dt><dd>${v.expiry}</dd>`}
-      ${v.facings&&html`<dt>الواجهات</dt><dd>${v.facings}</dd>`}
       ${v.share&&html`<dt>حصة الرف</dt><dd>${v.share}%</dd>`}
       ${v.promo&&v.promo.active&&html`<dt>العرض</dt><dd>${v.promo.type||'عرض'}${v.promo.price?' · '+v.promo.price+' ر.س':''}${v.promo.from?' · '+v.promo.from+' ← '+(v.promo.to||''):''}${v.promo.note?' · '+v.promo.note:''}</dd>`}
     </dl>
@@ -758,10 +954,13 @@ function Today(){
   const saveRep=r=>W(()=>put('reports/'+key,{...r,id:undefined,uid:s.uid,date,demo:!!(S.demo||r.demo),updatedAt:Date.now()}));
   const saveVisit=async v=>{const vs=[...rep.visits.filter(x=>x.id!==v.id),v].sort((a,b)=>(a.at||'').localeCompare(b.at||''));await W(()=>put('reports/'+key,{...rep,...d,id:undefined,visits:vs,uid:s.uid,date,demo:!!(S.demo||rep.demo),updatedAt:Date.now()}),'تم حفظ الزيارة')};
   const delVisit=v=>W(()=>put('reports/'+key,{...rep,id:undefined,visits:rep.visits.filter(x=>x.id!==v.id),updatedAt:Date.now()}),'تم حذف الزيارة');
-  const submit=st=>saveRep({...rep,...d,status:st,submittedAt:st==='submitted'?Date.now():rep.submittedAt||null}).then(()=>{setDay(null);toast(st==='submitted'?'تم إرسال تقرير اليوم للمدير':'تم الحفظ')});
+  const pricesOk=rep.visits.some(pricesDone);
+  const submit=st=>{if(st==='submitted'&&rep.visits.length&&!pricesOk)return toast('سجّل أسعار الرف لكل منتجاتنا في زيارة وحدة على الأقل قبل إرسال التقرير','bad');
+    return saveRep({...rep,...d,status:st,submittedAt:st==='submitted'?Date.now():rep.submittedAt||null}).then(()=>{setDay(null);toast(st==='submitted'?'تم إرسال تقرير اليوم للمدير':'تم الحفظ')})};
+  const pricesReqFor=v=>!rep.visits.some(x=>x.id!==v.id&&pricesDone(x));
   const fu=v=>{const f=s.followups.find(x=>x.id===key+'__'+v.id);return f&&FU_ST[f.status]};
   return html`
-    <div class="row between"><div><h1>تقرير ${date===today()?'اليوم':fmtDate(date)}</h1><div class="muted small">${DAYS[wd]} ${date} · ${rep.status==='submitted'?'تم الإرسال للمدير':'لم يُرسل بعد'}</div></div>
+    <div class="row between"><div><h1>${date===today()?'تقرير اليوم':'تقرير '+fmtDate(date)}</h1><div class="muted small">${DAYS[wd]} ${date} · ${rep.status==='submitted'?'تم الإرسال للمدير':'لم يُرسل بعد'}</div></div>
       <div class="row"><input type="date" class="inp" style="width:auto" id="t-date" value=${date} max=${today()} onInput=${e=>e.target.value&&setDate(e.target.value)}/>
       <button class="btn pri" onClick=${()=>setEdit({v:blankVisit(),isNew:true})}>＋ زيارة جديدة</button></div></div>
     ${!S.demo&&html`<${MyCard} uid=${s.uid} compact/>`}
@@ -769,7 +968,7 @@ function Today(){
       <div class="kpi"><b>${rep.visits.length}</b><span>زيارات مسجلة</span></div>
       <div class="kpi"><b>${planned.filter(b=>done.has(b.id)).length}/${planned.length}</b><span>من الفروع المجدولة اليوم</span></div>
       <div class=${'kpi'+(rep.visits.some(v=>(v.issues||[]).length)?' alert':'')}><b>${rep.visits.filter(v=>(v.issues||[]).length).length}</b><span>زيارات فيها مشاكل</span></div>
-      <div class="kpi"><b>${num(rep.visits.reduce((a,v)=>a+sum(v.delivered),0))}</b><span>كرتون تم تنزيله</span></div>
+      <div class=${'kpi'+(rep.visits.length&&!pricesOk?' alert':'')}><b>${pricesOk?'✓':'!'}</b><span>${pricesOk?'أسعار اليوم مسجلة':'أسعار اليوم مطلوبة'}</span></div>
     </div>
     <div class="grid2">
       <div class="card flat"><div style="padding:14px 16px 0"><h2>فروعي المجدولة يوم ${DAYS[wd]}</h2></div>
@@ -779,9 +978,9 @@ function Today(){
           ${v?html`<${Pill} st=${['تمت '+(v.at||''),'ok']}/>`:html`<span class="btn sm">ابدأ الزيارة</span>`}</div>`})}</div>`
         :html`<${Empty} t=${my.length?'ما عندك فروع مجدولة لهذا اليوم. تقدر تسجل زيارة لأي فرع من «زيارة جديدة».':'ما تم ربطك بفروع بعد. المدير يحدد فروعك وأيام زيارتها.'}/>`}
       </div>
-      <div class="card flat"><div style="padding:14px 16px 0"><h2>زيارات ${date===today()?'اليوم':'هذا اليوم'}</h2></div>
+      <div class="card flat"><div style="padding:14px 16px 0"><h2>${date===today()?'زيارات اليوم':'زيارات هذا اليوم'}</h2></div>
         ${rep.visits.length?html`<div class="list">${rep.visits.map(v=>html`<div class="li" onClick=${()=>setEdit({v})}>
-          <div class="grow"><div>${branchName(v.branchId)}</div><div class="muted small">${v.at||''} · تنزيل ${num(sum(v.delivered))} · ${(v.before||[]).length+(v.after||[]).length} صور</div>
+          <div class="grow"><div>${branchName(v.branchId)}</div><div class="muted small">${v.at||''} · ${(v.before||[]).length+(v.after||[]).length} ${'صور'}</div>
           ${(v.issues||[]).length>0&&html`<div class="chips" style="margin-top:4px">${v.issues.slice(0,3).map(i=>html`<${Pill} st=${[i,'bad']}/>`)}${v.issues.length>3&&html`<span class="small muted">+${v.issues.length-3}</span>`}</div>`}</div>
           ${fu(v)&&html`<${Pill} st=${fu(v)}/>`}</div>`)}</div>`
         :html`<${Empty} t="ما سجلت زيارات لهذا اليوم بعد"><button class="btn pri" onClick=${()=>setEdit({v:blankVisit(),isNew:true})}>سجّل أول زيارة</button><//>`}
@@ -795,7 +994,7 @@ function Today(){
       <div class="row"><button class="btn yolk" onClick=${()=>submit('submitted')}>${rep.status==='submitted'?'تحديث التقرير المرسل':'إرسال تقرير اليوم للمدير'}</button>
       ${rep.status!=='submitted'&&html`<button class="btn" onClick=${()=>submit('draft')}>حفظ بدون إرسال</button>`}</div>
     </div>
-    ${edit&&html`<${VisitEditor} visit=${edit.v} repKey=${key} onSave=${saveVisit} onDelete=${edit.isNew?null:()=>delVisit(edit.v)} onClose=${()=>setEdit(null)}/>`}`;
+    ${edit&&html`<${VisitEditor} visit=${edit.v} repKey=${key} pricesReq=${pricesReqFor(edit.v)} onSave=${saveVisit} onDelete=${edit.isNew?null:()=>delVisit(edit.v)} onClose=${()=>setEdit(null)}/>`}`;
 }
 
 /* ---------------- merch: history ---------------- */
@@ -804,7 +1003,7 @@ function History(){
   const reps=s.myReports;
   return html`<h1>سجل تقاريري</h1>
     <div class="card flat">${reps.length?html`<div class="list">${reps.map(r=>html`<div class="li" onClick=${()=>setOpen(r.id)}>
-      <div class="grow"><div>${fmtDate(r.date)} <span class="muted small">${r.date}</span></div><div class="muted small">${r.visits.length} زيارات · تنزيل ${num(r.visits.reduce((a,v)=>a+sum(v.delivered),0))} كرتون</div></div>
+      <div class="grow"><div>${fmtDate(r.date)} <span class="muted small">${r.date}</span></div><div class="muted small">${r.visits.length} ${'زيارات'}</div></div>
       ${r.visits.some(v=>(v.issues||[]).length)&&html`<${Pill} st=${['فيه مشاكل','bad']}/>`}
       <${Pill} st=${r.status==='submitted'?['مرسل','ok']:['مسودة','muted']}/></div>`)}</div>`:html`<${Empty} t="ما عندك تقارير سابقة"/>`}</div>
     ${open&&html`<${ReportSheet} rep=${s.myReports.find(r=>r.id===open)} onClose=${()=>setOpen(null)}/>`}`;
@@ -833,7 +1032,7 @@ function Dash(){
   const issues=visits.filter(x=>(x.v.issues||[]).length);
   const oos=visits.reduce((a,x)=>a+(x.v.oos||[]).length,0);
   const prods=products();
-  const byP=prods.map(p=>({p,del:visits.reduce((a,x)=>a+(+(x.v.delivered||{})[p.id]||0),0),dam:visits.reduce((a,x)=>a+(+(x.v.damaged||{})[p.id]||0),0),inn:visits.reduce((a,x)=>a+(+(x.v.internal||{})[p.id]||0),0),sh:visits.reduce((a,x)=>a+(+(x.v.shelf||{})[p.id]||0),0)}));
+  const byP=prods.map(p=>({p,del:visits.reduce((a,x)=>a+(+(x.v.face||{})[p.id]||0),0),dam:visits.reduce((a,x)=>a+(+(x.v.damaged||{})[p.id]||0),0),inn:visits.reduce((a,x)=>a+(+(x.v.internal||{})[p.id]||0),0),sh:visits.reduce((a,x)=>a+(+(x.v.shelf||{})[p.id]||0),0)}));
   const maxDel=Math.max(1,...byP.map(x=>x.del));
   const pos=s.pos.filter(p=>p.deliveryDate===date&&brIds.has(p.branchId));
   const trips=s.trips.filter(t=>t.date===date);
@@ -851,14 +1050,13 @@ function Dash(){
       <div class="kpi"><b>${reps.filter(r=>r.status==='submitted'&&team.includes(r.uid)).length}/${team.length}</b><span>تقارير مرسلة</span></div>
       <div class=${'kpi'+(issues.length?' alert':'')}><b>${issues.length}</b><span>زيارات فيها مشاكل</span></div>
       <div class=${'kpi'+(oos?' alert':'')}><b>${oos}</b><span>حالات نفاد من الرف</span></div>
-      <div class="kpi"><b>${num(byP.reduce((a,x)=>a+x.del,0))}</b><span>كرتون تنزيل</span></div>
       <div class="kpi"><b>${fuOpen}</b><span>متابعات مفتوحة</span></div>
       ${(()=>{const sc=visits.map(x=>x.v.ai&&x.v.ai.score).filter(x=>x!=null);return sc.length?html`<div class="kpi"><b>${Math.round(avg(sc))}</b><span>متوسط تقييم الرف (AI)</span></div>`:null})()}
     </div>
     <div class="grid2">
       <div class="card flat"><div style="padding:14px 16px 0"><h2>تنبيهات تحتاج تدخل <span class="sub">${al.length}</span></h2></div>
         ${al.length?html`<div class="list" style="max-height:420px;overflow-y:auto">${al.map(x=>html`<div class="li" onClick=${()=>x.b&&setBs(x.b)} style=${x.b?'':'cursor:default'}><span class=${'sev '+x.tone}></span><div class="grow"><div>${x.b?branchName(x.b):nameOf(x.u)}</div><div class="small muted">${x.t}</div></div></div>`)}</div>`:html`<${Empty} t="ما فيه تنبيهات. كل شيء ماشي."/>`}</div>
-      <div class="stack"><${AiBrief} date=${date} ctx=${{kpis:{planned:planned.length,done:planned.filter(b=>done.has(b.id)).length,missed:missed.map(b=>branchName(b.id)+' – '+nameOf(b.merchUid)),issues:issues.length,oos,delivered:byP.reduce((a,x)=>a+x.del,0),damaged:byP.reduce((a,x)=>a+x.dam,0)},
+      <div class="stack"><${AiBrief} date=${date} ctx=${{kpis:{planned:planned.length,done:planned.filter(b=>done.has(b.id)).length,missed:missed.map(b=>branchName(b.id)+' – '+nameOf(b.merchUid)),issues:issues.length,oos,damaged:byP.reduce((a,x)=>a+x.dam,0)},
         visits:visits.map(({v,r})=>({branch:branchName(v.branchId),rep:nameOf(r.uid),issues:v.issues,note:v.issueNote,oos:(v.oos||[]).map(prodName),aiScore:v.ai&&v.ai.score,aiSummary:v.ai&&v.ai.summary,promo:v.promo&&v.promo.active?v.promo:null,ourPrices:Object.fromEntries(Object.entries(v.prices||{}).map(([k,x])=>[prodName(k),x])),competitors:(v.comp||[]).map(c=>({brand:c.brand,desc:c.desc,vs:prodName(c.vs),price:c.price,promo:c.promo}))})),
         challenges:reps.filter(r=>(r.challengeTags||[]).length||r.challenges).map(r=>({rep:nameOf(r.uid),tags:r.challengeTags,text:r.challenges})),alerts:al.slice(0,25).map(x=>(x.b?branchName(x.b):nameOf(x.u))+': '+x.t),
         team:team.map(u=>{const r=reps.find(x=>x.uid===u);return{rep:nameOf(u),visits:r?r.visits.length:0,planned:planned.filter(b=>b.merchUid===u).length,submitted:r?r.status==='submitted':false}})}}/></div>
@@ -876,8 +1074,8 @@ function Dash(){
         <${Pill} st=${FU_ST[(f&&f.status)||'open']}/></div>`})}</div>`:html`<${Empty} t="لا توجد مشاكل مسجلة لهذا اليوم"/>`}</div>
     <div class="grid2">
       <div class="card"><h2>الكميات حسب المنتج <span class="sub">بالكرتون</span></h2>
-        <div class="tw"><table><thead><tr><th>المنتج</th><th>التنزيل</th><th class="n">تنزيل</th><th class="n">تالف</th><th class="n">مستودع</th><th class="n">رف</th></tr></thead><tbody>
-        ${byP.map(x=>html`<tr><td>${x.p.name}</td><td style="width:30%"><${Bar} v=${x.del} max=${maxDel}/></td><td class="n">${num(x.del)}</td><td class="n" style=${x.dam?'color:var(--bad)':''}>${num(x.dam)}</td><td class="n">${num(x.inn)}</td><td class="n">${num(x.sh)}</td></tr>`)}</tbody></table></div></div>
+        <div class="tw"><table><thead><tr><th>المنتج</th><th class="n">تالف</th><th class="n">مستودع</th><th class="n">رف</th></tr></thead><tbody>
+        ${byP.map(x=>html`<tr><td>${x.p.name}</td><td class="n" style=${x.dam?'color:var(--bad)':''}>${num(x.dam)}</td><td class="n">${num(x.inn)}</td><td class="n">${num(x.sh)}</td></tr>`)}</tbody></table></div></div>
       <div class="card"><h2>التوريد اليوم</h2>
         <div class="row between"><b>طلبات الشراء</b><a class="small" href="#pos">عرض الكل</a></div>
         ${pos.length?html`<div class="chips">${Object.entries(PO_ST).map(([k,st])=>{const n=pos.filter(p=>p.status===k).length;return n?html`<${Pill} st=${[st[0]+' '+n,st[1]]}/>`:null})}</div>`:html`<div class="muted small">لا توجد طلبات توريد لهذا اليوم</div>`}
@@ -914,8 +1112,8 @@ function Reports(){
   return html`<h1>الزيارات والتقارير</h1>
     <${RangeFilters} f=${f} setF=${setF} extra=${html`<${Fld} label="عرض"><select value=${f.only} onChange=${e=>setF({...f,only:e.target.value})}><option value="">كل الزيارات</option><option value="issues">فيها مشاكل</option><option value="oos">فيها نفاد</option><option value="promo">عليها عرض</option><option value="flags">فيها ملاحظات جودة</option></select><//>`}/>
     <div class="card flat"><div style="padding:14px 16px 0"><h2>الزيارات <span class="sub">${rows.length}</span></h2></div>
-    ${rows.length?html`<div class="tw"><table><thead><tr><th>التاريخ</th><th>الفرع</th><th>الموظف</th><th class="n">تنزيل</th><th class="n">تالف</th><th>الجودة</th><th>تقييم الرف</th><th>المشاكل</th></tr></thead><tbody>
-      ${rows.slice(0,400).map(({v,r})=>html`<tr class="click" onClick=${()=>setOpen({rep:r,focus:v.id})}><td>${fmtDate(r.date)} <span class="muted small">${v.at||''}</span></td><td>${branchName(v.branchId)}</td><td>${nameOf(r.uid)}</td><td class="n">${num(sum(v.delivered))}</td><td class="n">${num(sum(v.damaged))}</td><td><${Flags} v=${v}/></td><td>${v.ai&&v.ai.score!=null?html`<${Score} n=${v.ai.score}/>`:'—'}</td>
+    ${rows.length?html`<div class="tw"><table><thead><tr><th>التاريخ</th><th>الفرع</th><th>الموظف</th><th class="n">تالف</th><th>الجودة</th><th>تقييم الرف</th><th>المشاكل</th></tr></thead><tbody>
+      ${rows.slice(0,400).map(({v,r})=>html`<tr class="click" onClick=${()=>setOpen({rep:r,focus:v.id})}><td>${fmtDate(r.date)} <span class="muted small">${v.at||''}</span></td><td>${branchName(v.branchId)}</td><td>${nameOf(r.uid)}</td><td class="n">${num(sum(v.damaged))}</td><td><${Flags} v=${v}/></td><td>${v.ai&&v.ai.score!=null?html`<${Score} n=${v.ai.score}/>`:'—'}</td>
       <td>${(v.issues||[]).length?html`<${Pill} st=${[v.issues.length+' مشكلة','bad']}/>`:''} ${(v.oos||[]).length?html`<${Pill} st=${['نفاد','bad']}/>`:''} ${v.promo&&v.promo.active?html`<${Pill} st=${['عرض','yolk']}/>`:''}</td></tr>`)}</tbody></table></div>`:html`<${Empty} t="لا توجد زيارات بهذه الفلاتر"/>`}</div>
     <div class="card flat"><div style="padding:14px 16px 0"><h2>تحديات الفريق</h2></div>
     ${reps.length?html`<div class="list">${reps.map(r=>html`<div class="li" onClick=${()=>setOpen({rep:r})}><div class="grow"><div>${nameOf(r.uid)} <span class="muted small">${fmtDate(r.date)}</span></div><div class="chips" style="margin:4px 0">${(r.challengeTags||[]).map(c=>html`<${Pill} st=${[c,'yolk']}/>`)}</div>${r.challenges&&html`<div class="small">${r.challenges}</div>`}</div></div>`)}</div>`:html`<${Empty} t="لا توجد تحديات مسجلة في هذه الفترة"/>`}</div>
@@ -1268,8 +1466,8 @@ function Exports(){
   const run=async(kind)=>{setBusy(kind);try{
     if(kind==='branches'){const rows=[...S.branches].sort((a,b)=>regOrder(a.regionId)-regOrder(b.regionId)||(a.area||'').localeCompare(b.area||'','ar')).map(b=>[(regionOf(b.regionId)||{}).name||'',b.area||b.name,b.chain,b.code,b.type,b.merchUid?nameOf(b.merchUid):(b.repName||''),(b.visitDays||[]).slice().sort().map(d=>DAYS[d]).join(' | '),b.active===false?'موقوف':'نشط',b.notes||'']);
       await saveFile('الفروع_'+today()+'.csv',toCSV(['المنطقة','الحي','السلسلة','رقم العميل','التصنيف','المندوب','أيام الزيارة','الحالة','ملاحظات'],rows));setBusy('');return}
-    if(kind==='visits'){const reps=await getRange('reports','date');const head=['التاريخ','الموظف','الفرع','المنطقة','الدخول','الخروج',...prods.flatMap(p=>QCOLS.map(c=>c[1]+' - '+p.name)),...prods.map(p=>'سعر الرف - '+p.name),'نفاد','أقرب انتهاء','الواجهات','حصة الرف %','المشاكل','تفاصيل المشكلة','العرض','سعر العرض','صور قبل','صور بعد','ملاحظات','التحديات اليومية'];
-      const rows=reps.flatMap(rp=>rp.visits.map(v=>[rp.date,nameOf(rp.uid),branchName(v.branchId),(regionOf((branchOf(v.branchId)||{}).regionId)||{}).name||'',v.at,v.out,...prods.flatMap(p=>QCOLS.map(c=>(v[c[0]]||{})[p.id]??'')),...prods.map(p=>(v.prices||{})[p.id]??''),(v.oos||[]).map(prodName).join(' | '),v.expiry,v.facings,v.share,(v.issues||[]).join(' | '),v.issueNote,v.promo&&v.promo.active?v.promo.type||'نعم':'',v.promo&&v.promo.price,(v.before||[]).length,(v.after||[]).length,v.notes,[(rp.challengeTags||[]).join(' | '),rp.challenges].filter(Boolean).join(' - ')]));
+    if(kind==='visits'){const reps=await getRange('reports','date');const head=['التاريخ','الموظف','الفرع','المنطقة','الدخول','الخروج',...prods.flatMap(p=>QCOLS.map(c=>c[1]+' - '+p.name)),...prods.map(p=>'سعر الرف - '+p.name),'نفاد','أقرب انتهاء','حصة الرف %','المشاكل','تفاصيل المشكلة','العرض','سعر العرض','صور قبل','صور بعد','ملاحظات','التحديات اليومية'];
+      const rows=reps.flatMap(rp=>rp.visits.map(v=>[rp.date,nameOf(rp.uid),branchName(v.branchId),(regionOf((branchOf(v.branchId)||{}).regionId)||{}).name||'',v.at,v.out,...prods.flatMap(p=>QCOLS.map(c=>(v[c[0]]||{})[p.id]??'')),...prods.map(p=>(v.prices||{})[p.id]??''),(v.oos||[]).map(prodName).join(' | '),v.expiry,v.share,(v.issues||[]).join(' | '),v.issueNote,v.promo&&v.promo.active?v.promo.type||'نعم':'',v.promo&&v.promo.price,(v.before||[]).length,(v.after||[]).length,v.notes,[(rp.challengeTags||[]).join(' | '),rp.challenges].filter(Boolean).join(' - ')]));
       await saveFile('زيارات_'+r.from+'_'+r.to+'.csv',toCSV(head,rows))}
     if(kind==='prices'){const reps=await getRange('reports','date');const rows=reps.flatMap(rp=>rp.visits.flatMap(v=>(v.comp||[]).map(c=>[rp.date,branchName(v.branchId),nameOf(rp.uid),c.brand,c.desc,c.vs?prodName(c.vs):'',c.price,c.promo?'نعم':'',c.promoPrice,c.vs?(v.prices||{})[c.vs]??'':''])));
       await saveFile('أسعار_المنافسين_'+r.from+'_'+r.to+'.csv',toCSV(['التاريخ','الفرع','الموظف','المنافس','المنتج','يقابل منتجنا','سعر المنافس','عرض','سعر العرض','سعرنا في نفس الفرع'],rows))}
@@ -1349,7 +1547,8 @@ function Account(){
     ${supRegs.length>0&&html`<div class="card"><h2>المناطق تحت إشرافك</h2><div class="chips">${supRegs.map(r=>html`<span class="pill t-info">${r.name} · ${s.branches.filter(b=>b.regionId===r.id).length} فرع</span>`)}</div></div>`}
     ${role!=='manager'&&html`<${MyCard} uid=${s.uid}/>`}
     <div class="card flat"><div style="padding:14px 16px 0"><h2>فروعي وجدول الزيارة <span class="sub">${my.length} فرع</span></h2></div>
-      ${my.length?html`<div class="tw"><table><thead><tr><th>الفرع</th><th>المدينة</th><th>أيام الزيارة</th><th>الموقع</th></tr></thead><tbody>${my.map(b=>html`<tr><td>${branchName(b.id)}${b.contact?html`<div class="muted small">${b.contact}</div>`:''}</td><td>${b.city||'—'}</td><td class="small">${(b.visitDays||[]).sort().map(d=>DAYS[d]).join('، ')||'—'}</td><td>${b.mapUrl?html`<a href=${b.mapUrl} target="_blank" rel="noopener">الخريطة</a>`:'—'}</td></tr>`)}</tbody></table></div>`:html`<${Empty} t="ما تم ربطك بفروع بعد"/>`}</div>`;
+      ${my.length?html`<div class="tw"><table><thead><tr><th>الفرع</th><th>المدينة</th><th>أيام الزيارة</th><th>الموقع</th></tr></thead><tbody>${my.map(b=>html`<tr><td>${branchName(b.id)}${b.contact?html`<div class="muted small">${b.contact}</div>`:''}</td><td>${b.city||'—'}</td><td class="small">${(b.visitDays||[]).sort().map(d=>DAYS[d]).join('، ')||'—'}</td><td>${b.mapUrl?html`<a href=${b.mapUrl} target="_blank" rel="noopener">الخريطة</a>`:'—'}</td></tr>`)}</tbody></table></div>`:html`<${Empty} t="ما تم ربطك بفروع بعد"/>`}</div>
+    <div class="appver"><span>إصدار التطبيق</span> <b dir="ltr">${APP_VERSION}</b> · <button type="button" class="btn sm ghost" onClick=${hardReload}>تحديث الصفحة</button></div>`;
 }
 
 /* ---------------- shell ---------------- */
@@ -1368,7 +1567,7 @@ function App(){
   if(!s.ready)body=html`<${Splash} t="جاري التحميل…"/>`;
   else if(s.noDb)body=html`<${Splash} t=${html`<div class="card gatecard"><h1>افتح الصفحة بحسابك</h1><div class="muted">النظام يحتاج تسجيل دخول إلى claude.ai وصلاحية على هذه الصفحة. اطلب الرابط من مديرك وافتحه وأنت مسجّل دخول.</div></div>`}/>`;
   else if(!s.loaded.profile||!s.loaded.roles)body=html`<${Splash} t=${s.slow?'الاتصال بطيء، ما قدرنا نجيب البيانات بعد. تأكد من الإنترنت.':'جاري تحميل حسابك…'}/>`;
-  else if(!s.profile)body=html`<${Register}/>`;
+  else if(!s.profile||(!s.canEdit&&!profileDone(s.profile)))body=html`<${Register}/>`;
   else if(!role)body=html`<${Pending}/>`;
   if(body)return html`<div class="wrap">${body}</div><${Overlays}/>`;
   const vr=viewRole();const tabs=TABS[vr];const cur=tabs.find(t=>t[0]===tab)||tabs[0];const C=cur[2];
@@ -1376,18 +1575,41 @@ function App(){
   const pend=vr==='manager'?s.profiles.filter(p=>!roleOf(p.id).approved&&!roleOf(p.id).disabledAt&&p.id!==s.uid).length:0;
   return html`<header class="top"><div class="wrap">
       <div class="topbar"><${Logo}/><div class="brand"><h1>متابعة المناديب</h1><small>قسم البيض</small></div>
-        <div class="me"><b class="hide-sm">${s.profile.name}</b><span class=${'pill '+(vr==='manager'?'t-info':vr==='supervisor'?'t-yolk':'t-ok')}>${S.demo?'تجربة: مندوب':ROLE[vr]}</span>
+        <div class="me"><${LangSw}/><b class="hide-sm">${s.profile.name}</b><span class=${'pill '+(vr==='manager'?'t-info':vr==='supervisor'?'t-yolk':'t-ok')}>${S.demo?'تجربة: مندوب':ROLE[vr]}</span>
           ${s.canEdit&&html`<button class=${'btn sm'+(S.demo?' yolk':'')} onClick=${()=>toggleDemo()}>${S.demo?'رجوع لحساب المدير':'تجربة كمندوب'}</button>`}</div></div>
       <nav class="tabs">${tabs.map(t=>html`<a href=${'#'+t[0]} class=${t===cur?'on':''}>${t[1]}${t[0]==='team'&&pend?html`<span class="dot">${pend}</span>`:''}${t[0]==='issues'&&openFu?html`<span class="dot">${openFu}</span>`:''}</a>`)}</nav>
     </div></header>
     <main class="wrap">${S.demo&&html`<${DemoBar}/>`}${s.errors.length>0&&html`<div class="notice bad">بعض البيانات ما تحمّلت. أعد فتح الصفحة، وإذا تكرر تواصل مع المدير.</div>`}<${C}/></main>
     <${Overlays}/>`;
 }
+/* ---------------- auto update ----------------
+   APP_VERSION goes up with every publish. The manager's page records the newest version in
+   settings/app; every open phone listens to that doc live and reloads itself onto the new copy. */
+const APP_VERSION=12;
+const newerVersion=()=>S.appInfo&&+S.appInfo.version>APP_VERSION?+S.appInfo.version:0;
+function hardReload(){location.reload()}
+function UpdateWatch(){
+  const s=useS();const nv=newerVersion();
+  useEffect(()=>{ // the manager's copy announces its version to everyone
+    if(s.canEdit&&s.loaded.appInfo&&!(s.appInfo&&+s.appInfo.version>=APP_VERSION))put('settings/app',{version:APP_VERSION,at:Date.now(),by:S.uid}).catch(()=>{});
+  },[s.canEdit,s.loaded.appInfo,s.appInfo&&s.appInfo.version]);
+  useEffect(()=>{ // reload by itself once, when no visit form is open (drafts are kept on the phone anyway)
+    if(!nv)return;let tried=null;try{tried=sessionStorage.getItem('upd')}catch(e){}
+    if(tried===String(nv))return;
+    const go=()=>{if(document.querySelector('.sheet'))return;try{sessionStorage.setItem('upd',String(nv))}catch(e){}hardReload()};
+    const t=setTimeout(go,2500);const f=()=>{if(document.visibilityState==='visible')go()};document.addEventListener('visibilitychange',f);
+    return()=>{clearTimeout(t);document.removeEventListener('visibilitychange',f)};
+  },[nv]);
+  if(!nv)return null;
+  return html`<div class="updbar" role="status"><span>فيه تحديث جديد للتطبيق</span><button type="button" class="btn sm yolk" onClick=${hardReload}>حدّث الآن</button></div>`;
+}
 function Overlays(){
   const s=useS();
-  return html`${s.lightbox&&html`<div class="lightbox" onClick=${()=>{S.lightbox=null;bump()}}><img src=${imgSrc(s.lightbox)} alt="صورة الرف"/></div>`}
+  return html`${s.db&&html`<${UpdateWatch}/>`}${s.lightbox&&html`<div class="lightbox" onClick=${()=>{S.lightbox=null;bump()}}><img src=${imgSrc(s.lightbox)} alt="صورة الرف"/></div>`}
     ${s.toast&&html`<div class=${'toast '+(s.toast.tone||'')} role="status">${s.toast.msg}</div>`}`;
 }
 render(html`<${App}/>`,document.getElementById('app'));
+startUrdu();
 boot().catch(e=>{console.error(e);S.noDb=true;S.ready=true;bump()});
 </script>
+
