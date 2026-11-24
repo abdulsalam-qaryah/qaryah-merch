@@ -218,6 +218,14 @@ html[lang=ur] body{line-height:1.75}
 .rcard{cursor:pointer;gap:8px;padding:14px}
 .rcard.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .rnum{font-family:var(--f-display);font-size:1.5rem;color:var(--accent);font-variant-numeric:tabular-nums}
+.capbtn{width:100%;padding:12px 16px;font-size:1rem;white-space:normal;text-align:center}.capbtn input{display:none}
+.selfie{width:46px;height:46px;border-radius:8px;object-fit:cover;cursor:zoom-in;border:1px solid var(--line);flex:none}
+.selfie-lg{display:block;width:100%;max-height:340px;object-fit:contain;border-radius:10px;background:var(--surface2);cursor:zoom-in;margin-top:8px}
+.unirow{display:flex;gap:10px;align-items:center;text-align:start;background:var(--ok-soft);color:var(--ok);border:1px solid transparent;border-radius:9px;padding:9px 12px;font:inherit;cursor:pointer;width:100%}
+.unirow.bad{background:var(--bad-soft);color:var(--bad);border-color:var(--bad)}
+.scorebig{font-size:2.3rem;font-weight:700;line-height:1}.scorebig small{font-size:.9rem;color:var(--muted);font-weight:400}
+ol.rules,ul.rules{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:7px;line-height:1.6}
+a.kpi{color:inherit;text-decoration:none}a.kpi:hover{border-color:var(--accent)}
 
 #auth{position:fixed;inset:0;z-index:100;background:var(--bg);overflow-y:auto}
 .auth-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px max(16px,env(safe-area-inset-left,0px))}
@@ -358,6 +366,47 @@ const URX=[
  [/^طلب (.*)$/,m=>'آرڈر '+m[1]],
  [/^بيض(?=\s|$) ?(أبيض|بني|أحمر|بلدي|عضوي|أوميغا)? ?(\d+)? ?(حبة|حبات)?(.*)$/,m=>[(EGG_UR[m[1]]||''),'انڈے',m[2]?m[2]+' عدد':'',(m[4]||'').trim()].filter(Boolean).join(' ')]
 ];
+Object.assign(UR,{'الدوام واللبس الرسمي':'ڈیوٹی اور سرکاری یونیفارم','الدوام':'ڈیوٹی','سماح':'رعایت','د':'منٹ',
+ 'صورة لك باللبس الرسمي كامل من كاميرا الجوال. الوقت والموقع يُسجلون تلقائياً.':'موبائل کیمرے سے مکمل سرکاری یونیفارم میں اپنی تصویر لیں۔ وقت اور لوکیشن خود بخود محفوظ ہوں گے۔',
+ '📷 تسجيل بداية الدوام':'📷 ڈیوٹی کا آغاز درج کریں','📷 تسجيل نهاية الدوام':'📷 ڈیوٹی کا اختتام درج کریں',
+ 'آخر شيء قبل إرسال التقرير: صورة ثانية باللبس الرسمي.':'رپورٹ بھیجنے سے پہلے آخری کام: سرکاری یونیفارم میں دوسری تصویر۔',
+ 'بعد تسجيل بداية الدوام':'ڈیوٹی کا آغاز درج کرنے کے بعد','لم يُسجل':'درج نہیں ہوا','في الوقت':'وقت پر','📍 الموقع':'📍 لوکیشن','بدون موقع':'لوکیشن کے بغیر',
+ 'الصورة ليست جديدة':'تصویر نئی نہیں ہے','جاري تحديد الموقع ورفع الصورة…':'لوکیشن لی جا رہی ہے اور تصویر اپ لوڈ ہو رہی ہے…','صورة الدوام':'ڈیوٹی کی تصویر',
+ 'اعتمد المشرف لبسك اليوم: مطابق للمعيار':'سپروائزر نے آج آپ کا یونیفارم منظور کیا: معیار کے مطابق','ملاحظة المشرف على اللبس':'یونیفارم پر سپروائزر کا نوٹ',
+ 'هذا اليوم مسجل كعذر':'یہ دن عذر کے طور پر درج ہے','معيار اللبس ونظام الحوافز':'یونیفارم کا معیار اور انعامی نظام',
+ 'تم تسجيل بداية الدوام':'ڈیوٹی کا آغاز درج ہو گیا','تم تسجيل نهاية الدوام':'ڈیوٹی کا اختتام درج ہو گیا',
+ 'سجّل بداية الدوام بصورتك باللبس الرسمي أولاً':'پہلے سرکاری یونیفارم میں اپنی تصویر کے ساتھ ڈیوٹی کا آغاز درج کریں',
+ 'سجّل نهاية الدوام بصورتك قبل إرسال التقرير':'رپورٹ بھیجنے سے پہلے اپنی تصویر کے ساتھ ڈیوٹی کا اختتام درج کریں',
+ 'رفع الصور غير متاح لحسابك':'آپ کے اکاؤنٹ کے لیے تصویر اپ لوڈ دستیاب نہیں','تعذّر رفع الصورة، أعد المحاولة':'تصویر اپ لوڈ نہیں ہو سکی، دوبارہ کوشش کریں',
+ 'المتطلبات والحوافز':'تقاضے اور انعامات','نقاطي هذا الشهر':'اس مہینے میرے پوائنٹس','المتطلبات اليومية':'روزانہ کے تقاضے','أيام العمل':'کام کے دن',
+ 'سجّل بداية الدوام بصورة لك باللبس الرسمي من كاميرا الجوال، قبل الساعة':'موبائل کیمرے سے سرکاری یونیفارم میں اپنی تصویر کے ساتھ ڈیوٹی کا آغاز درج کریں، اس وقت سے پہلے:',
+ 'ما تقدر تسجل أي زيارة قبل صورة بداية الدوام. الوقت والموقع يُسجلون تلقائياً.':'ڈیوٹی کے آغاز کی تصویر سے پہلے کوئی وزٹ درج نہیں ہو سکتا۔ وقت اور لوکیشن خود بخود محفوظ ہوتے ہیں۔',
+ 'زُر كل فروعك المجدولة في يومها، وسجّل الزيارة من التطبيق وأنت في الفرع.':'اپنی تمام شیڈول برانچوں کا ان کے دن وزٹ کریں، اور برانچ میں رہتے ہوئے ایپ سے وزٹ درج کریں۔',
+ 'في كل زيارة: صور الرف قبل وبعد الترتيب، والكميات، والنفاد، والمشاكل.':'ہر وزٹ میں: ترتیب سے پہلے اور بعد شیلف کی تصاویر، مقدار، اسٹاک ختم، اور مسائل۔',
+ 'سجّل أسعار الرف لكل منتجاتنا مرة وحدة على الأقل باليوم.':'روزانہ کم از کم ایک بار ہماری تمام مصنوعات کی شیلف قیمتیں درج کریں۔',
+ 'سجّل نهاية الدوام بصورة ثانية باللبس الرسمي، بعد الساعة':'سرکاری یونیفارم میں دوسری تصویر کے ساتھ ڈیوٹی کا اختتام درج کریں، اس وقت کے بعد:',
+ 'أرسل تقرير اليوم بعد صورة نهاية الدوام.':'ڈیوٹی کے اختتام کی تصویر کے بعد آج کی رپورٹ بھیجیں۔',
+ 'معيار اللبس الرسمي للقرية':'القریہ کا سرکاری یونیفارم معیار','معيار اللبس الرسمي':'سرکاری یونیفارم کا معیار',
+ 'الزي الرسمي للقرية (القميص بشعار القرية) نظيف ومرتب':'القریہ کا سرکاری یونیفارم (القریہ لوگو والی قمیض) صاف اور منظم','البنطلون الرسمي الداكن':'گہرے رنگ کی سرکاری پینٹ',
+ 'البطاقة الوظيفية ظاهرة':'ملازمت کارڈ نظر آئے','حذاء مغلق مناسب للعمل الميداني':'فیلڈ ورک کے لیے بند جوتے','الهندام والنظافة الشخصية':'صاف ستھرا حلیہ اور ذاتی صفائی',
+ 'المشرف يراجع صورة بداية الدوام ونهايته كل يوم، ويعتمد اللبس أو يسجل الملاحظة.':'سپروائزر روزانہ ڈیوٹی کے آغاز اور اختتام کی تصویر دیکھ کر یونیفارم منظور کرتا ہے یا نوٹ لکھتا ہے۔',
+ 'نظام النقاط والحوافز':'پوائنٹس اور انعامی نظام','المعيار':'معیار','الوزن':'وزن','كيف يُحسب':'کیسے شمار ہوتا ہے','الفئة':'درجہ','من':'سے','الحافز':'انعام',
+ 'الالتزام بجدول الزيارات':'وزٹ شیڈول کی پابندی','الفروع المجدولة اللي تمت زيارتها في يومها':'شیڈول برانچیں جن کا وزٹ ان کے دن ہوا',
+ 'الحضور والانضباط':'حاضری اور نظم و ضبط','صورة بداية الدوام قبل نهاية فترة السماح، وصورة نهاية الدوام بعد وقت الانصراف':'رعایتی وقت ختم ہونے سے پہلے آغاز کی تصویر، اور چھٹی کے وقت کے بعد اختتام کی تصویر',
+ 'اللبس الرسمي':'سرکاری یونیفارم','الأيام اللي اعتمد فيها المشرف لبسك مطابق للمعيار':'وہ دن جن میں سپروائزر نے آپ کا یونیفارم معیار کے مطابق منظور کیا',
+ 'جودة الرف':'شیلف کا معیار','متوسط تقييم صور الرف':'شیلف کی تصاویر کی اوسط ریٹنگ',
+ 'اكتمال التقارير':'رپورٹس کی تکمیل','إرسال تقرير اليوم، وصور قبل وبعد في كل زيارة':'روزانہ رپورٹ بھیجنا، اور ہر وزٹ میں پہلے اور بعد کی تصاویر',
+ 'المخالفات والإجراءات':'خلاف ورزیاں اور کارروائی','الغياب بدون عذر':'بغیر عذر غیر حاضری','التأخير عن بداية الدوام بعد فترة السماح':'رعایتی وقت کے بعد ڈیوٹی پر دیر سے آنا',
+ 'عدم تسجيل صورة بداية أو نهاية الدوام':'ڈیوٹی کے آغاز یا اختتام کی تصویر درج نہ کرنا','الانصراف قبل نهاية الدوام':'ڈیوٹی ختم ہونے سے پہلے چلے جانا',
+ 'مخالفة معيار اللبس الرسمي':'سرکاری یونیفارم کے معیار کی خلاف ورزی','فرع مجدول لم تتم زيارته':'شیڈول برانچ کا وزٹ نہ ہونا',
+ '1 – 2 أيام':'1 – 2 دن','3 – 4 أيام':'3 – 4 دن','5 أيام فأكثر':'5 یا زیادہ دن','تنبيه شفهي':'زبانی تنبیہ','إنذار كتابي':'تحریری وارننگ','رفع للموارد البشرية':'ایچ آر کو رپورٹ','لا يوجد':'کوئی نہیں',
+ 'الأعذار والإجازات يسجلها المشرف وما تنحسب عليك.':'عذر اور چھٹیاں سپروائزر درج کرتا ہے اور یہ آپ کے خلاف شمار نہیں ہوتیں۔',
+ 'ما فيه مخالفات هذا الشهر':'اس مہینے کوئی خلاف ورزی نہیں','أيام فيها مخالفات':'خلاف ورزی والے دن','الإجراء المقترح':'تجویز کردہ کارروائی',
+ 'تأخير':'تاخیر','غياب':'غیر حاضری','أعذار':'عذر','لبس بانتظار المراجعة':'یونیفارم جائزے کا منتظر','جيد جداً':'بہت اچھا','يحتاج تحسين':'بہتری کی ضرورت','جيد':'اچھا',
+ 'غياب بدون عذر':'بغیر عذر غیر حاضری','بدون صورة بداية الدوام':'ڈیوٹی کے آغاز کی تصویر نہیں','بدون صورة نهاية الدوام':'ڈیوٹی کے اختتام کی تصویر نہیں','مخالفة اللبس الرسمي':'سرکاری یونیفارم کی خلاف ورزی'});
+URX.push([/^متأخر (\d+) د$/,m=>m[1]+' منٹ تاخیر'],[/^مبكر (\d+) د$/,m=>m[1]+' منٹ پہلے'],[/^تأخير (\d+) دقيقة$/,m=>m[1]+' منٹ تاخیر'],
+ [/^انصراف مبكر (\d+) دقيقة$/,m=>m[1]+' منٹ پہلے چلے گئے'],[/^فروع مجدولة لم تُزر: (\d+)$/,m=>'شیڈول برانچیں جن کا وزٹ نہیں ہوا: '+m[1]],
+ [/^(\d+) نقطة$/,m=>m[1]+' پوائنٹس'],[/^حافز (\d+)%$/,m=>'انعام '+m[1]+'%'],[/^([\d,]+) ريال$/,m=>m[1]+' ریال']);
 const DAY_RE=/الأحد|الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|السبت/g;
 function urIn(s){if(UR[s]!=null)return UR[s];for(const[re,f]of URX){const m=s.match(re);if(m)return f(m)}const t=s.replace(DAY_RE,d=>DAY_UR[d]);return t!==s?t:null}
 function urStr(s){
@@ -427,7 +476,7 @@ const facesDone=v=>products().every(p=>hasNum((v.face||{})[p.id]));
 
 /* ---------------- store ---------------- */
 const S={ready:false,noDb:false,db:null,user:null,assets:null,downloads:null,uid:null,canEdit:false,isOwner:false,
-  profile:undefined,profiles:[],roles:[],settings:null,regions:[],branches:[],trucks:[],myReports:[],reports:[],pos:[],trips:[],followups:[],
+  profile:undefined,profiles:[],roles:[],settings:null,regions:[],branches:[],trucks:[],myReports:[],reports:[],pos:[],trips:[],followups:[],reviews:[],hr:null,
   loaded:{},unsubs:{},from:addDays(today(),-31),rangeKey:null,slow:false,toast:null,lightbox:null,errors:[]};
 const subs=new Set();const bump=()=>subs.forEach(f=>f());
 function useS(){const[,set]=useState(0);useEffect(()=>{const f=()=>set(x=>x+1);subs.add(f);f();return()=>subs.delete(f)},[]);return S}
@@ -480,6 +529,7 @@ async function boot(){
   resub('settings',db.doc('settings/lists'),true);
   resub('backupInfo',db.doc('settings/backup'),true);
   resub('appInfo',db.doc('settings/app'),true);
+  resub('hr',db.doc('settings/hr'),true);
   resub('regions',db.collection('regions'));
   resub('branches',db.collection('branches'));
   resub('trucks',db.collection('trucks'));
@@ -493,6 +543,7 @@ function ensureRangeSubs(role){
   resub('pos',db.collection('pos').where('deliveryDate','>=',S.from));
   resub('trips',db.collection('trips').where('date','>=',S.from));
   resub('followups',db.collection('followups').where('date','>=',S.from));
+  resub('reviews',db.collection('reviews').where('date','>=',S.from));
 }
 function widenRange(d){if(d&&d<S.from){S.from=d;ensureRangeSubs(myRole())}}
 
@@ -722,6 +773,11 @@ function buildAlerts(date){
   for(const{v,r}of low)out.push({tone:'warn',t:'تقييم رف منخفض '+Math.round(v.ai.score)+'/100 ('+fmtDate(r.date)+')',b:v.branchId});
   if(date===today()&&new Date().getHours()>=11){const wd=weekday(date);
     for(const u of teamScope()){const pl=br.filter(b=>b.merchUid===u&&(b.visitDays||[]).includes(wd));if(pl.length&&!S.reports.some(r=>r.uid===u&&r.date===date&&!r.demo))out.push({tone:'warn',t:nameOf(u)+' ما سجل أي زيارة اليوم ('+pl.length+' فروع مجدولة)',u})}}
+  if(date===today()){const h=HR();const g=+h.grace||0;const now=mins(timeNow());
+    for(const u of teamScope()){const r=S.reports.find(x=>x.uid===u&&x.date===date&&!x.demo);const rv=revOf(u,date);if(rv&&rv.excused)continue;const st=shiftStat(r);
+      if(!(r&&r.shiftIn)){if(h.workDays.includes(weekday(date))&&now>mins(h.shiftStart)+g)out.push({tone:'bad',t:nameOf(u)+' ما سجل بداية الدوام بصورته',u})}
+      else if(st.isLate)out.push({tone:'warn',t:nameOf(u)+' تأخر '+st.late+' دقيقة عن بداية الدوام',u});
+      if(rv&&rv.uniform&&!rv.uniform.ok)out.push({tone:'warn',t:nameOf(u)+': مخالفة اللبس الرسمي',u})}}
   const rank={bad:0,warn:1};return out.sort((a,b)=>rank[a.tone]-rank[b.tone]);
 }
 
@@ -979,15 +1035,20 @@ function Today(){
   const saveVisit=async v=>{const vs=[...rep.visits.filter(x=>x.id!==v.id),v].sort((a,b)=>(a.at||'').localeCompare(b.at||''));await W(()=>put('reports/'+key,{...rep,...d,id:undefined,visits:vs,uid:s.uid,date,demo:!!(S.demo||rep.demo),updatedAt:Date.now()}),'تم حفظ الزيارة')};
   const delVisit=v=>W(()=>put('reports/'+key,{...rep,id:undefined,visits:rep.visits.filter(x=>x.id!==v.id),updatedAt:Date.now()}),'تم حذف الزيارة');
   const pricesOk=rep.visits.some(pricesDone);
-  const submit=st=>{if(st==='submitted'&&rep.visits.length&&!pricesOk)return toast('سجّل أسعار الرف لكل منتجاتنا في زيارة وحدة على الأقل قبل إرسال التقرير','bad');
+  const needIn=date===today()&&HR().requirePhotos&&!rep.shiftIn;
+  const startV=b=>{if(needIn)return toast('سجّل بداية الدوام بصورتك باللبس الرسمي أولاً','bad');setEdit({v:blankVisit(b),isNew:true})};
+  const saveShift=(k,x)=>W(()=>put('reports/'+key,{...rep,...d,id:undefined,uid:s.uid,date,demo:!!(S.demo||rep.demo),[k]:x,...(k==='shiftIn'?{start:x.hm}:{end:x.hm}),updatedAt:Date.now()}),k==='shiftIn'?'تم تسجيل بداية الدوام':'تم تسجيل نهاية الدوام').then(()=>setDay(null));
+  const submit=st=>{if(st==='submitted'&&date===today()&&HR().requirePhotos&&!rep.shiftOut)return toast('سجّل نهاية الدوام بصورتك قبل إرسال التقرير','bad');
+    if(st==='submitted'&&rep.visits.length&&!pricesOk)return toast('سجّل أسعار الرف لكل منتجاتنا في زيارة وحدة على الأقل قبل إرسال التقرير','bad');
     return saveRep({...rep,...d,status:st,submittedAt:st==='submitted'?Date.now():rep.submittedAt||null}).then(()=>{setDay(null);toast(st==='submitted'?'تم إرسال تقرير اليوم للمدير':'تم الحفظ')})};
   const pricesReqFor=v=>!rep.visits.some(x=>x.id!==v.id&&pricesDone(x));
   const fu=v=>{const f=s.followups.find(x=>x.id===key+'__'+v.id);return f&&FU_ST[f.status]};
   return html`
     <div class="row between"><div><h1>${date===today()?'تقرير اليوم':'تقرير '+fmtDate(date)}</h1><div class="muted small">${DAYS[wd]} ${date} · ${rep.status==='submitted'?'تم الإرسال للمدير':'لم يُرسل بعد'}</div></div>
       <div class="row"><input type="date" class="inp" style="width:auto" id="t-date" value=${date} max=${today()} onInput=${e=>e.target.value&&setDate(e.target.value)}/>
-      <button class="btn pri" onClick=${()=>setEdit({v:blankVisit(),isNew:true})}>＋ زيارة جديدة</button></div></div>
+      <button class="btn pri" onClick=${()=>startV()}>＋ زيارة جديدة</button></div></div>
     ${!S.demo&&html`<${MyCard} uid=${s.uid} compact/>`}
+    <${ShiftCard} rep=${rep} date=${date} onShift=${saveShift}/>
     <div class="kpis">
       <div class="kpi"><b>${rep.visits.length}</b><span>زيارات مسجلة</span></div>
       <div class="kpi"><b>${planned.filter(b=>done.has(b.id)).length}/${planned.length}</b><span>من الفروع المجدولة اليوم</span></div>
@@ -996,7 +1057,7 @@ function Today(){
     </div>
     <div class="grid2">
       <div class="card flat"><div style="padding:14px 16px 0"><h2>فروعي المجدولة يوم ${DAYS[wd]}</h2></div>
-        ${planned.length?html`<div class="list">${planned.map(b=>{const v=rep.visits.find(x=>x.branchId===b.id);return html`<div class="li" onClick=${()=>setEdit(v?{v}:{v:blankVisit(b.id),isNew:true})}>
+        ${planned.length?html`<div class="list">${planned.map(b=>{const v=rep.visits.find(x=>x.branchId===b.id);return html`<div class="li" onClick=${()=>v?setEdit({v}):startV(b.id)}>
           <span class="egg" style=${v?'':'background:var(--surface2);border:1px solid var(--line)'}></span>
           <div class="grow"><div>${branchName(b.id)}</div><div class="muted small">${b.city||''}</div></div>
           ${v?html`<${Pill} st=${['تمت '+(v.at||''),'ok']}/>`:html`<span class="btn sm">ابدأ الزيارة</span>`}</div>`})}</div>`
@@ -1007,12 +1068,10 @@ function Today(){
           <div class="grow"><div>${branchName(v.branchId)}</div><div class="muted small">${v.at||''} · ${(v.before||[]).length+(v.after||[]).length} ${'صور'}</div>
           ${(v.issues||[]).length>0&&html`<div class="chips" style="margin-top:4px">${v.issues.slice(0,3).map(i=>html`<${Pill} st=${[i,'bad']}/>`)}${v.issues.length>3&&html`<span class="small muted">+${v.issues.length-3}</span>`}</div>`}</div>
           ${fu(v)&&html`<${Pill} st=${fu(v)}/>`}</div>`)}</div>`
-        :html`<${Empty} t="ما سجلت زيارات لهذا اليوم بعد"><button class="btn pri" onClick=${()=>setEdit({v:blankVisit(),isNew:true})}>سجّل أول زيارة</button><//>`}
+        :html`<${Empty} t="ما سجلت زيارات لهذا اليوم بعد"><button class="btn pri" onClick=${()=>startV()}>سجّل أول زيارة</button><//>`}
       </div>
     </div>
     <div class="card"><h2>ختام اليوم والتحديات</h2>
-      <div class="fgrid"><${Fld} label="بداية الدوام"><input id="t-start" type="time" value=${d.start} onInput=${e=>setDay({...d,start:e.target.value})}/><//>
-      <${Fld} label="نهاية الدوام"><input id="t-end" type="time" value=${d.end} onInput=${e=>setDay({...d,end:e.target.value})}/><//></div>
       <div class="fld"><span>التحديات اللي واجهتك اليوم</span><${Chips} options=${L('challengeTypes')} value=${d.challengeTags} onChange=${x=>setDay({...d,challengeTags:x})}/></div>
       <${Fld} label="اشرح التحديات"><textarea id="t-chal" value=${d.challenges} onInput=${e=>setDay({...d,challenges:e.target.value})} placeholder="مثال: الشاحنة وصلت الساعة 11 بدل 7، والفرع رفض التنزيل وقت الذروة"></textarea><//>
       <div class="row"><button class="btn yolk" onClick=${()=>submit('submitted')}>${rep.status==='submitted'?'تحديث التقرير المرسل':'إرسال تقرير اليوم للمدير'}</button>
@@ -1037,6 +1096,7 @@ function ReportSheet({rep,focus,onClose}){
   const vs=focus?[...rep.visits.filter(v=>v.id===focus),...rep.visits.filter(v=>v.id!==focus)]:rep.visits;
   return html`<${Sheet} title=${'تقرير '+nameOf(rep.uid)} sub=${fmtDate(rep.date)+' · '+rep.date+(rep.start?' · الدوام '+rep.start+' – '+(rep.end||''):'')} onClose=${onClose}>
     ${(rep.challengeTags||[]).length+(rep.challenges?1:0)>0&&html`<section class="sec"><h3>التحديات</h3><div class="chips">${(rep.challengeTags||[]).map(c=>html`<${Pill} st=${[c,'yolk']}/>`)}</div>${rep.challenges&&html`<div>${rep.challenges}</div>`}</section>`}
+    <${ShiftSec} rep=${rep}/>
     ${vs.map(v=>html`<section class="sec"><${VisitDetail} v=${v} rep=${rep} canFollow=${canFollow}/></section>`)}
     ${!vs.length&&html`<${Empty} t="لا توجد زيارات في هذا التقرير"/>`}
   <//>`;
@@ -1075,6 +1135,10 @@ function Dash(){
       <div class=${'kpi'+(issues.length?' alert':'')}><b>${issues.length}</b><span>زيارات فيها مشاكل</span></div>
       <div class=${'kpi'+(oos?' alert':'')}><b>${oos}</b><span>حالات نفاد من الرف</span></div>
       <div class="kpi"><b>${fuOpen}</b><span>متابعات مفتوحة</span></div>
+      ${(()=>{const at=team.map(u=>{const r=reps.find(x=>x.uid===u);return{r,st:shiftStat(r),v:revOf(u,date)}});const late=at.filter(x=>x.st.isLate).length;const pend=at.filter(x=>x.r&&x.r.shiftIn&&!(x.v&&x.v.uniform)).length;
+        return html`<a class="kpi" href="#hr"><b>${at.filter(x=>x.r&&x.r.shiftIn).length}/${team.length}</b><span>سجلوا بداية الدوام</span></a>
+        <a class=${'kpi'+(late?' alert':'')} href="#hr"><b>${late}</b><span>متأخرين عن الدوام</span></a>
+        <a class=${'kpi'+(pend?' alert':'')} href="#hr"><b>${pend}</b><span>لبس بانتظار المراجعة</span></a>`})()}
       ${(()=>{const sc=visits.map(x=>x.v.ai&&x.v.ai.score).filter(x=>x!=null);return sc.length?html`<div class="kpi"><b>${Math.round(avg(sc))}</b><span>متوسط تقييم الرف (AI)</span></div>`:null})()}
     </div>
     <div class="grid2">
@@ -1476,6 +1540,7 @@ function Config(){
       <div class="fgrid">${TA('chains','السلاسل والأسواق')}${TA('branchTypes','أنواع الأسواق')}${TA('competitors','الشركات المنافسة')}${TA('promoTypes','أنواع العروض')}</div>
       <div class="fgrid">${TA('issueTypes','أنواع المشاكل في الفرع')}${TA('challengeTypes','أنواع التحديات اليومية')}</div></div>
     <div class="row"><button class="btn pri" disabled=${busy} onClick=${save}>${busy?'جاري الحفظ…':'حفظ الإعدادات'}</button></div>
+    <${HrConfig}/>
     <${Backup}/>
     <${Exports}/>
     <${Archive}/>`;
@@ -1508,9 +1573,9 @@ function Exports(){
 function Archive(){
   const[cut,setCut]=useState(addDays(today(),-180));const[ph,setPh]=useState(true);const[busy,setBusy]=useState('');
   const run=async()=>{setBusy('جاري الحذف…');let n=0,m=0;try{
-    for(const[col,field]of[['reports','date'],['pos','deliveryDate'],['trips','date'],['followups','date']]){
+    for(const[col,field]of[['reports','date'],['pos','deliveryDate'],['trips','date'],['followups','date'],['reviews','date']]){
       while(true){const snap=await S.db.collection(col).where(field,'<',cut).limit(200).get();if(snap.empty)break;
-        for(const d of snap.docs){if(col==='reports'&&ph&&S.assets){for(const v of(d.data().visits||[]))for(const a of[...(v.before||[]),...(v.after||[])]){await S.assets.delete(a).catch(()=>{});m++}}
+        for(const d of snap.docs){if(col==='reports'&&ph&&S.assets){const dd=d.data();for(const a of[...(dd.visits||[]).flatMap(v=>[...(v.before||[]),...(v.after||[])]),...[dd.shiftIn,dd.shiftOut].filter(x=>x&&x.photo).map(x=>x.photo)]){await S.assets.delete(a).catch(()=>{});m++}}
           await d.ref?d.ref.delete():S.db.doc(col+'/'+d.id).delete();n++;setBusy('تم حذف '+n+' سجل')}
         if(snap.size<200)break}}
     toast('تمت الأرشفة: '+n+' سجل'+(m?' و'+m+' صورة':''))}catch(e){toast(errMsg(e),'bad')}setBusy('')};
@@ -1522,8 +1587,8 @@ function Archive(){
 }
 
 /* ---------------- backup & restore ---------------- */
-const BACKUP_COLS=['settings','regions','branches','trucks','profiles','roles','reports','followups','pos','trips'];
-const COL_AR={settings:'الإعدادات',regions:'المناطق',branches:'الفروع',trucks:'الشاحنات',profiles:'الموظفين',roles:'الصلاحيات',reports:'التقارير',followups:'المتابعات',pos:'طلبات الشراء',trips:'الرحلات'};
+const BACKUP_COLS=['settings','regions','branches','trucks','profiles','roles','reports','followups','reviews','pos','trips'];
+const COL_AR={settings:'الإعدادات',regions:'المناطق',branches:'الفروع',trucks:'الشاحنات',profiles:'الموظفين',roles:'الصلاحيات',reports:'التقارير',followups:'المتابعات',reviews:'الحضور واللبس',pos:'طلبات الشراء',trips:'الرحلات'};
 const daysSince=t=>t?Math.floor((Date.now()-t)/864e5):null;
 function BackupNotice(){
   const b=S.backupInfo;const d=b?daysSince(b.lastAt):null;
@@ -1575,11 +1640,277 @@ function Account(){
     <div class="appver"><span>إصدار التطبيق</span> <b dir="ltr">${APP_VERSION}</b> · <button type="button" class="btn sm ghost" onClick=${hardReload}>تحديث الصفحة</button></div>`;
 }
 
+/* ---------------- attendance, official uniform & incentives ----------------
+   The rep photographs themselves in the official uniform at the start and end of the shift (camera only).
+   Time and location are taken by the phone automatically. Supervisors and the manager review the uniform
+   in reviews/{date}_{uid}, and can mark a day as excused. Monthly points come from scoreFor(). */
+const HRDEF={shiftStart:'07:00',shiftEnd:'15:00',grace:15,workDays:[6,0,1,2,3,4],requirePhotos:true,bonus:0,rules:[],
+  uniform:['الزي الرسمي للقرية (القميص بشعار القرية) نظيف ومرتب','البنطلون الرسمي الداكن','البطاقة الوظيفية ظاهرة','حذاء مغلق مناسب للعمل الميداني','الهندام والنظافة الشخصية'],
+  weights:{schedule:30,punctual:20,uniform:15,shelf:15,reports:20},
+  tiers:[{min:90,name:'ممتاز',pct:100},{min:80,name:'جيد جداً',pct:75},{min:70,name:'جيد',pct:50},{min:0,name:'يحتاج تحسين',pct:0}]};
+const CRIT=[['schedule','الالتزام بجدول الزيارات','الفروع المجدولة اللي تمت زيارتها في يومها'],
+  ['punctual','الحضور والانضباط','صورة بداية الدوام قبل نهاية فترة السماح، وصورة نهاية الدوام بعد وقت الانصراف'],
+  ['uniform','اللبس الرسمي','الأيام اللي اعتمد فيها المشرف لبسك مطابق للمعيار'],
+  ['shelf','جودة الرف','متوسط تقييم صور الرف'],
+  ['reports','اكتمال التقارير','إرسال تقرير اليوم، وصور قبل وبعد في كل زيارة']];
+const VIOL_TYPES=['الغياب بدون عذر','التأخير عن بداية الدوام بعد فترة السماح','عدم تسجيل صورة بداية أو نهاية الدوام','الانصراف قبل نهاية الدوام','مخالفة معيار اللبس الرسمي','فرع مجدول لم تتم زيارته'];
+function HR(){const h=S.hr||{};return{...HRDEF,...h,weights:{...HRDEF.weights,...(h.weights||{})},uniform:(h.uniform&&h.uniform.length)?h.uniform:HRDEF.uniform,
+  tiers:(h.tiers&&h.tiers.length)?h.tiers:HRDEF.tiers,workDays:Array.isArray(h.workDays)?h.workDays:HRDEF.workDays,rules:h.rules||[]}}
+const hmOf=n=>pad(Math.floor(n/60))+':'+pad(n%60);
+const revOf=(uid,d)=>S.reviews.find(x=>x.id===d+'_'+uid);
+function shiftStat(r){const h=HR();const i=r&&r.shiftIn,o=r&&r.shiftOut;const g=+h.grace||0;
+  const late=i?mins(i.hm)-mins(h.shiftStart):null;const early=o?mins(h.shiftEnd)-mins(o.hm):null;
+  return{i,o,late,isLate:late!=null&&late>g,early,isEarly:early!=null&&early>g}}
+const tierOf=n=>{if(n==null)return null;const t=[...HR().tiers].sort((a,b)=>b.min-a.min);return t.find(x=>n>=x.min)||t[t.length-1]};
+const actionOf=n=>n>=5?['رفع للموارد البشرية','bad']:n>=3?['إنذار كتابي','warn']:n>=1?['تنبيه شفهي','yolk']:['لا يوجد','ok'];
+const monthRange=m=>{const[y,mo]=m.split('-').map(Number);return[m+'-01',m+'-'+pad(new Date(y,mo,0).getDate())]};
+const bonusOf=x=>{const b=+HR().bonus||0;return b&&x.tier?Math.round(b*x.tier.pct/100):0};
+function scoreFor(uid,from,to,reports){
+  const h=HR();const t0=today();const by={};reports.forEach(r=>{if(r.uid===uid&&!r.demo&&r.date>=from&&r.date<=to)by[r.date]=r});
+  const br=S.branches.filter(b=>b.merchUid===uid&&b.active!==false);
+  const x={work:0,past:0,onTime:0,late:0,lateMin:0,absent:0,noIn:0,noOut:0,early:0,uniOk:0,uniBad:0,uniPend:0,uniMiss:0,planned:0,doneP:0,sent:0,excused:0,viol:[]};
+  const start=h.startDate||t0;
+  for(let d=from<start?start:from;d<=to&&d<=t0;d=addDays(d,1)){
+    const r=by[d];const rv=revOf(uid,d);const isT=d===t0;
+    if(!(h.workDays.includes(weekday(d))||(r&&r.shiftIn)))continue;
+    if(rv&&rv.excused){x.excused++;continue}
+    if(isT&&!(r&&r.shiftIn))continue; // today still running
+    x.work++;if(!isT)x.past++;
+    const pl=br.filter(b=>(b.visitDays||[]).includes(weekday(d)));x.planned+=pl.length;
+    if(!r||(!r.shiftIn&&!(r.visits||[]).length)){x.absent++;x.uniMiss++;x.viol.push({d,t:'غياب بدون عذر'});continue}
+    const vb=new Set((r.visits||[]).map(v=>v.branchId));const dn=pl.filter(b=>vb.has(b.id)).length;x.doneP+=dn;
+    if(!isT&&dn<pl.length)x.viol.push({d,t:'فروع مجدولة لم تُزر: '+(pl.length-dn)});
+    const st=shiftStat(r);
+    if(!r.shiftIn){x.noIn++;x.viol.push({d,t:'بدون صورة بداية الدوام'})}
+    else if(st.isLate){x.late++;x.lateMin+=st.late;x.viol.push({d,t:'تأخير '+st.late+' دقيقة'})}
+    if(!isT){if(!r.shiftOut){x.noOut++;x.viol.push({d,t:'بدون صورة نهاية الدوام'})}else if(st.isEarly){x.early++;x.viol.push({d,t:'انصراف مبكر '+st.early+' دقيقة'})}}
+    if(r.shiftIn&&!st.isLate&&(isT||(r.shiftOut&&!st.isEarly)))x.onTime++;
+    if(rv&&rv.uniform){if(rv.uniform.ok)x.uniOk++;else{x.uniBad++;x.viol.push({d,t:'مخالفة اللبس الرسمي'})}}
+    else if(r.shiftIn&&r.shiftIn.photo)x.uniPend++;else x.uniMiss++;
+    if(!isT&&r.status==='submitted')x.sent++;
+  }
+  const vs=Object.values(by).flatMap(r=>r.visits||[]);const sc=vs.map(v=>v.ai&&v.ai.score).filter(v=>v!=null);
+  const photo=vs.length?vs.filter(v=>(v.before||[]).length&&(v.after||[]).length).length/vs.length*100:null;
+  const uniN=x.uniOk+x.uniBad+x.uniMiss;const sent=x.past?x.sent/x.past*100:null;
+  x.s={schedule:x.planned?x.doneP/x.planned*100:null,punctual:x.work?x.onTime/x.work*100:null,uniform:uniN?x.uniOk/uniN*100:null,
+    shelf:sc.length?avg(sc):null,reports:sent==null?photo:photo==null?sent:(sent+photo)/2};
+  let w=0,t=0;for(const[k]of CRIT){const v=x.s[k],wk=+h.weights[k]||0;if(v!=null&&wk>0){w+=wk;t+=wk*v}}
+  x.total=w?t/w:null;x.tier=tierOf(x.total);x.violDays=new Set(x.viol.map(v=>v.d)).size;return x;
+}
+
+/* camera capture with time + location */
+function getLoc(){return new Promise(res=>{if(!navigator.geolocation)return res({err:'unsupported'});
+  try{navigator.geolocation.getCurrentPosition(p=>res({lat:+p.coords.latitude.toFixed(6),lng:+p.coords.longitude.toFixed(6),acc:Math.round(p.coords.accuracy)}),
+    e=>res({err:e&&e.code===1?'denied':'unavailable'}),{enableHighAccuracy:true,timeout:12000,maximumAge:60000})}catch(e){res({err:'blocked'})}})}
+const mapLink=l=>l&&l.lat!=null?'https://maps.google.com/?q='+l.lat+','+l.lng:null;
+function ShiftBtn({label,onDone,cls}){
+  const[busy,setBusy]=useState('');
+  async function pick(e){const f=e.target.files[0];e.target.value='';if(!f)return;
+    if(!S.assets){toast('رفع الصور غير متاح لحسابك','bad');return}
+    const t=Date.now();const hm=timeNow();const fresh=!f.lastModified||Math.abs(t-f.lastModified)<15*60000;
+    setBusy('جاري تحديد الموقع ورفع الصورة…');
+    try{const locP=getLoc();const blob=await shrink(f);const up=await S.assets.upload(blob,{contentType:blob.type});blobCache.set(up.id,blob);const loc=await locP;
+      await onDone({t,hm,photo:up.id,fresh,loc:loc.err?null:loc,locErr:loc.err||null})}
+    catch(err){console.error(err);if(!(err&&err.code))toast('تعذّر رفع الصورة، أعد المحاولة','bad')}
+    setBusy('')}
+  return html`<label class=${'btn capbtn '+(cls||'pri')}><input type="file" accept="image/*" capture="user" disabled=${!!busy} onChange=${pick}/>${busy||label}</label>`;
+}
+function ShiftCell({s,kind,st}){
+  if(!s)return html`<span class="muted small">لم يُسجل</span>`;
+  const off=kind==='in'?st.isLate:st.isEarly;const n=kind==='in'?st.late:st.early;const ml=mapLink(s.loc);
+  return html`<div class="row" style="gap:8px;flex-wrap:nowrap;align-items:flex-start">
+    ${s.photo&&html`<img class="selfie" src=${imgSrc(s.photo)} alt="صورة الدوام" onClick=${e=>{e.stopPropagation();S.lightbox=s.photo;bump()}}/>`}
+    <div><b dir="ltr">${s.hm}</b> ${off?html`<${Pill} st=${[(kind==='in'?'متأخر ':'مبكر ')+n+' د','bad']}/>`:html`<${Pill} st=${['في الوقت','ok']}/>`}
+      <div class="small">${ml?html`<a href=${ml} target="_blank" rel="noopener" onClick=${e=>e.stopPropagation()}>📍 الموقع</a>`:html`<span class="muted">بدون موقع</span>`}${s.fresh===false?html` · <span style="color:var(--bad)">الصورة ليست جديدة</span>`:''}</div></div></div>`;
+}
+function ShiftCard({rep,date,onShift}){
+  const h=HR();const st=shiftStat(rep);const isT=date===today();const rv=revOf(rep.uid,date);
+  return html`<div class="card"><div class="row between"><h2>الدوام واللبس الرسمي</h2>
+      <span class="small muted"><span>الدوام</span> <b dir="ltr">${h.shiftStart} – ${h.shiftEnd}</b> · <span>سماح</span> <b>${h.grace}</b> <span>د</span></span></div>
+    <div class="grid2">
+      <div class="sec"><h3>بداية الدوام</h3>${rep.shiftIn?html`<${ShiftCell} s=${rep.shiftIn} kind="in" st=${st}/>`:isT?html`<div class="small muted">صورة لك باللبس الرسمي كامل من كاميرا الجوال. الوقت والموقع يُسجلون تلقائياً.</div><${ShiftBtn} label="📷 تسجيل بداية الدوام" onDone=${x=>onShift('shiftIn',x)}/>`:html`<span class="muted small">لم يُسجل</span>`}</div>
+      <div class="sec"><h3>نهاية الدوام</h3>${rep.shiftOut?html`<${ShiftCell} s=${rep.shiftOut} kind="out" st=${st}/>`:isT&&rep.shiftIn?html`<div class="small muted">آخر شيء قبل إرسال التقرير: صورة ثانية باللبس الرسمي.</div><${ShiftBtn} cls="yolk" label="📷 تسجيل نهاية الدوام" onDone=${x=>onShift('shiftOut',x)}/>`:html`<span class="muted small">${isT?'بعد تسجيل بداية الدوام':'لم يُسجل'}</span>`}</div>
+    </div>
+    ${rv&&rv.uniform&&(rv.uniform.ok?html`<div class="notice info">اعتمد المشرف لبسك اليوم: مطابق للمعيار</div>`
+      :html`<div class="notice bad"><span>ملاحظة المشرف على اللبس:</span> <span>${[...(rv.uniform.fails||[]),rv.uniform.note].filter(Boolean).join('، ')}</span></div>`)}
+    ${rv&&rv.excused&&html`<div class="notice info"><span>هذا اليوم مسجل كعذر:</span> <span>${rv.excused.reason}</span></div>`}
+    ${viewRole()==='merch'&&html`<a class="small" href="#rules">معيار اللبس ونظام الحوافز</a>`}
+  </div>`;
+}
+const ShiftSec=({rep})=>rep&&(rep.shiftIn||rep.shiftOut)?html`<section class="sec"><h3>الدوام واللبس الرسمي</h3><div class="grid2">
+  <div><b class="small">بداية الدوام</b><${ShiftCell} s=${rep.shiftIn} kind="in" st=${shiftStat(rep)}/></div>
+  <div><b class="small">نهاية الدوام</b><${ShiftCell} s=${rep.shiftOut} kind="out" st=${shiftStat(rep)}/></div></div></section>`:null;
+
+/* supervisor / manager: review one rep's day */
+function ReviewSheet({uid,date,onClose}){
+  const h=HR();const r=S.reports.find(x=>x.uid===uid&&x.date===date&&!x.demo)||{};const rv=revOf(uid,date)||{};const st=shiftStat(r);
+  const[fails,setFails]=useState(()=>(rv.uniform&&rv.uniform.fails)||[]);const[note,setNote]=useState((rv.uniform&&rv.uniform.note)||'');
+  const[exc,setExc]=useState((rv.excused&&rv.excused.reason)||'');const[busy,setBusy]=useState(false);
+  const path='reviews/'+date+'_'+uid;const base={uid,date,uniform:rv.uniform||null,excused:rv.excused||null};
+  const go=async(data,msg)=>{setBusy(true);try{await W(()=>put(path,{...base,...data,updatedAt:Date.now()}),msg);onClose()}catch(e){}setBusy(false)};
+  const saveU=()=>go({uniform:{ok:!fails.length,fails,note:note.trim(),by:S.uid,at:Date.now()}},'تم حفظ تقييم اللبس');
+  const saveE=on=>go({excused:on?{reason:exc.trim()||'عذر',by:S.uid,at:Date.now()}:null},on?'تم تسجيل العذر':'تم إلغاء العذر');
+  const Big=({s})=>s&&s.photo?html`<img class="selfie-lg" src=${imgSrc(s.photo)} alt="صورة الدوام" onClick=${()=>{S.lightbox=s.photo;bump()}}/>`:null;
+  const has=!!(r.shiftIn||r.shiftOut);
+  return html`<${Sheet} title=${'اللبس والدوام: '+nameOf(uid)} sub=${fmtDate(date)+' · '+date} onClose=${onClose}
+    footer=${has?html`<button class=${'btn grow '+(fails.length?'danger':'pri')} disabled=${busy} onClick=${saveU}>${fails.length?'حفظ: مخالف للمعيار':'حفظ: مطابق للمعيار'}</button>`:null}>
+    <section class="sec"><div class="grid2">
+      <div><h3>بداية الدوام</h3><${ShiftCell} s=${r.shiftIn} kind="in" st=${st}/><${Big} s=${r.shiftIn}/></div>
+      <div><h3>نهاية الدوام</h3><${ShiftCell} s=${r.shiftOut} kind="out" st=${st}/><${Big} s=${r.shiftOut}/></div></div></section>
+    ${has?html`<section class="sec"><h3>معيار اللبس الرسمي <span class="sub">اضغط على البند المخالف</span></h3>
+      <div class="stack" style="gap:6px">${h.uniform.map(it=>{const bad=fails.includes(it);return html`<button type="button" class=${'unirow'+(bad?' bad':'')} onClick=${()=>setFails(bad?fails.filter(x=>x!==it):[...fails,it])}><b>${bad?'✗':'✓'}</b><span class="grow">${it}</span></button>`})}</div>
+      <${Fld} label="ملاحظة للمندوب"><textarea value=${note} onInput=${e=>setNote(e.target.value)} placeholder="مثال: البطاقة الوظيفية غير ظاهرة"></textarea><//>
+      ${rv.uniform&&html`<div class="small muted">آخر تقييم: ${nameOf(rv.uniform.by)} · ${fmtTs(rv.uniform.at)}</div>`}</section>`
+      :html`<div class="notice">ما سجل صور الدوام لهذا اليوم، فما فيه لبس يُقيّم. إذا كان غائباً بعذر سجّله تحت.</div>`}
+    <section class="sec"><h3>عذر أو إجازة <span class="sub">اليوم ما يُحسب عليه في الحضور والحوافز</span></h3>
+      ${rv.excused&&html`<div class="notice info">مسجل كعذر: ${rv.excused.reason} · ${nameOf(rv.excused.by)}</div>`}
+      <div class="row"><input class="inp grow" style="width:auto" value=${exc} onInput=${e=>setExc(e.target.value)} placeholder="مثال: إجازة مرضية"/>
+        <button class="btn" disabled=${busy} onClick=${()=>saveE(true)}>تسجيل عذر</button>${rv.excused&&html`<button class="btn danger" disabled=${busy} onClick=${()=>saveE(false)}>إلغاء العذر</button>`}</div></section>
+  <//>`;
+}
+
+function ScoreCard({x}){
+  const h=HR();const P=v=>v==null?'—':Math.round(v)+'%';const b=bonusOf(x);const act=actionOf(x.violDays);
+  const facts=[['أيام العمل',x.work],['في الوقت',x.onTime],['تأخير',x.late],['غياب',x.absent],['أعذار',x.excused],['لبس بانتظار المراجعة',x.uniPend]].filter((f,i)=>i<2||f[1]);
+  return html`<div class="stack" style="gap:12px">
+    <div class="row between"><div class="scorebig">${x.total==null?'—':Math.round(x.total)}<small>/100</small></div>
+      <div class="chips">${x.tier&&html`<${Pill} st=${[x.tier.name,x.tier.pct>=75?'ok':x.tier.pct>0?'yolk':'bad']}/>`}${x.tier&&html`<${Pill} st=${['حافز '+x.tier.pct+'%','info']}/>`}${b>0&&html`<span class="pill t-ok">${num(b)} ريال</span>`}</div></div>
+    ${CRIT.map(([k,l])=>html`<div><div class="row between small"><span><span>${l}</span> · <span class="muted">${(+h.weights[k]||0)+' نقطة'}</span></span><b>${P(x.s[k])}</b></div><${Bar} v=${x.s[k]||0} max=${100}/></div>`)}
+    <div class="chips">${facts.map(([l,n])=>html`<span class="pill t-muted"><span>${l}</span> <b>${n}</b></span>`)}</div>
+    ${x.viol.length?html`<div class="stack" style="gap:6px"><div class="row small"><b>أيام فيها مخالفات</b> <b>${x.violDays}</b> · <span>الإجراء المقترح:</span> <${Pill} st=${act}/></div>
+      <div class="list">${x.viol.map(v=>html`<div class="li" style="cursor:default"><span class="sev bad"></span><div class="grow small"><span>${fmtDate(v.d)}</span> · <span>${v.t}</span></div></div>`)}</div></div>`
+      :html`<div class="notice info">ما فيه مخالفات هذا الشهر</div>`}
+  </div>`;
+}
+
+/* manager / supervisor: attendance + incentives dashboard */
+function Hr(){
+  const s=useS();const[mode,setMode]=useState('day');const[date,setDate]=useState(today());const[month,setMonth]=useState(today().slice(0,7));
+  const[rv,setRv]=useState(null);const[open,setOpen]=useState(null);
+  const[from,to]=monthRange(month);
+  useEffect(()=>widenRange(mode==='day'?date:from),[mode,date,from]);
+  const h=HR();const team=teamScope();
+  const Seg=html`<div class="row" style="gap:6px"><button class=${'btn sm'+(mode==='day'?' pri':'')} onClick=${()=>setMode('day')}>الحضور اليومي</button><button class=${'btn sm'+(mode==='month'?' pri':'')} onClick=${()=>setMode('month')}>النقاط والحوافز الشهرية</button></div>`;
+  let body;
+  if(mode==='day'){
+    const rows=team.map(u=>{const r=s.reports.find(x=>x.uid===u&&x.date===date&&!x.demo);return{u,r,st:shiftStat(r),v:revOf(u,date)}});
+    const exc=x=>x.v&&x.v.excused;
+    const k={in:rows.filter(x=>x.r&&x.r.shiftIn).length,late:rows.filter(x=>x.st.isLate).length,noIn:rows.filter(x=>!(x.r&&x.r.shiftIn)&&!exc(x)).length,
+      out:rows.filter(x=>x.r&&x.r.shiftOut).length,early:rows.filter(x=>x.st.isEarly).length,pend:rows.filter(x=>x.r&&x.r.shiftIn&&!(x.v&&x.v.uniform)).length,bad:rows.filter(x=>x.v&&x.v.uniform&&!x.v.uniform.ok).length};
+    const uni=x=>exc(x)?['عذر','info']:x.v&&x.v.uniform?(x.v.uniform.ok?['مطابق','ok']:['مخالف','bad']):x.r&&x.r.shiftIn?['بانتظار المراجعة','warn']:['بدون صورة','muted'];
+    body=html`
+      <div class="row between"><div class="muted small">${DAYS[weekday(date)]} ${date}${h.workDays.includes(weekday(date))?'':' · ليس يوم عمل'} · الدوام <span dir="ltr">${h.shiftStart} – ${h.shiftEnd}</span> · سماح ${h.grace} د</div>
+        <input type="date" class="inp" style="width:auto" value=${date} max=${today()} onInput=${e=>e.target.value&&setDate(e.target.value)}/></div>
+      <div class="kpis">
+        <div class="kpi"><b>${k.in}/${team.length}</b><span>سجلوا بداية الدوام</span></div>
+        <div class=${'kpi'+(k.late?' alert':'')}><b>${k.late}</b><span>متأخرين</span></div>
+        <div class=${'kpi'+(k.noIn?' alert':'')}><b>${k.noIn}</b><span>بدون بداية دوام</span></div>
+        <div class="kpi"><b>${k.out}/${k.in}</b><span>سجلوا نهاية الدوام</span></div>
+        <div class=${'kpi'+(k.early?' alert':'')}><b>${k.early}</b><span>انصراف مبكر</span></div>
+        <div class=${'kpi'+(k.pend?' alert':'')}><b>${k.pend}</b><span>لبس بانتظار المراجعة</span></div>
+        <div class=${'kpi'+(k.bad?' alert':'')}><b>${k.bad}</b><span>مخالفات لبس</span></div>
+      </div>
+      <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>المندوب</th><th>بداية الدوام</th><th>نهاية الدوام</th><th>اللبس الرسمي</th><th></th></tr></thead><tbody>
+        ${rows.map(x=>html`<tr class="click" onClick=${()=>setRv(x.u)}><td><b>${nameOf(x.u)}</b><div class="small muted">${(supOf(x.u)||{}).name||''}</div></td>
+          <td><${ShiftCell} s=${x.r&&x.r.shiftIn} kind="in" st=${x.st}/></td><td><${ShiftCell} s=${x.r&&x.r.shiftOut} kind="out" st=${x.st}/></td>
+          <td><${Pill} st=${uni(x)}/>${x.v&&x.v.uniform&&!x.v.uniform.ok&&html`<div class="small muted">${(x.v.uniform.fails||[]).join('، ')}</div>`}</td>
+          <td><span class="btn sm">مراجعة</span></td></tr>`)}</tbody></table></div>`:html`<${Empty} t="لا يوجد مندوبين في هذا النطاق"/>`}</div>
+      <div class="muted small">اضغط على المندوب لمراجعة صوره واعتماد اللبس أو تسجيل مخالفة، أو لتسجيل عذر أو إجازة لهذا اليوم.</div>`;
+  }else{
+    const reps=s.reports;const rows=team.map(u=>({u,x:scoreFor(u,from,to,reps)})).sort((a,b)=>(b.x.total??-1)-(a.x.total??-1));
+    const P=v=>v==null?'—':Math.round(v)+'%';const tone=v=>v==null?'':v>=90?'var(--ok)':v>=70?'var(--warn)':'var(--bad)';
+    const exp=()=>saveFile('الحوافز_'+month+'.csv',toCSV(['المندوب','أيام العمل','في الوقت','تأخير','دقائق التأخير','غياب','أعذار',...CRIT.map(c=>c[1]),'المجموع','الفئة','نسبة الحافز','مبلغ الحافز','أيام فيها مخالفات','الإجراء المقترح','المخالفات'],
+      rows.map(({u,x})=>[nameOf(u),x.work,x.onTime,x.late,x.lateMin,x.absent,x.excused,...CRIT.map(c=>x.s[c[0]]==null?'':Math.round(x.s[c[0]])),x.total==null?'':Math.round(x.total),x.tier?x.tier.name:'',x.tier?x.tier.pct+'%':'',bonusOf(x)||'',x.violDays,actionOf(x.violDays)[0],x.viol.map(v=>v.d+' '+v.t).join(' | ')])));
+    body=html`
+      <div class="row between"><div class="muted small">${from} إلى ${to}</div>
+        <div class="row"><input type="month" class="inp" style="width:auto" value=${month} max=${today().slice(0,7)} onInput=${e=>e.target.value&&setMonth(e.target.value)}/><button class="btn" onClick=${exp}>تصدير Excel (CSV)</button></div></div>
+      <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>#</th><th>المندوب</th>${CRIT.map(c=>html`<th class="n">${c[1]}<div class="small muted">${(+h.weights[c[0]]||0)+' نقطة'}</div></th>`)}<th class="n">المجموع</th><th>الحافز</th><th class="n">أيام المخالفات</th><th>الإجراء المقترح</th></tr></thead><tbody>
+        ${rows.map(({u,x},i)=>html`<tr class="click" onClick=${()=>setOpen(u)}><td>${i+1}</td><td><b>${nameOf(u)}</b><div class="small muted">${x.work} يوم عمل${x.uniPend?' · '+x.uniPend+' لبس بانتظار المراجعة':''}</div></td>
+          ${CRIT.map(c=>html`<td class="n" style=${'color:'+tone(x.s[c[0]])}>${P(x.s[c[0]])}</td>`)}
+          <td class="n"><b style=${'font-size:1.05rem;color:'+tone(x.total)}>${x.total==null?'—':Math.round(x.total)}</b></td>
+          <td>${x.tier?html`<${Pill} st=${[x.tier.name+' · '+x.tier.pct+'%',x.tier.pct>=75?'ok':x.tier.pct>0?'yolk':'bad']}/>${bonusOf(x)>0&&html`<div class="small">${num(bonusOf(x))} ريال</div>`}`:'—'}</td>
+          <td class="n">${x.violDays}</td><td><${Pill} st=${actionOf(x.violDays)}/></td></tr>`)}</tbody></table></div>`:html`<${Empty} t="لا يوجد مندوبين في هذا النطاق"/>`}</div>
+      <div class="muted small">المجموع = متوسط المعايير بأوزانها. الحساب يبدأ من تاريخ «بداية احتساب النقاط» في الإعدادات${h.startDate?' ('+h.startDate+')':''}. المعيار اللي ما له بيانات (مثلاً فروع بدون أيام زيارة، أو صور بدون تقييم) ما يدخل في الحساب ويتوزع وزنه على الباقي. الإجراء المقترح توصية فقط، والقرار حسب لائحة تنظيم العمل في الشركة.</div>`;
+  }
+  return html`<div class="row between"><h1>الحضور والحوافز</h1>${Seg}</div>${body}
+    ${rv&&html`<${ReviewSheet} uid=${rv} date=${date} onClose=${()=>setRv(null)}/>`}
+    ${open&&html`<${Sheet} title=${'نقاط '+nameOf(open)} sub=${month} onClose=${()=>setOpen(null)}><${ScoreCard} x=${scoreFor(open,from,to,s.reports)}/><//>`}`;
+}
+
+/* rep: requirements, uniform standard, incentives and own points */
+function Rules(){
+  const s=useS();const h=HR();const m=today().slice(0,7);const[from,to]=monthRange(m);
+  const x=scoreFor(s.uid,from,to,s.myReports);
+  const reqs=[['سجّل بداية الدوام بصورة لك باللبس الرسمي من كاميرا الجوال، قبل الساعة',hmOf(mins(h.shiftStart)+(+h.grace||0))],
+    ['ما تقدر تسجل أي زيارة قبل صورة بداية الدوام. الوقت والموقع يُسجلون تلقائياً.'],
+    ['زُر كل فروعك المجدولة في يومها، وسجّل الزيارة من التطبيق وأنت في الفرع.'],
+    ['في كل زيارة: صور الرف قبل وبعد الترتيب، والكميات، والنفاد، والمشاكل.'],
+    ['سجّل أسعار الرف لكل منتجاتنا مرة وحدة على الأقل باليوم.'],
+    ['سجّل نهاية الدوام بصورة ثانية باللبس الرسمي، بعد الساعة',h.shiftEnd],
+    ['أرسل تقرير اليوم بعد صورة نهاية الدوام.'],
+    ...h.rules.map(t=>[t])];
+  const tiers=[...h.tiers].sort((a,b)=>b.min-a.min);const b=+h.bonus||0;
+  return html`<h1>المتطلبات والحوافز</h1>
+    <div class="card"><h2>نقاطي هذا الشهر <span class="sub">${m}</span></h2><${ScoreCard} x=${x}/></div>
+    <div class="card"><h2>المتطلبات اليومية</h2><ol class="rules">${reqs.map(([t,v])=>html`<li><span>${t}</span>${v?html` <b dir="ltr">${v}</b>`:''}</li>`)}</ol>
+      <div class="small muted"><span>أيام العمل:</span> <span>${h.workDays.slice().sort((a,b2)=>((a+1)%7)-((b2+1)%7)).map(d=>DAYS[d]).join('، ')}</span></div></div>
+    <div class="card"><h2>معيار اللبس الرسمي للقرية</h2><ul class="rules">${h.uniform.map(t=>html`<li>${t}</li>`)}</ul>
+      <div class="small muted">المشرف يراجع صورة بداية الدوام ونهايته كل يوم، ويعتمد اللبس أو يسجل الملاحظة.</div></div>
+    <div class="card"><h2>نظام النقاط والحوافز</h2>
+      <div class="tw"><table><thead><tr><th>المعيار</th><th class="n">الوزن</th><th>كيف يُحسب</th></tr></thead><tbody>
+        ${CRIT.map(([k,l,d])=>html`<tr><td><b>${l}</b></td><td class="n">${(+h.weights[k]||0)+' نقطة'}</td><td class="small">${d}</td></tr>`)}</tbody></table></div>
+      <div class="tw"><table><thead><tr><th>الفئة</th><th class="n">من</th><th class="n">الحافز</th></tr></thead><tbody>
+        ${tiers.map(t=>html`<tr><td><b>${t.name}</b></td><td class="n">${t.min}</td><td class="n">${t.pct}%${b?html`<div class="small muted">${num(Math.round(b*t.pct/100))} ريال</div>`:''}</td></tr>`)}</tbody></table></div></div>
+    <div class="card"><h2>المخالفات والإجراءات</h2><ul class="rules">${VIOL_TYPES.map(t=>html`<li>${t}</li>`)}</ul>
+      <div class="chips"><span class="pill t-yolk"><span>1 – 2 أيام:</span> <span>تنبيه شفهي</span></span><span class="pill t-warn"><span>3 – 4 أيام:</span> <span>إنذار كتابي</span></span><span class="pill t-bad"><span>5 أيام فأكثر:</span> <span>رفع للموارد البشرية</span></span></div>
+      <div class="small muted">الأعذار والإجازات يسجلها المشرف وما تنحسب عليك.</div></div>`;
+}
+
+/* manager: shift, uniform and incentive settings (settings/hr) */
+function HrConfig(){
+  const s=useS();const init=()=>{const h=HR();return{...clone2(h),startDate:h.startDate||today(),uniformT:h.uniform.join('\n'),rulesT:h.rules.join('\n')}};
+  const[f,setF]=useState(init);const[busy,setBusy]=useState(false);
+  useEffect(()=>{setF(init())},[s.loaded.hr]);
+  const lines=t=>t.split('\n').map(x=>x.trim()).filter(Boolean);
+  const wsum=CRIT.reduce((a,[k])=>a+(+f.weights[k]||0),0);
+  const save=async()=>{
+    if(mins(f.shiftStart)==null||mins(f.shiftEnd)==null)return toast('حدد وقت بداية الدوام ونهايته','bad');
+    if(!f.workDays.length)return toast('اختر أيام العمل','bad');
+    setBusy(true);try{await W(()=>put('settings/hr',{startDate:f.startDate||today(),shiftStart:f.shiftStart,shiftEnd:f.shiftEnd,grace:Math.max(0,+f.grace||0),workDays:f.workDays,requirePhotos:!!f.requirePhotos,
+      uniform:lines(f.uniformT),rules:lines(f.rulesT),weights:Object.fromEntries(CRIT.map(([k])=>[k,Math.max(0,+f.weights[k]||0)])),
+      tiers:f.tiers.filter(t=>(t.name||'').trim()).map(t=>({min:+t.min||0,name:t.name.trim(),pct:+t.pct||0})),bonus:Math.max(0,+f.bonus||0),updatedAt:Date.now()}),'تم حفظ إعدادات الدوام والحوافز')}catch(e){}setBusy(false)};
+  const setW=(k,v)=>setF({...f,weights:{...f.weights,[k]:v}});const setT=(i,p)=>setF({...f,tiers:f.tiers.map((t,j)=>j===i?{...t,...p}:t)});
+  return html`<div class="card"><h2>الدوام واللبس الرسمي والحوافز <span class="sub">تظهر للمناديب في «المتطلبات والحوافز»</span></h2>
+    <div class="fgrid">
+      <${Fld} label="بداية الدوام"><input type="time" value=${f.shiftStart} onInput=${e=>setF({...f,shiftStart:e.target.value})}/><//>
+      <${Fld} label="نهاية الدوام"><input type="time" value=${f.shiftEnd} onInput=${e=>setF({...f,shiftEnd:e.target.value})}/><//>
+      <${Fld} label="فترة السماح (دقيقة)"><input type="number" min="0" inputmode="numeric" value=${f.grace} onInput=${e=>setF({...f,grace:e.target.value})}/><//>
+      <${Fld} label="بداية احتساب النقاط"><input type="date" value=${f.startDate} onInput=${e=>setF({...f,startDate:e.target.value})}/><//>
+      <${Fld} label="الحافز الشهري الكامل (ريال، اختياري)"><input type="number" min="0" inputmode="numeric" value=${f.bonus||''} onInput=${e=>setF({...f,bonus:e.target.value})}/><//>
+    </div>
+    <div class="fld"><span>أيام العمل</span><div class="days">${DAYS.map((d,i)=>html`<button type="button" class=${'chip'+(f.workDays.includes(i)?' on':'')} onClick=${()=>setF({...f,workDays:f.workDays.includes(i)?f.workDays.filter(x=>x!==i):[...f.workDays,i]})}>${d}</button>`)}</div></div>
+    <label class="row small" style="gap:6px"><input type="checkbox" checked=${f.requirePhotos} onChange=${e=>setF({...f,requirePhotos:e.target.checked})}/>صورة بداية الدوام إجبارية قبل تسجيل الزيارات، وصورة نهايته قبل إرسال التقرير</label>
+    <div class="fgrid">
+      <${Fld} label="معيار اللبس الرسمي (سطر لكل بند)"><textarea style="min-height:150px" value=${f.uniformT} onInput=${e=>setF({...f,uniformT:e.target.value})}></textarea><//>
+      <${Fld} label="متطلبات إضافية للمناديب (سطر لكل بند)"><textarea style="min-height:150px" value=${f.rulesT} onInput=${e=>setF({...f,rulesT:e.target.value})} placeholder="مثال: الرد على اتصال المشرف خلال 10 دقائق"></textarea><//>
+    </div>
+    <div class="fld"><span>أوزان المعايير <b style=${wsum===100?'':'color:var(--bad)'}>المجموع ${wsum}</b>${wsum!==100?' (يُفضّل 100)':''}</span>
+      <div class="fgrid">${CRIT.map(([k,l])=>html`<${Fld} label=${l}><input type="number" min="0" inputmode="numeric" value=${f.weights[k]} onInput=${e=>setW(k,e.target.value)}/><//>`)}</div></div>
+    <div class="fld"><span>فئات الحافز</span>
+      ${f.tiers.map((t,i)=>html`<div class="row"><input class="inp grow" style="width:auto" aria-label="اسم الفئة" value=${t.name} onInput=${e=>setT(i,{name:e.target.value})}/>
+        <label class="row small" style="gap:4px">من<input class="inp" style="width:80px" type="number" value=${t.min} onInput=${e=>setT(i,{min:e.target.value})}/></label>
+        <label class="row small" style="gap:4px">الحافز %<input class="inp" style="width:80px" type="number" value=${t.pct} onInput=${e=>setT(i,{pct:e.target.value})}/></label>
+        <button class="btn sm ghost" aria-label="حذف الفئة" onClick=${()=>setF({...f,tiers:f.tiers.filter((x,j)=>j!==i)})}>✕</button></div>`)}
+      <div><button class="btn sm" onClick=${()=>setF({...f,tiers:[...f.tiers,{name:'',min:0,pct:0}]})}>＋ فئة</button></div></div>
+    <div class="row"><button class="btn pri" disabled=${busy} onClick=${save}>${busy?'جاري الحفظ…':'حفظ إعدادات الدوام والحوافز'}</button></div>
+  </div>`;
+}
+
 /* ---------------- shell ---------------- */
 const TABS={
-  merch:[['today','تقرير اليوم',Today],['history','سجلي',History],['pos','طلبات الشراء',POs],['trips','الشاحنات',Trips],['account','حسابي',Account]],
-  supervisor:[['dash','لوحة المتابعة',Dash],['perf','أداء الفريق',Perf],['reports','الزيارات',Reports],['issues','المتابعة',Issues],['prices','أسعار المنافسين',Prices],['pos','طلبات الشراء',POs],['trips','الشاحنات',Trips],['today','زيارتي',Today],['account','حسابي',Account]],
-  manager:[['dash','لوحة المتابعة',Dash],['perf','أداء الفريق',Perf],['reports','الزيارات',Reports],['issues','المتابعة',Issues],['prices','أسعار المنافسين',Prices],['pos','طلبات الشراء',POs],['trips','الشاحنات والرحلات',Trips],['branches','المناطق والفروع',Branches],['team','الفريق',Team],['config','الإعدادات',Config],['account','حسابي',Account]]
+  merch:[['today','تقرير اليوم',Today],['history','سجلي',History],['pos','طلبات الشراء',POs],['trips','الشاحنات',Trips],['rules','المتطلبات والحوافز',Rules],['account','حسابي',Account]],
+  supervisor:[['dash','لوحة المتابعة',Dash],['hr','الحضور والحوافز',Hr],['perf','أداء الفريق',Perf],['reports','الزيارات',Reports],['issues','المتابعة',Issues],['prices','أسعار المنافسين',Prices],['pos','طلبات الشراء',POs],['trips','الشاحنات',Trips],['today','زيارتي',Today],['account','حسابي',Account]],
+  manager:[['dash','لوحة المتابعة',Dash],['hr','الحضور والحوافز',Hr],['perf','أداء الفريق',Perf],['reports','الزيارات',Reports],['issues','المتابعة',Issues],['prices','أسعار المنافسين',Prices],['pos','طلبات الشراء',POs],['trips','الشاحنات والرحلات',Trips],['branches','المناطق والفروع',Branches],['team','الفريق',Team],['config','الإعدادات',Config],['account','حسابي',Account]]
 };
 function App(){
   const s=useS();
@@ -1609,7 +1940,7 @@ function App(){
 /* ---------------- auto update ----------------
    APP_VERSION goes up with every publish. The manager's page records the newest version in
    settings/app; every open phone listens to that doc live and reloads itself onto the new copy. */
-const APP_VERSION=12;
+const APP_VERSION=13;
 const newerVersion=()=>S.appInfo&&+S.appInfo.version>APP_VERSION?+S.appInfo.version:0;
 function hardReload(){location.reload()}
 function UpdateWatch(){
