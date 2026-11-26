@@ -12,6 +12,7 @@ Full history, decisions, and the open to-do list are in `docs/سجل_المشر�
 - `supabase/1_schema.sql`: table, RLS, `is_admin`/`is_approved`/`doc_merge`, admin-by-username trigger, and the storage bucket. Idempotent.
 - `supabase/2_branches.sql`: 5 regions and 257 branches, `on conflict do nothing`.
 - `supabase/3_attendance.sql`: `is_supervisor()` and policies letting supervisors write `reviews` (uniform review / excused days). Idempotent.
+- `supabase/4_privacy_challenge.sql`: v14 RLS. Reps read only their own branches, reports, POs/trips on their branches and their own `notifs`; `pricewatch` (daily brand challenge) is first-write-wins: only admins can update or delete it. Idempotent.
 - `supabase/functions/shelf-ai/index.ts`: Deno Edge Function. Calls Claude through `@anthropic-ai/sdk` (`claude-opus-5-5`, `fallbacks: "default"`); the key lives in Supabase secret `ANTHROPIC_API_KEY`.
 - `data/`: original branches Excel, the organized archive workbook, and `seed/` JSON (the records as loaded).
 - `manifest.webmanifest`, `sw.js`, `icons/`: PWA install with the Al Qaryah logo.

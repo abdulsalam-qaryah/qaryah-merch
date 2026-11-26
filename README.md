@@ -18,6 +18,8 @@
 ## ملفات Supabase
 - `supabase/1_schema.sql`: الجدول، الصلاحيات (RLS)، تخزين الصور، وتعيين المدير.
 - `supabase/2_branches.sql`: المناطق الخمس و257 فرع.
+- `supabase/3_attendance.sql`: صلاحيات المشرف لمراجعة اللبس والأعذار.
+- `supabase/4_privacy_challenge.sql`: كل مندوب يشوف فروعه فقط، طلبات شراء المناديب، الإشعارات، وقفل التحدي اليومي.
 - `supabase/functions/shelf-ai/index.ts`: دالة قراءة صور الرف بالذكاء الاصطناعي (Claude). المفتاح يُحفظ كسرّ في Supabase وليس في الكود.
 
 ## الأدوار

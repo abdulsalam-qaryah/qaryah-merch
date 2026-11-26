@@ -226,6 +226,98 @@ html[lang=ur] body{line-height:1.75}
 .scorebig{font-size:2.3rem;font-weight:700;line-height:1}.scorebig small{font-size:.9rem;color:var(--muted);font-weight:400}
 ol.rules,ul.rules{margin:0;padding-inline-start:22px;display:flex;flex-direction:column;gap:7px;line-height:1.6}
 a.kpi{color:inherit;text-decoration:none}a.kpi:hover{border-color:var(--accent)}
+/* v14: codes, notifications, coverage, follow-up, challenge, incentives */
+.code{display:inline-flex;align-items:center;font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:700;font-size:.78rem;letter-spacing:.04em;padding:0 7px;border-radius:6px;background:var(--brand-wine);color:var(--brand-cream);line-height:1.6;white-space:nowrap}
+.code.none{background:var(--surface2);color:var(--muted);font-family:inherit;font-weight:500;letter-spacing:0}
+.code.big{font-size:1.15rem;padding:2px 12px;border-radius:9px;background:var(--yolk);color:#2b1d00}
+.bell{position:relative;font-size:1rem}.bell .dot{position:absolute;top:-6px;inset-inline-end:-6px;min-width:18px;height:18px;border-radius:9px;background:var(--yolk);color:#3a2500;font-size:.7rem;line-height:18px;text-align:center;padding:0 4px}
+.bell.on{animation:ring 2.4s ease-in-out infinite}@keyframes ring{0%,88%,100%{transform:rotate(0)}91%{transform:rotate(-12deg)}94%{transform:rotate(10deg)}97%{transform:rotate(-6deg)}}
+.retbox{display:flex;gap:6px;flex-wrap:wrap;align-items:center;width:100%;max-width:520px}
+.notif.done{opacity:.6}.nmsg{margin-top:2px}
+.card.attn{border-color:var(--warn);box-shadow:0 0 0 3px var(--warn-soft)}
+.seg{display:inline-flex;background:var(--surface2);border-radius:10px;padding:3px;gap:2px;flex-wrap:wrap}
+.seg button{border:0;background:transparent;border-radius:8px;padding:5px 12px;font-weight:600;font-size:.84rem;cursor:pointer;color:var(--muted)}
+.seg button.on{background:var(--surface);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.btiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,210px),1fr));gap:10px}
+.btile{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--surface);border-inline-start:5px solid var(--bad)}
+.btile.t-ok{border-inline-start-color:var(--ok)}.btile.t-warn{border-inline-start-color:var(--yolk)}
+.bname{font-family:var(--f-display);font-size:1rem}.bpct{font-family:var(--f-display);font-weight:700;font-size:1.35rem}
+.btile.t-ok .bpct{color:var(--ok)}.btile.t-warn .bpct{color:var(--warn)}.btile.t-bad .bpct{color:var(--bad)}
+.bbar{height:9px;border-radius:5px;background:var(--surface2);overflow:hidden}.bbar i{display:block;height:100%;border-radius:5px;background:var(--bad);transition:width .8s ease}
+.btile.t-ok .bbar i{background:var(--ok)}.btile.t-warn .bbar i{background:var(--yolk)}
+.bfacts{display:flex;flex-direction:column;gap:1px;font-size:.82rem;color:var(--muted)}.bfacts b{color:var(--fg)}
+.ceo-prev{display:flex;flex-direction:column;gap:6px;font-size:.9rem}.ceo-prev b{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-fg);align-items:center;justify-content:center;font-size:.75rem;margin-inline-end:6px}
+.traffic{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.tl{border-radius:12px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:0;text-align:center}
+.tl b{font-family:var(--f-display);font-size:1.9rem;line-height:1.1}.tl span{font-size:.82rem}
+.tl.ok{background:var(--ok-soft);color:var(--ok)}.tl.warn{background:var(--warn-soft);color:var(--warn)}.tl.bad{background:var(--bad-soft);color:var(--bad)}
+.todo{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:10px}
+.todo-i{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border-radius:10px;background:var(--surface2);color:var(--muted);text-decoration:none}
+.todo-i b{font-family:var(--f-display);font-size:1.5rem;line-height:1.2}
+.todo-i.has{background:var(--accent-soft);color:var(--fg)}.todo-i.has b{color:var(--accent)}
+.light{width:14px;height:14px;border-radius:50%;flex:none;background:var(--ok);box-shadow:0 0 0 4px var(--ok-soft)}
+.light.warn{background:var(--yolk);box-shadow:0 0 0 4px var(--yolk-soft)}.light.bad{background:var(--bad);box-shadow:0 0 0 4px var(--bad-soft)}.light.info{background:var(--info);box-shadow:0 0 0 4px var(--info-soft)}
+.frow{flex-wrap:wrap}
+.regcard{border-color:var(--warn)}
+.chboard .lb{display:flex;flex-direction:column;gap:4px}
+.lb-r{display:flex;align-items:center;gap:10px;padding:6px 10px;border-radius:9px;background:var(--surface2)}
+.lb-r.me{background:var(--yolk-soft);outline:2px solid var(--yolk)}
+.lb-r b{font-family:var(--f-display)}
+.medal{width:28px;text-align:center;font-size:1.1rem}.medal.m4{font-size:.85rem;color:var(--muted);font-weight:700}
+.firstwin{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 12px;border-radius:10px;background:linear-gradient(100deg,var(--yolk-soft),var(--surface))}
+.fw-l{font-weight:600}
+.chhero,.rhero{display:flex;align-items:center;gap:16px;border-radius:16px;padding:18px 20px;color:var(--brand-cream);background:radial-gradient(120% 140% at 100% 0%,var(--brand-red),var(--brand-deep) 55%,var(--brand-wine));overflow:hidden;position:relative}
+.chhero::after,.rhero::after{content:"";position:absolute;inset-inline-start:-40px;bottom:-60px;width:220px;height:220px;border-radius:50%;background:rgba(231,177,58,.14)}
+.chhero-t,.rhero-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:8px;position:relative;z-index:1}
+.chhero h1,.rhero h1{font-size:1.35rem;color:var(--brand-cream)}.chhero p,.rhero p{margin:0;color:color-mix(in srgb,var(--brand-cream) 85%,transparent);font-size:.92rem}
+.kicker{font-size:.78rem;font-weight:700;color:var(--yolk);letter-spacing:.02em}
+.ptsbig{color:var(--yolk);font-size:1.6rem}
+.chart-art{width:170px;flex:none;position:relative;z-index:1;animation:bob 3.2s ease-in-out infinite}
+.merch-art,.merch-photo{width:180px;flex:none;position:relative;z-index:1}.merch-photo{border-radius:14px;max-height:220px;object-fit:cover}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@media (max-width:560px){.chhero,.rhero{flex-direction:column-reverse;align-items:stretch;text-align:start}.chart-art,.merch-art,.merch-photo{width:120px;align-self:center}}
+.kpi.gold{border-color:var(--yolk);background:var(--yolk-soft)}.kpi.gold b{color:var(--yolk-fg)}
+.chgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));gap:10px}
+.chcard{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:6px;align-items:flex-start;background:var(--surface)}
+.chc-top{display:flex;justify-content:space-between;align-items:center;width:100%}.chc-top b{font-family:var(--f-display);font-size:1.05rem}.chc-ic{font-size:1.3rem}
+.chcard.open{border-color:var(--yolk);background:linear-gradient(160deg,var(--yolk-soft),var(--surface) 70%);box-shadow:0 0 0 3px var(--yolk-soft);animation:glow 2.2s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 0 6px color-mix(in srgb,var(--yolk) 30%,transparent)}}
+.chcard.won{border-color:var(--ok);background:var(--ok-soft)}.chcard.locked{background:var(--surface2);color:var(--muted)}.chcard.na{opacity:.55}
+.chstrip{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:12px;text-decoration:none;color:var(--fg);background:linear-gradient(100deg,var(--yolk-soft),var(--surface));border:1px solid var(--yolk)}
+.chstrip>span:first-child{font-size:1.4rem}
+.retn{display:flex;flex-direction:column;gap:2px;border:1px solid var(--bad)}
+.winov{position:fixed;inset:0;z-index:90;background:rgba(43,21,23,.72);display:flex;align-items:center;justify-content:center;padding:20px;overflow:hidden}
+.wincard{position:relative;z-index:1;background:var(--bg);border-radius:18px;padding:22px;max-width:360px;text-align:center;display:flex;flex-direction:column;gap:8px;align-items:center;box-shadow:var(--shadow);animation:pop .45s cubic-bezier(.2,1.6,.4,1)}
+.wincard h2{font-size:1.5rem;color:var(--accent)}.wincard p{margin:0}
+.winegg{font-size:3.4rem;animation:bob 1.6s ease-in-out infinite}
+@keyframes pop{from{transform:scale(.6);opacity:0}to{transform:scale(1);opacity:1}}
+.confetti i{position:absolute;top:-20px;left:var(--x);width:10px;height:14px;border-radius:50% 50% 45% 45%;background:var(--c);transform:rotate(var(--r));animation:fall var(--d) linear infinite}
+@keyframes fall{to{transform:translateY(110vh) rotate(calc(var(--r) + 540deg))}}
+@media (prefers-reduced-motion:reduce){.confetti,.chart-art,.winegg,.chcard.open,.bell.on{animation:none!important}.confetti{display:none}}
+.bp{border:1px solid var(--line);border-radius:10px;padding:10px 12px}.bp summary{cursor:pointer}
+.ring{flex:none}.ring-t{font-family:var(--f-display);font-weight:700;font-size:1.9rem;fill:var(--fg)}
+.ladder{display:grid;grid-template-columns:repeat(auto-fit,minmax(70px,1fr));gap:6px}
+.step{border-radius:10px;padding:8px;background:var(--surface2);display:flex;flex-direction:column;align-items:center;text-align:center;font-size:.8rem;color:var(--muted)}
+.step b{font-family:var(--f-display);font-size:1rem;color:var(--fg)}.step.done{background:var(--yolk-soft);color:var(--yolk-fg)}
+.step.on{background:var(--accent);color:var(--accent-fg);transform:translateY(-3px);box-shadow:0 6px 14px rgba(172,31,35,.25)}.step.on b{color:var(--accent-fg)}
+.mission{display:flex;flex-direction:column;gap:6px}
+.mi{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:10px;background:var(--surface2)}
+.mi-c{width:30px;height:30px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;background:var(--surface);border:1px solid var(--line);font-size:.95rem}
+.mi.ok{background:var(--ok-soft);color:var(--ok)}.mi.ok .mi-c{background:var(--ok);color:#fff;border-color:var(--ok);font-weight:700}
+.crit{display:flex;flex-direction:column;gap:8px}
+.critc{text-align:start;font:inherit;color:inherit;border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:6px;cursor:pointer;width:100%}
+.critc.open{border-color:var(--accent);background:var(--accent-soft)}.crit-d{display:flex;flex-direction:column;gap:4px}
+.unigal{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}.unigal img{width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:10px;cursor:zoom-in}
+.unisvg{display:flex;justify-content:center;background:var(--surface2);border-radius:12px;padding:10px}.unisvg .merch-art{width:150px}
+.unichk{display:flex;flex-direction:column;gap:6px}
+.unichk .unirow{background:var(--surface);color:var(--fg);border-color:var(--line)}.unichk .unirow b{width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--surface2);flex:none;font-size:.8rem}
+.unichk .unirow.good{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}.unichk .unirow.good b{background:var(--ok);color:#fff}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,130px),1fr));gap:10px}
+.badge{border:1px dashed var(--line);border-radius:12px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;filter:grayscale(1);opacity:.55}
+.badge.on{filter:none;opacity:1;border:1px solid var(--yolk);background:linear-gradient(180deg,var(--yolk-soft),var(--surface))}
+.badge .bi{font-size:1.7rem}.badge small{color:var(--muted);font-size:.72rem}
+tfoot td{background:var(--surface2)}
+@media (max-width:480px){.topbar{gap:8px}.brandlogo{width:72px;height:40px}.brand{padding-inline-start:8px}.brand h1{font-size:.9rem}.brand small{display:none}.me{gap:5px}.me .bell{padding:4px 7px}}
 
 #auth{position:fixed;inset:0;z-index:100;background:var(--bg);overflow-y:auto}
 .auth-wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px max(16px,env(safe-area-inset-left,0px))}
@@ -351,6 +443,25 @@ Object.assign(UR,{'حساب جديد':'نیا اکاؤنٹ','تسجيل الدخ
  'كلمة المرور قصيرة. استخدم 8 أحرف أو أرقام على الأقل.':'پاس ورڈ چھوٹا ہے۔ کم از کم 8 حروف یا ہندسے استعمال کریں۔','تعذّر الاتصال. تأكد من الإنترنت وأعد المحاولة.':'رابطہ نہیں ہو سکا۔ انٹرنیٹ چیک کر کے دوبارہ کوشش کریں۔',
  'اسم المستخدم بالإنجليزي أو أرقام فقط، من 3 إلى 30 حرف، بدون مسافات.':'یوزر نیم صرف انگریزی حروف یا ہندسوں میں، 3 سے 30 حروف، بغیر خالی جگہ کے۔','كلمتا المرور غير متطابقتين.':'دونوں پاس ورڈ ایک جیسے نہیں ہیں۔'});
 Object.assign(UR,{'فيه تحديث جديد للتطبيق':'ایپ کی نئی اپ ڈیٹ دستیاب ہے','حدّث الآن':'ابھی اپ ڈیٹ کریں','إصدار التطبيق':'ایپ ورژن','تحديث الصفحة':'صفحہ ریفریش کریں','اسم المستخدم':'یوزر نیم','عرض ظاهر':'نظر آنے والی آفر','قبل وبعد':'پہلے اور بعد','آخر تأكيد':'آخری تصدیق','قراءة الذكاء الاصطناعي':'مصنوعی ذہانت کا تجزیہ','ملاحظات':'نوٹس','إجمالي الواجهات':'کل فیسنگز'});
+Object.assign(UR,{'التحدي اليومي':'روزانہ چیلنج','الإشعارات':'اطلاعات','طلبات التحديث من المدير والمشرف':'مینیجر اور سپروائزر کی اپ ڈیٹ درخواستیں','ما عندك إشعارات':'آپ کے لیے کوئی اطلاع نہیں','فتح وتعديل':'کھولیں اور درست کریں','تم التحديث':'اپ ڈیٹ ہو گیا','تم':'ہو گیا',
+ 'إعادة تقرير':'رپورٹ واپس','تحديث زيارة':'دورے کی اپ ڈیٹ','طلب تحديث':'اپ ڈیٹ کی درخواست','المدير أعاد التقرير للتعديل':'مینیجر نے رپورٹ درستگی کے لیے واپس کی','عدّل المطلوب ثم اضغط «إعادة إرسال التقرير».':'مطلوبہ درستگی کریں پھر «رپورٹ دوبارہ بھیجیں» دبائیں۔',
+ 'إعادة إرسال التقرير':'رپورٹ دوبارہ بھیجیں','أعاده المدير للتعديل':'مینیجر نے درستگی کے لیے واپس کیا','مطلوب تحديث':'اپ ڈیٹ مطلوب','ادخل':'داخل ہوں','كل براندات فروعك انقفلت اليوم':'آج آپ کی برانچوں کے تمام برانڈ بند ہو گئے',
+ 'طلب شراء جديد':'نیا خریداری آرڈر','＋ طلب شراء جديد':'＋ نیا خریداری آرڈر','بانتظار موافقة المدير':'مینیجر کی منظوری کا انتظار','أعيد للتعديل':'درستگی کے لیے واپس','المطلوب':'مطلوب','المنزل فعلياً':'اصل میں اتارا گیا','الفرق':'فرق','الإجمالي':'کل',
+ 'إرسال للمدير للموافقة':'منظوری کے لیے مینیجر کو بھیجیں','إعادة الإرسال للمدير':'مینیجر کو دوبارہ بھیجیں','حفظ الكمية المنزلة فعلياً':'اصل اتاری گئی مقدار محفوظ کریں','ملاحظة على الكمية المنزلة':'اتاری گئی مقدار پر نوٹ',
+ 'اكتب الكمية المطلوبة وجنبها الكمية اللي نزلت فعلياً، ويروح الطلب للمدير للموافقة':'مطلوبہ مقدار اور اس کے ساتھ اصل اتاری گئی مقدار لکھیں، آرڈر منظوری کے لیے مینیجر کو جائے گا',
+ 'نقاطي هذا الشهر':'اس مہینے میرے پوائنٹس','ترتيبي بين المناديب':'نمائندوں میں میری پوزیشن','براندات مفتوحة لي اليوم':'آج میرے لیے کھلے برانڈ','كودي':'میرا کوڈ','براندات اليوم':'آج کے برانڈ',
+ '📷 صوّر الأسعار':'📷 قیمتوں کی تصویر لیں','ما عندك فروع فيه':'اس میں آپ کی کوئی برانچ نہیں','🔒 أرسل واقفل البراند':'🔒 بھیجیں اور برانڈ لاک کریں','＋ سعر منافس ثاني':'＋ ایک اور حریف قیمت',
+ 'صورة رف البيض بالأسعار *':'قیمتوں کے ساتھ انڈوں کے شیلف کی تصویر *','الشركة المنافسة *':'حریف کمپنی *','السعر *':'قیمت *','المنتج':'پروڈکٹ','يقابل منتجنا':'ہماری پروڈکٹ کے مقابل',
+ 'التحدي اليومي لأسعار المنافسين':'حریفوں کی قیمتوں کا روزانہ چیلنج','أول من نفّذ اليوم':'آج سب سے پہلے کرنے والا','ما أحد نفّذ التحدي اليوم للحين':'آج ابھی تک کسی نے چیلنج مکمل نہیں کیا','التفاصيل':'تفصیل','أنت':'آپ','نقطة':'پوائنٹ','براند':'برانڈ',
+ 'المتطلبات والحوافز':'تقاضے اور مراعات','كل يوم تكسب فيه نقاط، وآخر الشهر يطلع حافزك':'ہر دن آپ پوائنٹس کماتے ہیں، اور مہینے کے آخر میں آپ کا انعام نکلتا ہے',
+ 'نقاطك تنحسب تلقائياً من شغلك اليومي. كمّل مهمات اليوم، والتزم باللبس الرسمي، وشارك في التحدي اليومي.':'آپ کے پوائنٹس روزانہ کام سے خود بخود گنے جاتے ہیں۔ آج کے کام مکمل کریں، سرکاری یونیفارم پہنیں، اور روزانہ چیلنج میں حصہ لیں۔',
+ '🏆 التحدي اليومي':'🏆 روزانہ چیلنج','مهمات اليوم':'آج کے کام','افتح تقرير اليوم':'آج کی رپورٹ کھولیں','كيف تنحسب نقاطك':'آپ کے پوائنٹس کیسے گنے جاتے ہیں','اضغط على أي معيار':'کسی بھی معیار پر دبائیں',
+ 'اللبس الرسمي للقرية':'القریہ کا سرکاری یونیفارم','جهّز نفسك قبل صورة الدوام':'ڈیوٹی کی تصویر سے پہلے تیار ہو جائیں','جاهز 👌 صوّر بداية الدوام الحين':'تیار 👌 اب ڈیوٹی کے آغاز کی تصویر لیں',
+ 'علّم كل بند بعد ما تتأكد منه. المشرف يراجع صورتك كل يوم.':'ہر نکتہ یقینی بنانے کے بعد نشان لگائیں۔ سپروائزر روزانہ آپ کی تصویر دیکھتا ہے۔','أوسمتي':'میرے تمغے','متطلبات إضافية من الإدارة':'انتظامیہ کے اضافی تقاضے',
+ 'صورة بداية الدوام باللبس الرسمي':'سرکاری یونیفارم میں ڈیوٹی کے آغاز کی تصویر','زيارة الفروع المجدولة':'شیڈول برانچوں کا دورہ','صور الرف قبل وبعد في كل زيارة':'ہر دورے میں شیلف کی پہلے اور بعد کی تصاویر','أسعار رفنا مرة باليوم':'دن میں ایک بار ہماری شیلف قیمتیں',
+ 'التحدي اليومي (نقاط إضافية)':'روزانہ چیلنج (اضافی پوائنٹس)','صورة نهاية الدوام':'ڈیوٹی کے اختتام کی تصویر','إرسال تقرير اليوم':'آج کی رپورٹ بھیجیں','أنت في أعلى فئة 👏':'آپ سب سے اونچے درجے میں ہیں 👏',
+ 'منضبط':'وقت کا پابند','صياد الأسعار':'قیمتوں کا شکاری','بطل التحدي':'چیلنج چیمپئن','رف مثالي':'مثالی شیلف','تقارير كاملة':'مکمل رپورٹس','أناقة القرية':'القریہ کی شان',
+ 'كفو! +':'شاباش! +','تمام':'ٹھیک ہے','بدون كود':'کوڈ نہیں','قراءات سابقة في هذه الزيارة: ':'اس دورے کی سابقہ ریڈنگز: '});
 const EGG_UR={'أبيض':'سفید','بني':'براؤن','أحمر':'سرخ','بلدي':'دیسی','عضوي':'آرگینک','أوميغا':'اومیگا'};
 const URX=[
  [/^تقرير (.+)$/,m=>'رپورٹ: '+(urIn(m[1])||m[1])],
@@ -462,7 +573,7 @@ const DEF={
   challengeTypes:['زحمة وتأخر في الطريق','تأخر الشاحنة','عدم تعاون الفرع','فروع كثيرة في يوم واحد','مشكلة في السيارة أو المواصلات','نقص بضاعة','مشكلة في الإنترنت أو التطبيق','أخرى'],
   promoTypes:['تخفيض سعر','اشترِ واحصل','عرض كمية','رف إضافي أو جندولة','ستاند أرضي','نشرة عروض الفرع','تذوق وتجربة']
 };
-const PO_ST={new:['جديد','info'],approved:['معتمد','info'],loading:['قيد التحميل','yolk'],onroute:['في الطريق','warn'],delivered:['مستلم','ok'],partial:['مستلم جزئياً','warn'],rejected:['ملغي أو مرفوض','bad']};
+const PO_ST={pending:['بانتظار موافقة المدير','warn'],returned:['أعيد للتعديل','bad'],new:['جديد','info'],approved:['معتمد','info'],loading:['قيد التحميل','yolk'],onroute:['في الطريق','warn'],delivered:['مستلم','ok'],partial:['مستلم جزئياً','warn'],rejected:['ملغي أو مرفوض','bad']};
 const TRIP_ST={planned:['مخططة','info'],loading:['تحميل','yolk'],onroute:['في الطريق','warn'],done:['مكتملة','ok']};
 const STOP_ST={pending:['بالانتظار','muted'],arrived:['وصلت الفرع','yolk'],unloaded:['تم التنزيل','ok'],skipped:['لم يتم','bad']};
 const FU_ST={open:['مفتوحة','bad'],progress:['قيد المعالجة','warn'],closed:['مغلقة','ok']};
@@ -476,7 +587,7 @@ const facesDone=v=>products().every(p=>hasNum((v.face||{})[p.id]));
 
 /* ---------------- store ---------------- */
 const S={ready:false,noDb:false,db:null,user:null,assets:null,downloads:null,uid:null,canEdit:false,isOwner:false,
-  profile:undefined,profiles:[],roles:[],settings:null,regions:[],branches:[],trucks:[],myReports:[],reports:[],pos:[],trips:[],followups:[],reviews:[],hr:null,
+  profile:undefined,profiles:[],roles:[],settings:null,regions:[],branches:[],trucks:[],myReports:[],reports:[],pos:[],trips:[],followups:[],reviews:[],notifs:[],pricewatch:[],hr:null,
   loaded:{},unsubs:{},from:addDays(today(),-31),rangeKey:null,slow:false,toast:null,lightbox:null,errors:[]};
 const subs=new Set();const bump=()=>subs.forEach(f=>f());
 function useS(){const[,set]=useState(0);useEffect(()=>{const f=()=>set(x=>x+1);subs.add(f);f();return()=>subs.delete(f)},[]);return S}
@@ -544,6 +655,8 @@ function ensureRangeSubs(role){
   resub('trips',db.collection('trips').where('date','>=',S.from));
   resub('followups',db.collection('followups').where('date','>=',S.from));
   resub('reviews',db.collection('reviews').where('date','>=',S.from));
+  resub('pricewatch',db.collection('pricewatch').where('date','>=',S.from));
+  resub('notifs',role==='merch'?db.collection('notifs').where('to','==',S.uid):db.collection('notifs').where('date','>=',S.from));
 }
 function widenRange(d){if(d&&d<S.from){S.from=d;ensureRangeSubs(myRole())}}
 
@@ -826,7 +939,7 @@ function Perf(){
   return html`<h1>أداء الفريق</h1>
     <${RangeFilters} f=${f} setF=${setF}/>
     <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>المندوب</th>${H('comp','الالتزام بالجدول')}${H('visits','الزيارات')}${H('sent','تقارير مرسلة')}${H('score','تقييم الرف')}${H('photo','اكتمال الصور')}${H('dur','متوسط الزيارة')}${H('issues','مشاكل مرصودة')}</tr></thead><tbody>
-      ${rows.map(x=>html`<tr><td><b>${nameOf(x.u)}</b><div class="small muted">${(supOf(x.u)||{}).name||''}</div></td>
+      ${rows.map(x=>html`<tr><td><${CodeTag} uid=${x.u}/> <b>${nameOf(x.u)}</b><div class="small muted">${(supOf(x.u)||{}).name||''}</div></td>
         <td class="n"><div class="row" style="gap:8px;justify-content:flex-end"><span style=${'color:'+tone(x.comp)+';font-weight:600'}>${P(x.comp)}</span><div style="width:70px"><${Bar} v=${x.comp||0} max=${100}/></div></div><div class="small muted">${x.doneP}/${x.planned}</div></td>
         <td class="n">${x.visits}</td><td class="n">${x.sent}/${x.work}</td><td class="n">${x.score==null?'—':html`<${Score} n=${x.score}/>`}</td>
         <td class="n" style=${'color:'+tone(x.photo)}>${P(x.photo)}</td><td class="n">${x.dur==null?'—':Math.round(x.dur)+' د'}</td><td class="n">${x.issues}${x.oos?html`<div class="small muted">نفاد ${x.oos}</div>`:''}</td></tr>`)}</tbody></table></div>`
@@ -902,7 +1015,7 @@ function VisitEditor({visit,repKey,onSave,onDelete,onClose,pricesReq}){
   const hadDraft=useRef(!!ls.get(dk));
   const up=patch=>setV(o=>{const n={...o,...patch,_t:Date.now()};ls.set(dk,n);return n});
   const upQ=(col,pid,val)=>up({[col]:{...(v[col]||{}),[pid]:val===''?'':+val}});
-  const my=S.branches.filter(b=>isMine(b)&&b.active!==false);const others=S.branches.filter(b=>!isMine(b)&&b.active!==false);
+  const my=S.branches.filter(b=>isMine(b)&&b.active!==false);const others=viewRole()==='merch'?[]:S.branches.filter(b=>!isMine(b)&&b.active!==false);
   const prods=products();
   const[tried,setTried]=useState(false);
   const focus=id=>{const el=document.getElementById(id);if(el){el.scrollIntoView({block:'center',behavior:'smooth'});setTimeout(()=>el.focus(),300)}};
@@ -920,6 +1033,7 @@ function VisitEditor({visit,repKey,onSave,onDelete,onClose,pricesReq}){
   return html`<${Sheet} title="تسجيل زيارة فرع" sub=${v.branchId?branchName(v.branchId):'اختر الفرع'} onClose=${onClose}
     footer=${html`<button class="btn pri grow" disabled=${busy} onClick=${save}>${busy?'جاري الحفظ…':'حفظ الزيارة'}</button>${onDelete&&html`<${Confirm} label="حذف الزيارة" onYes=${()=>{ls.del(dk);onDelete();onClose()}}/>`}`}>
     ${hadDraft.current&&html`<div class="notice">رجّعنا لك آخر مسودة محفوظة على جهازك لهذه الزيارة.</div>`}
+    ${openNotifs().filter(n=>n.kind==='visit'&&n.ref&&n.ref.visitId===visit.id).map(n=>html`<div class="notice bad"><b>مطلوب تحديث من ${nameOf(n.from)}:</b> ${n.msg}</div>`)}
     <section class="sec"><h3><span class="num">1</span>الفرع والوقت</h3>
       <div class="fgrid">
         <${Fld} label="الفرع *"><select id="v-branch" value=${v.branchId} onChange=${e=>up({branchId:e.target.value})}>
@@ -967,17 +1081,8 @@ function VisitEditor({visit,repKey,onSave,onDelete,onClose,pricesReq}){
       <${Fld} label="ملاحظات العرض"><input id="v-pnote" value=${v.promo.note} onInput=${e=>up({promo:{...v.promo,note:e.target.value}})}/><//>`}
     </section>
     <section class="sec"><h3><span class="num">7</span>أسعار المنافسين</h3>
-      <datalist id="comp-list">${compList.map(t=>html`<option value=${t}/>`)}</datalist>
-      ${v.comp.map((c,i)=>html`<div class="fgrid" style="padding-bottom:10px;border-bottom:1px dashed var(--line)">
-        <${Fld} label="الشركة المنافسة *"><input id=${'v-cbrand-'+i} class=${tried&&!(c.brand||'').trim()&&(c.desc||hasNum(c.price))?'miss':''} list="comp-list" autocomplete="off" placeholder="اختر من القائمة أو اكتب اسم الشركة" value=${c.brand} onInput=${e=>setComp(i,{brand:e.target.value})}/><//>
-        <${Fld} label="يقابل منتجنا"><select value=${c.vs} onChange=${e=>setComp(i,{vs:e.target.value})}><option value="">—</option>${prods.map(p=>html`<option value=${p.id}>${p.name}</option>`)}</select><//>
-        <${Fld} label="وصف المنتج"><input value=${c.desc} placeholder="مثال: بيض أحمر 30" onInput=${e=>setComp(i,{desc:e.target.value})}/><//>
-        <${Fld} label="السعر"><input type="number" inputmode="decimal" value=${c.price} onInput=${e=>setComp(i,{price:e.target.value})}/><//>
-        <${Fld} label="عليه عرض؟"><select value=${c.promo?'1':''} onChange=${e=>setComp(i,{promo:!!e.target.value})}><option value="">لا</option><option value="1">نعم</option></select><//>
-        ${c.promo&&html`<${Fld} label="سعر العرض"><input type="number" inputmode="decimal" value=${c.promoPrice} onInput=${e=>setComp(i,{promoPrice:e.target.value})}/><//>`}
-        <div class="fld"><span> </span><button type="button" class="btn danger sm" onClick=${()=>up({comp:v.comp.filter((_,j)=>j!==i)})}>حذف السطر</button></div>
-      </div>`)}
-      <div><button type="button" class="btn" onClick=${()=>up({comp:[...v.comp,{id:rid(),brand:'',vs:'',desc:'',price:'',promo:false,promoPrice:''}]})}>＋ إضافة سعر منافس</button></div>
+      ${(v.comp||[]).length>0?html`<div class="small muted">قراءات سابقة في هذه الزيارة: ${v.comp.map(c=>c.brand+' '+c.price).join('، ')}</div>`:''}
+      <div class="notice info">أسعار المنافسين صارت لكل براند مو لكل فرع. صوّرها من <a href="#challenge">التحدي اليومي</a>، وأول واحد يصوّر البراند يكسب ${PTS()} نقطة.</div>
     </section>
     <section class="sec"><h3><span class="num">8</span>ملاحظات عامة</h3>
       <textarea class="inp" id="v-notes" style="min-height:80px" value=${v.notes} onInput=${e=>up({notes:e.target.value})} placeholder="أي شيء ثاني يفيد المدير"></textarea>
@@ -1016,13 +1121,14 @@ function FollowCtl({rep,v,edit}){
   return html`<div class="stack" style="gap:6px;min-width:220px">
     <div class="row" style="gap:4px">${Object.entries(FU_ST).map(([k,s])=>html`<button type="button" class=${'chip'+(st===k?' on':'')} onClick=${()=>save(k)}>${s[0]}</button>`)}</div>
     <div class="row" style="gap:6px"><input class="inp grow" placeholder="إجراء المتابعة" value=${note} onInput=${e=>setNote(e.target.value)}/><button type="button" class="btn sm" onClick=${()=>save(st)}>حفظ</button></div>
-    ${fu&&html`<div class="small muted">${nameOf(fu.by)} · ${fmtTs(fu.at)}</div>`}
+    ${fu&&html`<div class="row small muted" style="gap:6px">${nameOf(fu.by)} · ${fmtTs(fu.at)}${S.canEdit&&html`<${Confirm} cls="sm ghost" label="مسح المتابعة" onYes=${()=>delDoc('followups/'+fu.id)}/>`}</div>`}
   </div>`;
 }
 
 /* ---------------- merch: today ---------------- */
 function Today(){
-  const s=useS();const[date,setDate]=useState(today());const[edit,setEdit]=useState(null);
+  const s=useS();const[date,setDate]=useState(()=>{const g=S.gotoDate;S.gotoDate=null;return g||today()});const[edit,setEdit]=useState(null);
+  useEffect(()=>{if(s.gotoDate){setDate(s.gotoDate);S.gotoDate=null}},[s.gotoDate]);
   const key=date+'_'+s.uid;
   const rep=s.myReports.find(r=>r.id===key)||{id:key,uid:s.uid,date,visits:[],challenges:'',challengeTags:[],status:'draft',start:'',end:''};
   const[day,setDay]=useState(null);
@@ -1032,7 +1138,7 @@ function Today(){
   const wd=weekday(date);const planned=my.filter(b=>(b.visitDays||[]).includes(wd));
   const done=new Set(rep.visits.map(v=>v.branchId));
   const saveRep=r=>W(()=>put('reports/'+key,{...r,id:undefined,uid:s.uid,date,demo:!!(S.demo||r.demo),updatedAt:Date.now()}));
-  const saveVisit=async v=>{const vs=[...rep.visits.filter(x=>x.id!==v.id),v].sort((a,b)=>(a.at||'').localeCompare(b.at||''));await W(()=>put('reports/'+key,{...rep,...d,id:undefined,visits:vs,uid:s.uid,date,demo:!!(S.demo||rep.demo),updatedAt:Date.now()}),'تم حفظ الزيارة')};
+  const saveVisit=async v=>{const vs=[...rep.visits.filter(x=>x.id!==v.id),v].sort((a,b)=>(a.at||'').localeCompare(b.at||''));await W(()=>put('reports/'+key,{...rep,...d,id:undefined,visits:vs,uid:s.uid,date,demo:!!(S.demo||rep.demo),updatedAt:Date.now()}),'تم حفظ الزيارة');closeNotifs(n=>n.kind==='visit'&&n.ref&&n.ref.visitId===v.id)};
   const delVisit=v=>W(()=>put('reports/'+key,{...rep,id:undefined,visits:rep.visits.filter(x=>x.id!==v.id),updatedAt:Date.now()}),'تم حذف الزيارة');
   const pricesOk=rep.visits.some(pricesDone);
   const needIn=date===today()&&HR().requirePhotos&&!rep.shiftIn;
@@ -1040,14 +1146,21 @@ function Today(){
   const saveShift=(k,x)=>W(()=>put('reports/'+key,{...rep,...d,id:undefined,uid:s.uid,date,demo:!!(S.demo||rep.demo),[k]:x,...(k==='shiftIn'?{start:x.hm}:{end:x.hm}),updatedAt:Date.now()}),k==='shiftIn'?'تم تسجيل بداية الدوام':'تم تسجيل نهاية الدوام').then(()=>setDay(null));
   const submit=st=>{if(st==='submitted'&&date===today()&&HR().requirePhotos&&!rep.shiftOut)return toast('سجّل نهاية الدوام بصورتك قبل إرسال التقرير','bad');
     if(st==='submitted'&&rep.visits.length&&!pricesOk)return toast('سجّل أسعار الرف لكل منتجاتنا في زيارة وحدة على الأقل قبل إرسال التقرير','bad');
-    return saveRep({...rep,...d,status:st,submittedAt:st==='submitted'?Date.now():rep.submittedAt||null}).then(()=>{setDay(null);toast(st==='submitted'?'تم إرسال تقرير اليوم للمدير':'تم الحفظ')})};
+    const was=rep.status==='returned';const keep=st==='draft'&&was?'returned':st;
+    return saveRep({...rep,...d,status:keep,submittedAt:st==='submitted'?Date.now():rep.submittedAt||null,...(st==='submitted'&&was?{resubmittedAt:Date.now()}:{})}).then(()=>{setDay(null);
+      if(st==='submitted')closeNotifs(n=>n.ref&&n.ref.date===date&&['report','general','visit'].includes(n.kind));toast(st==='submitted'?(was?'تم إعادة إرسال التقرير للمدير':'تم إرسال تقرير اليوم للمدير'):'تم الحفظ')})};
+  const reqV=v=>openNotifs().find(n=>n.kind==='visit'&&n.ref&&n.ref.visitId===v.id);
+  const dayN=openNotifs().filter(n=>n.ref&&n.ref.date===date&&n.kind!=='visit');
   const pricesReqFor=v=>!rep.visits.some(x=>x.id!==v.id&&pricesDone(x));
   const fu=v=>{const f=s.followups.find(x=>x.id===key+'__'+v.id);return f&&FU_ST[f.status]};
   return html`
-    <div class="row between"><div><h1>${date===today()?'تقرير اليوم':'تقرير '+fmtDate(date)}</h1><div class="muted small">${DAYS[wd]} ${date} · ${rep.status==='submitted'?'تم الإرسال للمدير':'لم يُرسل بعد'}</div></div>
+    <div class="row between"><div><h1>${date===today()?'تقرير اليوم':'تقرير '+fmtDate(date)}</h1><div class="muted small">${DAYS[wd]} ${date} · ${rep.status==='submitted'?'تم الإرسال للمدير':rep.status==='returned'?'أعاده المدير للتعديل':'لم يُرسل بعد'}</div></div>
       <div class="row"><input type="date" class="inp" style="width:auto" id="t-date" value=${date} max=${today()} onInput=${e=>e.target.value&&setDate(e.target.value)}/>
       <button class="btn pri" onClick=${()=>startV()}>＋ زيارة جديدة</button></div></div>
+    ${rep.status==='returned'&&html`<div class="notice bad retn"><b>المدير أعاد التقرير للتعديل</b>${rep.returnNote?html`<div>${rep.returnNote}</div>`:''}<div class="small">عدّل المطلوب ثم اضغط «إعادة إرسال التقرير».</div></div>`}
+    ${dayN.filter(n=>n.kind!=='report').map(n=>html`<div class="notice bad retn"><b>${NT[n.kind]||'طلب تحديث'} من ${nameOf(n.from)}</b><div>${n.msg}</div></div>`)}
     ${!S.demo&&html`<${MyCard} uid=${s.uid} compact/>`}
+    ${viewRole()==='merch'&&date===today()&&(()=>{const{mine}=chainsFor();const open=mine.filter(c=>!pwOn(date).some(x=>x.chain===c));return mine.length?html`<a class="chstrip" href="#challenge"><span>🏆</span><span class="grow"><b>التحدي اليومي</b> · ${open.length?open.length+' براند مفتوح لك الحين · أول من يصوّر الأسعار يكسب '+PTS()+' نقطة':'كل براندات فروعك انقفلت اليوم'}</span><span class="btn sm yolk">ادخل</span></a>`:null})()}
     <${ShiftCard} rep=${rep} date=${date} onShift=${saveShift}/>
     <div class="kpis">
       <div class="kpi"><b>${rep.visits.length}</b><span>زيارات مسجلة</span></div>
@@ -1067,14 +1180,14 @@ function Today(){
         ${rep.visits.length?html`<div class="list">${rep.visits.map(v=>html`<div class="li" onClick=${()=>setEdit({v})}>
           <div class="grow"><div>${branchName(v.branchId)}</div><div class="muted small">${v.at||''} · ${(v.before||[]).length+(v.after||[]).length} ${'صور'}</div>
           ${(v.issues||[]).length>0&&html`<div class="chips" style="margin-top:4px">${v.issues.slice(0,3).map(i=>html`<${Pill} st=${[i,'bad']}/>`)}${v.issues.length>3&&html`<span class="small muted">+${v.issues.length-3}</span>`}</div>`}</div>
-          ${fu(v)&&html`<${Pill} st=${fu(v)}/>`}</div>`)}</div>`
+          ${reqV(v)&&html`<${Pill} st=${['مطلوب تحديث','bad']}/>`}${fu(v)&&html`<${Pill} st=${fu(v)}/>`}</div>`)}</div>`
         :html`<${Empty} t="ما سجلت زيارات لهذا اليوم بعد"><button class="btn pri" onClick=${()=>startV()}>سجّل أول زيارة</button><//>`}
       </div>
     </div>
     <div class="card"><h2>ختام اليوم والتحديات</h2>
       <div class="fld"><span>التحديات اللي واجهتك اليوم</span><${Chips} options=${L('challengeTypes')} value=${d.challengeTags} onChange=${x=>setDay({...d,challengeTags:x})}/></div>
       <${Fld} label="اشرح التحديات"><textarea id="t-chal" value=${d.challenges} onInput=${e=>setDay({...d,challenges:e.target.value})} placeholder="مثال: الشاحنة وصلت الساعة 11 بدل 7، والفرع رفض التنزيل وقت الذروة"></textarea><//>
-      <div class="row"><button class="btn yolk" onClick=${()=>submit('submitted')}>${rep.status==='submitted'?'تحديث التقرير المرسل':'إرسال تقرير اليوم للمدير'}</button>
+      <div class="row"><button class="btn yolk" onClick=${()=>submit('submitted')}>${rep.status==='returned'?'إعادة إرسال التقرير':rep.status==='submitted'?'تحديث التقرير المرسل':'إرسال تقرير اليوم للمدير'}</button>
       ${rep.status!=='submitted'&&html`<button class="btn" onClick=${()=>submit('draft')}>حفظ بدون إرسال</button>`}</div>
     </div>
     ${edit&&html`<${VisitEditor} visit=${edit.v} repKey=${key} pricesReq=${pricesReqFor(edit.v)} onSave=${saveVisit} onDelete=${edit.isNew?null:()=>delVisit(edit.v)} onClose=${()=>setEdit(null)}/>`}`;
@@ -1093,11 +1206,16 @@ function History(){
 }
 function ReportSheet({rep,focus,onClose}){
   if(!rep)return null;const canFollow=viewRole()!=='merch';
+  const delVisit=v=>W(()=>S.db.doc('reports/'+rep.id).update(clean({visits:rep.visits.filter(x=>x.id!==v.id),updatedAt:Date.now()})),'تم حذف الزيارة');
   const vs=focus?[...rep.visits.filter(v=>v.id===focus),...rep.visits.filter(v=>v.id!==focus)]:rep.visits;
   return html`<${Sheet} title=${'تقرير '+nameOf(rep.uid)} sub=${fmtDate(rep.date)+' · '+rep.date+(rep.start?' · الدوام '+rep.start+' – '+(rep.end||''):'')} onClose=${onClose}>
     ${(rep.challengeTags||[]).length+(rep.challenges?1:0)>0&&html`<section class="sec"><h3>التحديات</h3><div class="chips">${(rep.challengeTags||[]).map(c=>html`<${Pill} st=${[c,'yolk']}/>`)}</div>${rep.challenges&&html`<div>${rep.challenges}</div>`}</section>`}
+    ${canFollow&&html`<section class="sec"><div class="row">${rep.status==='returned'?html`<${Pill} st=${['معاد للتعديل'+(rep.returnNote?': '+rep.returnNote:''),'bad']}/>`:html`<${Pill} st=${rep.status==='submitted'?['مرسل','ok']:['مسودة','muted']}/>`}
+      <${ReturnBtn} to=${rep.uid} kind="report" label="إعادة التقرير للموظف" ref=${{date:rep.date,label:'تقرير '+fmtDate(rep.date)}} onSent=${m=>S.db.doc('reports/'+rep.id).update({status:'returned',returnNote:m,returnedAt:Date.now(),returnedBy:S.uid})}/>
+      ${S.canEdit&&html`<${Confirm} cls="sm" label="حذف التقرير كامل" ask="حذف التقرير بكل زياراته؟ ما يمكن التراجع." onYes=${()=>delDoc('reports/'+rep.id,'تم حذف التقرير').then(onClose)}/>`}</div></section>`}
     <${ShiftSec} rep=${rep}/>
-    ${vs.map(v=>html`<section class="sec"><${VisitDetail} v=${v} rep=${rep} canFollow=${canFollow}/></section>`)}
+    ${vs.map(v=>html`<section class="sec"><${VisitDetail} v=${v} rep=${rep} canFollow=${canFollow}/>
+      ${canFollow&&html`<div class="row" style="margin-top:8px"><${ReturnBtn} to=${rep.uid} kind="visit" label="طلب تحديث الزيارة" ref=${{date:rep.date,visitId:v.id,label:branchName(v.branchId)+' · '+fmtDate(rep.date)}}/>${S.canEdit&&html`<${Confirm} cls="sm ghost" label="حذف الزيارة" onYes=${()=>delVisit(v)}/>`}</div>`}</section>`)}
     ${!vs.length&&html`<${Empty} t="لا توجد زيارات في هذا التقرير"/>`}
   <//>`;
 }
@@ -1127,6 +1245,7 @@ function Dash(){
       <div class="row"><select class="inp" style="width:auto" id="d-reg" value=${reg} onChange=${e=>setReg(e.target.value)}><option value="">كل المناطق</option>${regs.map(r=>html`<option value=${r.id}>${r.name}</option>`)}</select>
       <input type="date" class="inp" style="width:auto" id="d-date" value=${date} onInput=${e=>e.target.value&&setDate(e.target.value)}/></div></div>
     <${BackupNotice}/>
+    ${S.canEdit&&html`<div class="row"><button class="btn yolk" onClick=${()=>{S.ceoOpen=true;bump()}}>📊 تصدير تقرير مختصر للرئيس التنفيذي (Excel)</button></div>`}
     ${!S.settings&&S.canEdit&&html`<div class="notice">قوائم المنتجات والمنافسين حالياً افتراضية. عدّلها من <a href="#config">الإعدادات</a> أو أرسل ملف الإكسل لتعبئتها.</div>`}
     <div class="kpis">
       <div class="kpi"><b>${done.size>0||planned.length?planned.filter(b=>done.has(b.id)).length+'/'+planned.length:'0'}</b><span>زيارات منفذة من المجدول</span></div>
@@ -1141,6 +1260,7 @@ function Dash(){
         <a class=${'kpi'+(pend?' alert':'')} href="#hr"><b>${pend}</b><span>لبس بانتظار المراجعة</span></a>`})()}
       ${(()=>{const sc=visits.map(x=>x.v.ai&&x.v.ai.score).filter(x=>x!=null);return sc.length?html`<div class="kpi"><b>${Math.round(avg(sc))}</b><span>متوسط تقييم الرف (AI)</span></div>`:null})()}
     </div>
+    <${BrandCoverage}/>
     <div class="grid2">
       <div class="card flat"><div style="padding:14px 16px 0"><h2>تنبيهات تحتاج تدخل <span class="sub">${al.length}</span></h2></div>
         ${al.length?html`<div class="list" style="max-height:420px;overflow-y:auto">${al.map(x=>html`<div class="li" onClick=${()=>x.b&&setBs(x.b)} style=${x.b?'':'cursor:default'}><span class=${'sev '+x.tone}></span><div class="grow"><div>${x.b?branchName(x.b):nameOf(x.u)}</div><div class="small muted">${x.t}</div></div></div>`)}</div>`:html`<${Empty} t="ما فيه تنبيهات. كل شيء ماشي."/>`}</div>
@@ -1154,7 +1274,7 @@ function Dash(){
         ${missed.length?html`<div class="list">${missed.map(b=>html`<div class="li" onClick=${()=>setBs(b.id)}><div class="grow"><div>${branchName(b.id)}</div><div class="muted small">${nameOf(b.merchUid)} · <span dir="ltr">${phoneOf(b.merchUid)}</span>${b.regionId&&regionOf(b.regionId)?' · '+regionOf(b.regionId).name:''}</div></div><${Pill} st=${['لم تتم','bad']}/></div>`)}</div>`:html`<${Empty} t=${planned.length?'كل الفروع المجدولة تمت زيارتها':'لا توجد فروع مجدولة لهذا اليوم'}/>`}</div>
       <div class="card flat"><div style="padding:14px 16px 0"><h2>الفريق اليوم</h2></div>
         ${team.length?html`<div class="tw"><table><thead><tr><th>المندوب</th><th class="n">زيارات</th><th class="n">مجدول</th><th class="n">مشاكل</th><th>التقرير</th></tr></thead><tbody>
-        ${team.map(u=>{const r=reps.find(x=>x.uid===u);const pl=planned.filter(b=>b.merchUid===u).length;const vs=r?r.visits.length:0;return html`<tr class=${r?'click':''} onClick=${()=>r&&setOpen({rep:r})}><td>${nameOf(u)}<div class="small muted">${(supOf(u)||{}).name||''}</div></td><td class="n">${vs}</td><td class="n">${pl}</td><td class="n">${r?r.visits.filter(v=>(v.issues||[]).length).length:0}</td><td>${r?(r.status==='submitted'?html`<${Pill} st=${['مرسل','ok']}/>`:html`<${Pill} st=${['قيد التعبئة','warn']}/>`):html`<${Pill} st=${['لا يوجد','bad']}/>`}</td></tr>`})}</tbody></table></div>`:html`<${Empty} t="لا يوجد مارشندايزر معتمدين بعد. اعتمدهم من صفحة «الفريق»."/>`}</div>
+        ${team.map(u=>{const r=reps.find(x=>x.uid===u);const pl=planned.filter(b=>b.merchUid===u).length;const vs=r?r.visits.length:0;return html`<tr class=${r?'click':''} onClick=${()=>r&&setOpen({rep:r})}><td><${CodeTag} uid=${u}/> ${nameOf(u)}<div class="small muted">${(supOf(u)||{}).name||''}</div></td><td class="n">${vs}</td><td class="n">${pl}</td><td class="n">${r?r.visits.filter(v=>(v.issues||[]).length).length:0}</td><td>${r?(r.status==='submitted'?html`<${Pill} st=${['مرسل','ok']}/>`:html`<${Pill} st=${['قيد التعبئة','warn']}/>`):html`<${Pill} st=${['لا يوجد','bad']}/>`}</td></tr>`})}</tbody></table></div>`:html`<${Empty} t="لا يوجد مارشندايزر معتمدين بعد. اعتمدهم من صفحة «الفريق»."/>`}</div>
     </div>
     <div class="card flat"><div style="padding:14px 16px 0"><h2>مشاكل اليوم <span class="sub">اضغط لعرض الزيارة</span></h2></div>
       ${issues.length?html`<div class="list">${issues.map(({v,r})=>{const f=s.followups.find(x=>x.id===r.id+'__'+v.id);return html`<div class="li" onClick=${()=>setOpen({rep:r,focus:v.id})}>
@@ -1234,68 +1354,17 @@ function Prices(){
   const rows=Object.values(g).sort((a,b)=>(a.vs||'').localeCompare(b.vs||'')||avg(a.p)-avg(b.p));
   return html`<h1>أسعار المنافسين</h1>
     <${RangeFilters} f=${f} setF=${setF}/>
+    <${BrandPrices} f=${f}/>
     <div class="card"><h2>متوسط سعر الرف لمنتجاتنا</h2>
       <div class="tw"><table><thead><tr><th>المنتج</th><th class="n">المتوسط</th><th class="n">الأقل</th><th class="n">الأعلى</th><th class="n">عدد القراءات</th></tr></thead><tbody>
       ${prods.map(p=>{const a=ours[p.id];return html`<tr><td>${p.name}</td><td class="n">${a.length?num(avg(a)):'—'}</td><td class="n">${a.length?num(Math.min(...a)):'—'}</td><td class="n">${a.length?num(Math.max(...a)):'—'}</td><td class="n">${a.length}</td></tr>`})}</tbody></table></div></div>
-    <div class="card"><h2>مقارنة المنافسين</h2>
+    ${rows.length>0&&html`<div class="card"><h2>مقارنة المنافسين <span class="sub">من الزيارات (الطريقة السابقة لكل فرع)</span></h2>
       ${rows.length?html`<div class="tw"><table><thead><tr><th>المنافس</th><th>المنتج</th><th>يقابل منتجنا</th><th class="n">متوسط سعره</th><th class="n">متوسط سعرنا</th><th class="n">الفرق</th><th class="n">عليه عرض</th><th class="n">فروع</th></tr></thead><tbody>
       ${rows.map(x=>{const a=avg(x.p);const o=x.vs&&ours[x.vs]&&ours[x.vs].length?avg(ours[x.vs]):0;const d=o?(o-a)/a*100:null;return html`<tr><td>${x.brand}</td><td>${x.desc||'—'}</td><td>${x.vs?prodName(x.vs):'—'}</td><td class="n">${num(a)}</td><td class="n">${o?num(o):'—'}</td>
         <td class="n">${d===null?'—':html`<span style=${'color:var(--'+(d>5?'bad':d<-5?'ok':'muted')+')'}>${d>0?'+':''}${Math.round(d)}%</span>`}</td><td class="n">${x.promo}/${x.p.length}</td><td class="n">${x.branches.size}</td></tr>`})}</tbody></table></div>
-      <div class="muted small">الفرق موجب يعني سعرنا أغلى من المنافس.</div>`:html`<${Empty} t="ما فيه أسعار منافسين مسجلة في هذه الفترة"/>`}</div>
+      <div class="muted small">الفرق موجب يعني سعرنا أغلى من المنافس.</div>`:''}</div>`}
     ${raw.length>0&&html`<details class="card sum"><summary>كل القراءات (${raw.length})</summary><div class="tw"><table><thead><tr><th>التاريخ</th><th>الفرع</th><th>المنافس</th><th>المنتج</th><th class="n">السعر</th><th class="n">العرض</th><th>الموظف</th></tr></thead><tbody>
       ${raw.slice(0,500).map(({c,v,r})=>html`<tr><td>${r.date}</td><td>${branchName(v.branchId)}</td><td>${c.brand}</td><td>${c.desc||prodName(c.vs)}</td><td class="n">${c.price}</td><td class="n">${c.promo?(c.promoPrice||'نعم'):'—'}</td><td>${nameOf(r.uid)}</td></tr>`)}</tbody></table></div></details>`}`;
-}
-
-/* ---------------- purchase orders ---------------- */
-function POs(){
-  const s=useS();const role=viewRole();const mgr=role!=='merch';
-  const[f,setF]=useState({date:today(),status:'',q:''});const[open,setOpen]=useState(null);
-  useEffect(()=>widenRange(f.date),[f.date]);
-  const ids=new Set(scopeBranches().map(b=>b.id));
-  const rows=s.pos.filter(p=>ids.has(p.branchId)&&(!f.date||p.deliveryDate===f.date)&&(!f.status||p.status===f.status)&&(!f.q||(p.number||'').includes(f.q)||branchName(p.branchId).includes(f.q)))
-    .sort((a,b)=>(a.deliveryDate||'').localeCompare(b.deliveryDate||'')||branchName(a.branchId).localeCompare(branchName(b.branchId)));
-  const totals=products().map(p=>({p,q:rows.reduce((a,o)=>a+(+(o.items||{})[p.id]||0),0),r:rows.reduce((a,o)=>a+(+(o.received||{})[p.id]||0),0)})).filter(x=>x.q);
-  return html`<div class="row between"><h1>طلبات الشراء (PO)</h1>${mgr&&html`<button class="btn pri" onClick=${()=>setOpen({isNew:true,po:{number:'',branchId:'',orderDate:today(),deliveryDate:f.date||today(),items:{},status:'new',notes:''}})}>＋ طلب جديد</button>`}</div>
-    <div class="filters card">
-      <${Fld} label="تاريخ التوريد"><input type="date" value=${f.date} onInput=${e=>setF({...f,date:e.target.value})}/><//>
-      <${Fld} label="الحالة"><select value=${f.status} onChange=${e=>setF({...f,status:e.target.value})}><option value="">الكل</option>${Object.entries(PO_ST).map(([k,v])=>html`<option value=${k}>${v[0]}</option>`)}</select><//>
-      <${Fld} label="بحث برقم الطلب أو الفرع"><input value=${f.q} onInput=${e=>setF({...f,q:e.target.value})}/><//>
-    </div>
-    ${totals.length>0&&html`<div class="card"><h2>إجمالي الكميات <span class="sub">مطلوب / مستلم</span></h2><div class="chips">${totals.map(x=>html`<span class="pill t-muted">${x.p.name}: ${num(x.q)} / ${num(x.r)}</span>`)}</div></div>`}
-    <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>رقم الطلب</th><th>الفرع</th><th>التوريد</th><th class="n">الكمية</th><th class="n">المستلم</th><th>الشاحنة</th><th>الحالة</th></tr></thead><tbody>
-      ${rows.map(p=>{const t=s.trips.find(t=>t.id===p.tripId);return html`<tr class="click" onClick=${()=>setOpen({po:p})}><td><b>${p.number||'—'}</b></td><td>${branchName(p.branchId)}</td><td>${fmtDate(p.deliveryDate)}</td><td class="n">${num(sum(p.items))}</td><td class="n">${p.received?num(sum(p.received)):'—'}</td><td>${t?(truckOf(t.truckId)||{}).plate||'رحلة':'—'}</td><td><${Pill} st=${PO_ST[p.status||'new']}/></td></tr>`})}</tbody></table></div>`
-      :html`<${Empty} t=${f.date?'لا توجد طلبات توريد لهذا اليوم':'لا توجد طلبات'}>${mgr&&html`<span class="small">أضف طلب جديد أو أرسل ملف الإكسل لاستيرادها</span>`}<//>`}</div>
-    ${open&&html`<${POSheet} po=${open.po} isNew=${open.isNew} mgr=${mgr} onClose=${()=>setOpen(null)}/>`}`;
-}
-function POSheet({po,isNew,mgr,onClose}){
-  const[p,setP]=useState(()=>clone2(po));const[rcv,setRcv]=useState(()=>clone2(po.received||po.items||{}));const[busy,setBusy]=useState(false);
-  const prods=products();const id=po.id||rid();
-  const save=async(extra,msg)=>{if(!p.branchId)return toast('اختر الفرع','bad');setBusy(true);try{await W(()=>put('pos/'+id,{...p,...extra,id:undefined,updatedAt:Date.now(),updatedBy:S.uid,createdAt:p.createdAt||Date.now(),createdBy:p.createdBy||S.uid}),msg||'تم حفظ الطلب');onClose()}catch(e){}setBusy(false)};
-  const receive=()=>{const tot=sum(rcv),req=sum(p.items);save({received:rcv,status:tot>=req?'delivered':'partial',receivedBy:S.uid,receivedAt:Date.now()},'تم تأكيد الاستلام')};
-  const del=()=>W(()=>S.db.doc('pos/'+id).delete(),'تم حذف الطلب').then(onClose);
-  const trips=S.trips.filter(t=>t.date===p.deliveryDate);
-  const canRecv=!isNew&&['approved','loading','onroute','delivered','partial','new'].includes(p.status);
-  return html`<${Sheet} title=${isNew?'طلب شراء جديد':'طلب '+(p.number||'')} sub=${p.branchId?branchName(p.branchId):''} onClose=${onClose}
-    footer=${mgr?html`<button class="btn pri grow" disabled=${busy} onClick=${()=>save()}>حفظ</button>${!isNew&&html`<${Confirm} label="حذف" onYes=${del}/>`}`:null}>
-    ${mgr?html`<section class="sec"><div class="fgrid">
-      <${Fld} label="رقم الطلب PO"><input id="po-num" dir="ltr" value=${p.number} onInput=${e=>setP({...p,number:e.target.value})}/><//>
-      <${Fld} label="الفرع *"><select id="po-br" value=${p.branchId} onChange=${e=>setP({...p,branchId:e.target.value})}><option value="">—</option>${scopeBranches().map(b=>html`<option value=${b.id}>${branchName(b.id)}</option>`)}</select><//>
-      <${Fld} label="تاريخ الطلب"><input type="date" value=${p.orderDate} onInput=${e=>setP({...p,orderDate:e.target.value})}/><//>
-      <${Fld} label="تاريخ التوريد"><input type="date" value=${p.deliveryDate} onInput=${e=>setP({...p,deliveryDate:e.target.value})}/><//>
-      <${Fld} label="الحالة"><select value=${p.status} onChange=${e=>setP({...p,status:e.target.value})}>${Object.entries(PO_ST).map(([k,v])=>html`<option value=${k}>${v[0]}</option>`)}</select><//>
-      <${Fld} label="الرحلة"><select value=${p.tripId||''} onChange=${e=>setP({...p,tripId:e.target.value})}><option value="">بدون</option>${trips.map(t=>html`<option value=${t.id}>${(truckOf(t.truckId)||{}).plate||'شاحنة'} · ${t.driver||''}</option>`)}</select><//>
-    </div></section>
-    <section class="sec"><h3>الكميات المطلوبة <span class="muted small">كرتون</span></h3>
-      <div class="tw"><table class="qty"><tbody>${prods.map(x=>html`<tr><td>${x.name}</td><td><input type="number" inputmode="numeric" min="0" aria-label=${x.name} value=${(p.items||{})[x.id]??''} onInput=${e=>setP({...p,items:{...p.items,[x.id]:e.target.value===''?'':+e.target.value}})}/></td></tr>`)}</tbody></table></div>
-      <b>الإجمالي: ${num(sum(p.items))} كرتون</b></section>
-    <${Fld} label="ملاحظات"><textarea value=${p.notes} onInput=${e=>setP({...p,notes:e.target.value})}></textarea><//>`
-    :html`<section class="sec"><dl class="kv"><dt>رقم الطلب</dt><dd>${p.number||'—'}</dd><dt>التوريد</dt><dd>${fmtDate(p.deliveryDate)}</dd><dt>الحالة</dt><dd><${Pill} st=${PO_ST[p.status||'new']}/></dd>${p.notes&&html`<dt>ملاحظات</dt><dd>${p.notes}</dd>`}</dl></section>`}
-    ${canRecv&&html`<section class="sec"><h3>تأكيد الاستلام في الفرع</h3>
-      <div class="tw"><table class="qty"><thead><tr><th>المنتج</th><th>المطلوب</th><th>المستلم فعلياً</th></tr></thead><tbody>${prods.filter(x=>(p.items||{})[x.id]).map(x=>html`<tr><td>${x.name}</td><td>${p.items[x.id]}</td><td><input type="number" inputmode="numeric" min="0" aria-label=${'مستلم '+x.name} value=${rcv[x.id]??''} onInput=${e=>setRcv({...rcv,[x.id]:e.target.value===''?'':+e.target.value})}/></td></tr>`)}</tbody></table></div>
-      <${Fld} label="ملاحظة الاستلام"><input value=${p.recvNote||''} onInput=${e=>setP({...p,recvNote:e.target.value})} placeholder="مثال: 3 كراتين مكسورة"/><//>
-      ${p.receivedAt&&html`<div class="muted small">آخر تأكيد: ${nameOf(p.receivedBy)} · ${fmtTs(p.receivedAt)}</div>`}
-      <div><button class="btn yolk" disabled=${busy} onClick=${receive}>تأكيد الاستلام</button></div></section>`}
-  <//>`;
 }
 
 /* ---------------- trucks & trips ---------------- */
@@ -1461,6 +1530,7 @@ function BulkSheet({rows,people,onClose}){
     </div>
     <div class="fld"><span>أيام الزيارة ${f.days?'(تستبدل الأيام الحالية)':'(بدون تغيير)'}</span><div class="days">${DAYS.map((x,i)=>html`<button type="button" class=${'chip'+(d.includes(i)?' on':'')} onClick=${()=>setF({...f,days:d.includes(i)?d.filter(y=>y!==i):[...d,i]})}>${x}</button>`)}${f.days&&html`<button type="button" class="btn sm ghost" onClick=${()=>setF({...f,days:null})}>بدون تغيير</button>`}</div></div></section>
     <div class="small muted">${rows.slice(0,12).map(b=>branchName(b.id)).join('، ')}${rows.length>12?' … و'+(rows.length-12)+' فرع':''}</div>
+    <section class="sec"><h3>حذف</h3>${busy?'':html`<${Confirm} label=${'حذف الـ '+rows.length+' فرع المعروضة'} ask=${'حذف '+rows.length+' فرع نهائياً؟'} onYes=${async()=>{let n=0;setBusy('0/'+rows.length);try{for(const b of rows){await S.db.doc('branches/'+b.id).delete();n++;setBusy(n+'/'+rows.length)}toast('تم حذف '+n+' فرع');onClose()}catch(e){toast(errMsg(e)+' (تم '+n+')','bad')}setBusy('')}}/>`}</section>
   <//>`;
 }
 
@@ -1468,23 +1538,25 @@ function BulkSheet({rows,people,onClose}){
 function Team(){
   const s=useS();const[e,setE]=useState(null);const[q,setQ]=useState('');const[fl,setFl]=useState('');
   const st=p=>{const r=roleOf(p.id);return p.id===S.uid&&S.canEdit?'me':r.approved?'ok':r.disabledAt?'off':'wait'};
-  const rows=[...s.profiles].filter(p=>(!q||(p.name||'').includes(q)||(p.phone||'').includes(q))&&(!fl||st(p)===fl||(fl==='sup'&&roleOf(p.id).role==='supervisor')))
+  const rows=[...s.profiles].filter(p=>(!q||(p.name||'').includes(q)||(p.phone||'').includes(q)||codeOf(p.id).toUpperCase().includes(q.toUpperCase()))&&(!fl||st(p)===fl||(fl==='sup'&&roleOf(p.id).role==='supervisor')))
     .sort((a,b)=>({wait:0,ok:1,me:2,off:3}[st(a)]-{wait:0,ok:1,me:2,off:3}[st(b)])||(a.name||'').localeCompare(b.name||''));
   const saveRole=(uid,patch,msg)=>{const r={...roleOf(uid)};delete r.id;return W(()=>put('roles/'+uid,{role:'merch',approved:false,...r,...patch,updatedAt:Date.now(),by:S.uid}),msg||'تم التحديث')};
   const pending=s.profiles.filter(p=>st(p)==='wait').length;const td=today();
   return html`<div class="row between"><h1>الفريق والحسابات</h1></div>
     ${window.APP_STANDALONE?html`<div class="notice info">أرسل رابط التطبيق للمندوب. يضغط «حساب جديد» ويختار اسم مستخدم وكلمة مرور، وبعدها يظهر هنا وتعتمده وتحدد مشرفه وفروعه.</div>`:html`<div class="notice info">كل موظف يفتح رابط الصفحة بحسابه ويسجّل بياناته، وبعدها يظهر هنا وتعتمده وتحدد مشرفه وموقعه. شارك الصفحة مع المناديب والمشرفين بصلاحية <b>Contributor</b>، ومع المدراء بصلاحية <b>Editor</b>.</div>`}
-    <div class="filters card"><${Fld} label="بحث بالاسم أو الجوال"><input value=${q} onInput=${x=>setQ(x.target.value)}/><//>
+    ${S.canEdit&&s.profiles.some(p=>st(p)==='wait')&&html`<div class="card attn"><h2>تسجيلات جديدة <span class="sub">تطلع هنا تلقائياً أول ما يسجّل الموظف. حدد كوده ودوره واعتمده</span></h2>
+      <div class="tgrid">${s.profiles.filter(p=>st(p)==='wait').sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).map(p=>html`<${RegCard} p=${p} saveRole=${saveRole}/>`)}</div></div>`}
+    <div class="filters card"><${Fld} label="بحث بالاسم أو الكود أو الجوال"><input value=${q} onInput=${x=>setQ(x.target.value)}/><//>
       <${Fld} label="عرض"><select value=${fl} onChange=${x=>setFl(x.target.value)}><option value="">الكل</option><option value="wait">بانتظار الاعتماد (${pending})</option><option value="ok">المعتمدين</option><option value="sup">المشرفين</option><option value="off">الموقوفين</option></select><//></div>
     ${rows.length?html`<div class="tgrid">${rows.map(p=>{const r=roleOf(p.id);const k=st(p);const sp=supOf(p.id);const nb=s.branches.filter(b=>b.merchUid===p.id).length;const rep=s.reports.find(x=>x.uid===p.id&&x.date===td&&!x.demo);
       return html`<div class=${'card tcard'+(k==='wait'?' wait':'')}>
-        <div class="row between" style="align-items:flex-start"><div style="min-width:0"><h3>${p.name}${p.id===S.uid?html` <span class="pill t-info">أنت</span>`:''}</h3><div class="small muted">${k==='me'?ROLE.manager:ROLE[r.role||'merch']}${p.empNo?' · '+p.empNo:''}</div></div>
+        <div class="row between" style="align-items:flex-start"><div style="min-width:0"><h3>${p.name}${p.id===S.uid?html` <span class="pill t-info">أنت</span>`:''}</h3><div class="small muted">${k!=='me'&&html`<${CodeTag} uid=${p.id}/> `}${k==='me'?ROLE.manager:ROLE[r.role||'merch']}${p.empNo?' · رقم وظيفي '+p.empNo:''}</div></div>
           ${k==='wait'?html`<${Pill} st=${['بانتظار الاعتماد','warn']}/>`:k==='off'?html`<${Pill} st=${['موقوف','muted']}/>`:k==='ok'?(rep?html`<${Pill} st=${['اليوم '+rep.visits.length+' زيارات','ok']}/>`:html`<${Pill} st=${['معتمد','ok']}/>`):null}</div>
         <dl class="kv">${p.username&&html`<dt>المستخدم</dt><dd dir="ltr" style="text-align:end;justify-self:start">${p.username}</dd>`}<dt>الجوال</dt><dd><${Phone} n=${p.phone}/></dd>
           ${k!=='me'&&html`<dt>المشرف</dt><dd>${sp?html`${sp.name}${sp.phone?html` · <span dir="ltr">${sp.phone}</span>`:''}`:html`<span style="color:var(--bad)">غير محدد</span>`}</dd>`}
           <dt>الموقع</dt><dd>${r.area||p.city||'—'}${r.mapUrl?html` · <a href=${r.mapUrl} target="_blank" rel="noopener">الخريطة</a>`:''}</dd>
           ${k!=='me'&&html`<dt>الفروع</dt><dd>${nb}${r.repName?html` <span class="small muted">(${r.repName} في الملف)</span>`:''}</dd>`}</dl>
-        ${k!=='me'&&html`<div class="row">${k==='wait'||k==='off'?html`<button class="btn sm pri" onClick=${()=>saveRole(p.id,{approved:true,disabledAt:null},'تم اعتماد '+p.name)}>اعتماد</button>`:''}<button class="btn sm" onClick=${()=>setE({uid:p.id,repName:r.repName||'',name:p.name||'',phone:p.phone||'',role:r.role||'merch',supervisorUid:r.supervisorUid||'',supName:r.supName||'',supPhone:r.supPhone||'',area:r.area||'',mapUrl:r.mapUrl||'',notes:r.notes||'',approved:!!r.approved})}>تعديل البيانات</button>
+        ${k!=='me'&&html`<div class="row">${k==='wait'||k==='off'?html`<button class="btn sm pri" onClick=${()=>saveRole(p.id,{approved:true,disabledAt:null},'تم اعتماد '+p.name)}>اعتماد</button>`:''}<button class="btn sm" onClick=${()=>setE({uid:p.id,code:r.code||'',repName:r.repName||'',name:p.name||'',phone:p.phone||'',role:r.role||'merch',supervisorUid:r.supervisorUid||'',supName:r.supName||'',supPhone:r.supPhone||'',area:r.area||'',mapUrl:r.mapUrl||'',notes:r.notes||'',approved:!!r.approved})}>تعديل البيانات</button>
           ${k==='ok'&&html`<${Confirm} cls="ghost sm" label="إيقاف" ask="إيقاف الحساب؟" onYes=${()=>saveRole(p.id,{approved:false,disabledAt:Date.now()},'تم إيقاف الحساب')}/>`}</div>`}
       </div>`})}</div>`:html`<div class="card"><${Empty} t="ما سجّل أحد بعد. شارك رابط الصفحة مع فريقك."/></div>`}
     ${e&&html`<${TeamSheet} e=${e} setE=${setE} saveRole=${saveRole}/>`}`;
@@ -1492,13 +1564,17 @@ function Team(){
 function TeamSheet({e,setE,saveRole}){
   const sups=S.profiles.filter(p=>p.id!==e.uid&&(p.id===S.uid||roleOf(p.id).role==='supervisor'&&roleOf(p.id).approved));
   const[busy,setBusy]=useState(false);
-  const save=async()=>{if(!e.name.trim())return toast('اكتب الاسم','bad');setBusy(true);try{
+  const save=async()=>{if(!e.name.trim())return toast('اكتب الاسم','bad');const c=(e.code||'').trim().toUpperCase();if(!c)return toast('حدد كود الموظف','bad');
+    if(S.roles.some(x=>x.id!==e.uid&&String(x.code||'').trim().toUpperCase()===c))return toast('الكود '+c+' مستخدم لموظف ثاني','bad');setBusy(true);try{
     const pr=S.profiles.find(p=>p.id===e.uid)||{};if(pr.name!==e.name.trim()||(pr.phone||'')!==e.phone)await W(()=>S.db.doc('profiles/'+e.uid).update({name:e.name.trim(),phone:e.phone,updatedAt:Date.now()}));
     if(e.repName){const bs=S.branches.filter(b=>b.repName===e.repName&&!b.merchUid);let n=0;for(const b of bs){await S.db.doc('branches/'+b.id).update({merchUid:e.uid});n++}if(n)toast('تم ربط '+n+' فرع بـ'+e.name)}
-    await saveRole(e.uid,{repName:e.repName||'',role:e.role,supervisorUid:e.supervisorUid==='manual'?'':e.supervisorUid,supName:e.supervisorUid==='manual'?e.supName:'',supPhone:e.supPhone,area:e.area,mapUrl:e.mapUrl,notes:e.notes},'تم حفظ بيانات '+e.name);setE(null)}catch(x){}setBusy(false)};
+    await saveRole(e.uid,{code:(e.code||'').trim().toUpperCase(),repName:e.repName||'',role:e.role,supervisorUid:e.supervisorUid==='manual'?'':e.supervisorUid,supName:e.supervisorUid==='manual'?e.supName:'',supPhone:e.supPhone,area:e.area,mapUrl:e.mapUrl,notes:e.notes},'تم حفظ بيانات '+e.name);setE(null)}catch(x){}setBusy(false)};
   const manual=e.supervisorUid==='manual'||(!e.supervisorUid&&e.supName);
-  return html`<${Sheet} title=${'بيانات '+e.name} onClose=${()=>setE(null)} footer=${html`<button class="btn pri grow" disabled=${busy} onClick=${save}>${busy?'جاري الحفظ…':'حفظ'}</button>`}>
+  const delEmp=async()=>{setBusy(true);try{for(const b of S.branches.filter(b=>b.merchUid===e.uid))await S.db.doc('branches/'+b.id).update({merchUid:''});
+    await S.db.doc('roles/'+e.uid).delete().catch(()=>{});await S.db.doc('profiles/'+e.uid).delete();toast('تم حذف '+e.name+' وفك ربط فروعه');setE(null)}catch(x){toast(errMsg(x),'bad')}setBusy(false)};
+  return html`<${Sheet} title=${'بيانات '+e.name} onClose=${()=>setE(null)} footer=${html`<button class="btn pri grow" disabled=${busy} onClick=${save}>${busy?'جاري الحفظ…':'حفظ'}</button><${Confirm} label="حذف الموظف" ask="حذف بيانات الموظف وصلاحياته وفك ربط فروعه؟ تقاريره السابقة تبقى." onYes=${delEmp}/>`}>
     <section class="sec"><h3>الموظف</h3><div class="fgrid">
+      <${Fld} label="كود الموظف * (يحدده المدير)"><input id="tm-code" dir="ltr" placeholder="مثال: R07" value=${e.code} onInput=${x=>setE({...e,code:x.target.value})}/><//>
       <${Fld} label="الاسم"><input id="tm-name" value=${e.name} onInput=${x=>setE({...e,name:x.target.value})}/><//>
       <${Fld} label="جوال الموظف"><input id="tm-phone" dir="ltr" inputmode="tel" value=${e.phone} onInput=${x=>setE({...e,phone:x.target.value})}/><//>
       <${Fld} label="الدور"><select id="tm-role" value=${e.role} onChange=${x=>setE({...e,role:x.target.value})}><option value="merch">${ROLE.merch}</option><option value="supervisor">${ROLE.supervisor}</option></select><//>
@@ -1566,6 +1642,7 @@ function Exports(){
       await saveFile('الرحلات_'+r.from+'_'+r.to+'.csv',toCSV(['التاريخ','الشاحنة','السائق','حالة الرحلة','الترتيب','الفرع','الوقت المتوقع','حالة الوقفة','وقت التحديث'],rows))}
   }catch(e){console.error(e);toast('تعذّر تجهيز الملف','bad')}setBusy('')};
   return html`<div class="card"><h2>تصدير إلى إكسل <span class="sub">ملف CSV يفتح في Excel</span></h2>
+    <div><button class="btn yolk" onClick=${()=>{S.ceoOpen=true;bump()}}>📊 تقرير مختصر للرئيس التنفيذي (xlsx)</button></div>
     <div class="filters"><${Fld} label="من"><input type="date" value=${r.from} onInput=${e=>setR({...r,from:e.target.value})}/><//><${Fld} label="إلى"><input type="date" value=${r.to} onInput=${e=>setR({...r,to:e.target.value})}/><//></div>
     <div class="row">${[['branches','الفروع'],['visits','الزيارات والكميات'],['prices','أسعار المنافسين'],['pos','طلبات الشراء'],['trips','الرحلات']].map(([k,l])=>html`<button class="btn" disabled=${!!busy} onClick=${()=>run(k)}>${busy===k?'جاري التجهيز…':l}</button>`)}</div>
     ${!S.downloads&&html`<div class="muted small">التنزيل غير متاح في هذا العرض.</div>`}</div>`;
@@ -1573,7 +1650,7 @@ function Exports(){
 function Archive(){
   const[cut,setCut]=useState(addDays(today(),-180));const[ph,setPh]=useState(true);const[busy,setBusy]=useState('');
   const run=async()=>{setBusy('جاري الحذف…');let n=0,m=0;try{
-    for(const[col,field]of[['reports','date'],['pos','deliveryDate'],['trips','date'],['followups','date'],['reviews','date']]){
+    for(const[col,field]of[['reports','date'],['pos','deliveryDate'],['trips','date'],['followups','date'],['reviews','date'],['pricewatch','date'],['notifs','date']]){
       while(true){const snap=await S.db.collection(col).where(field,'<',cut).limit(200).get();if(snap.empty)break;
         for(const d of snap.docs){if(col==='reports'&&ph&&S.assets){const dd=d.data();for(const a of[...(dd.visits||[]).flatMap(v=>[...(v.before||[]),...(v.after||[])]),...[dd.shiftIn,dd.shiftOut].filter(x=>x&&x.photo).map(x=>x.photo)]){await S.assets.delete(a).catch(()=>{});m++}}
           await d.ref?d.ref.delete():S.db.doc(col+'/'+d.id).delete();n++;setBusy('تم حذف '+n+' سجل')}
@@ -1587,8 +1664,8 @@ function Archive(){
 }
 
 /* ---------------- backup & restore ---------------- */
-const BACKUP_COLS=['settings','regions','branches','trucks','profiles','roles','reports','followups','reviews','pos','trips'];
-const COL_AR={settings:'الإعدادات',regions:'المناطق',branches:'الفروع',trucks:'الشاحنات',profiles:'الموظفين',roles:'الصلاحيات',reports:'التقارير',followups:'المتابعات',reviews:'الحضور واللبس',pos:'طلبات الشراء',trips:'الرحلات'};
+const BACKUP_COLS=['settings','regions','branches','trucks','profiles','roles','reports','followups','reviews','pos','trips','pricewatch','notifs'];
+const COL_AR={settings:'الإعدادات',regions:'المناطق',branches:'الفروع',trucks:'الشاحنات',profiles:'الموظفين',roles:'الصلاحيات',reports:'التقارير',followups:'المتابعات',reviews:'الحضور واللبس',pos:'طلبات الشراء',trips:'الرحلات',pricewatch:'التحدي اليومي',notifs:'الإشعارات'};
 const daysSince=t=>t?Math.floor((Date.now()-t)/864e5):null;
 function BackupNotice(){
   const b=S.backupInfo;const d=b?daysSince(b.lastAt):null;
@@ -1644,7 +1721,7 @@ function Account(){
    The rep photographs themselves in the official uniform at the start and end of the shift (camera only).
    Time and location are taken by the phone automatically. Supervisors and the manager review the uniform
    in reviews/{date}_{uid}, and can mark a day as excused. Monthly points come from scoreFor(). */
-const HRDEF={shiftStart:'07:00',shiftEnd:'15:00',grace:15,workDays:[6,0,1,2,3,4],requirePhotos:true,bonus:0,rules:[],
+const HRDEF={shiftStart:'07:00',shiftEnd:'15:00',grace:15,workDays:[6,0,1,2,3,4],requirePhotos:true,bonus:0,rules:[],challengePts:20,challengeReward:'',uniformPhotos:[],heroPhoto:'',
   uniform:['الزي الرسمي للقرية (القميص بشعار القرية) نظيف ومرتب','البنطلون الرسمي الداكن','البطاقة الوظيفية ظاهرة','حذاء مغلق مناسب للعمل الميداني','الهندام والنظافة الشخصية'],
   weights:{schedule:30,punctual:20,uniform:15,shelf:15,reports:20},
   tiers:[{min:90,name:'ممتاز',pct:100},{min:80,name:'جيد جداً',pct:75},{min:70,name:'جيد',pct:50},{min:0,name:'يحتاج تحسين',pct:0}]};
@@ -1760,7 +1837,9 @@ function ReviewSheet({uid,date,onClose}){
     ${has?html`<section class="sec"><h3>معيار اللبس الرسمي <span class="sub">اضغط على البند المخالف</span></h3>
       <div class="stack" style="gap:6px">${h.uniform.map(it=>{const bad=fails.includes(it);return html`<button type="button" class=${'unirow'+(bad?' bad':'')} onClick=${()=>setFails(bad?fails.filter(x=>x!==it):[...fails,it])}><b>${bad?'✗':'✓'}</b><span class="grow">${it}</span></button>`})}</div>
       <${Fld} label="ملاحظة للمندوب"><textarea value=${note} onInput=${e=>setNote(e.target.value)} placeholder="مثال: البطاقة الوظيفية غير ظاهرة"></textarea><//>
-      ${rv.uniform&&html`<div class="small muted">آخر تقييم: ${nameOf(rv.uniform.by)} · ${fmtTs(rv.uniform.at)}</div>`}</section>`
+      ${rv.uniform&&html`<div class="small muted">آخر تقييم: ${nameOf(rv.uniform.by)} · ${fmtTs(rv.uniform.at)}</div>`}
+      ${S.canEdit&&rv.id&&html`<div><${Confirm} cls="sm" label="حذف المراجعة والعذر" onYes=${()=>delDoc(path).then(onClose)}/></div>`}
+      <div><${ReturnBtn} to=${uid} kind="shift" label="طلب صورة جديدة" ref=${{date,label:'الدوام '+date}}/></div></section>`
       :html`<div class="notice">ما سجل صور الدوام لهذا اليوم، فما فيه لبس يُقيّم. إذا كان غائباً بعذر سجّله تحت.</div>`}
     <section class="sec"><h3>عذر أو إجازة <span class="sub">اليوم ما يُحسب عليه في الحضور والحوافز</span></h3>
       ${rv.excused&&html`<div class="notice info">مسجل كعذر: ${rv.excused.reason} · ${nameOf(rv.excused.by)}</div>`}
@@ -1819,51 +1898,22 @@ function Hr(){
   }else{
     const reps=s.reports;const rows=team.map(u=>({u,x:scoreFor(u,from,to,reps)})).sort((a,b)=>(b.x.total??-1)-(a.x.total??-1));
     const P=v=>v==null?'—':Math.round(v)+'%';const tone=v=>v==null?'':v>=90?'var(--ok)':v>=70?'var(--warn)':'var(--bad)';
-    const exp=()=>saveFile('الحوافز_'+month+'.csv',toCSV(['المندوب','أيام العمل','في الوقت','تأخير','دقائق التأخير','غياب','أعذار',...CRIT.map(c=>c[1]),'المجموع','الفئة','نسبة الحافز','مبلغ الحافز','أيام فيها مخالفات','الإجراء المقترح','المخالفات'],
-      rows.map(({u,x})=>[nameOf(u),x.work,x.onTime,x.late,x.lateMin,x.absent,x.excused,...CRIT.map(c=>x.s[c[0]]==null?'':Math.round(x.s[c[0]])),x.total==null?'':Math.round(x.total),x.tier?x.tier.name:'',x.tier?x.tier.pct+'%':'',bonusOf(x)||'',x.violDays,actionOf(x.violDays)[0],x.viol.map(v=>v.d+' '+v.t).join(' | ')])));
+    const exp=()=>saveFile('الحوافز_'+month+'.csv',toCSV(['الكود','المندوب','نقاط التحدي','أيام العمل','في الوقت','تأخير','دقائق التأخير','غياب','أعذار',...CRIT.map(c=>c[1]),'المجموع','الفئة','نسبة الحافز','مبلغ الحافز','أيام فيها مخالفات','الإجراء المقترح','المخالفات'],
+      rows.map(({u,x})=>[codeOf(u),nameOf(u),chPoints(u,from,to),x.work,x.onTime,x.late,x.lateMin,x.absent,x.excused,...CRIT.map(c=>x.s[c[0]]==null?'':Math.round(x.s[c[0]])),x.total==null?'':Math.round(x.total),x.tier?x.tier.name:'',x.tier?x.tier.pct+'%':'',bonusOf(x)||'',x.violDays,actionOf(x.violDays)[0],x.viol.map(v=>v.d+' '+v.t).join(' | ')])));
     body=html`
       <div class="row between"><div class="muted small">${from} إلى ${to}</div>
         <div class="row"><input type="month" class="inp" style="width:auto" value=${month} max=${today().slice(0,7)} onInput=${e=>e.target.value&&setMonth(e.target.value)}/><button class="btn" onClick=${exp}>تصدير Excel (CSV)</button></div></div>
-      <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>#</th><th>المندوب</th>${CRIT.map(c=>html`<th class="n">${c[1]}<div class="small muted">${(+h.weights[c[0]]||0)+' نقطة'}</div></th>`)}<th class="n">المجموع</th><th>الحافز</th><th class="n">أيام المخالفات</th><th>الإجراء المقترح</th></tr></thead><tbody>
-        ${rows.map(({u,x},i)=>html`<tr class="click" onClick=${()=>setOpen(u)}><td>${i+1}</td><td><b>${nameOf(u)}</b><div class="small muted">${x.work} يوم عمل${x.uniPend?' · '+x.uniPend+' لبس بانتظار المراجعة':''}</div></td>
+      <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>#</th><th>المندوب</th>${CRIT.map(c=>html`<th class="n">${c[1]}<div class="small muted">${(+h.weights[c[0]]||0)+' نقطة'}</div></th>`)}<th class="n">المجموع</th><th>الحافز</th><th class="n">نقاط التحدي</th><th class="n">أيام المخالفات</th><th>الإجراء المقترح</th></tr></thead><tbody>
+        ${rows.map(({u,x},i)=>html`<tr class="click" onClick=${()=>setOpen(u)}><td>${i+1}</td><td><${CodeTag} uid=${u}/> <b>${nameOf(u)}</b><div class="small muted">${x.work} يوم عمل${x.uniPend?' · '+x.uniPend+' لبس بانتظار المراجعة':''}</div></td>
           ${CRIT.map(c=>html`<td class="n" style=${'color:'+tone(x.s[c[0]])}>${P(x.s[c[0]])}</td>`)}
           <td class="n"><b style=${'font-size:1.05rem;color:'+tone(x.total)}>${x.total==null?'—':Math.round(x.total)}</b></td>
           <td>${x.tier?html`<${Pill} st=${[x.tier.name+' · '+x.tier.pct+'%',x.tier.pct>=75?'ok':x.tier.pct>0?'yolk':'bad']}/>${bonusOf(x)>0&&html`<div class="small">${num(bonusOf(x))} ريال</div>`}`:'—'}</td>
-          <td class="n">${x.violDays}</td><td><${Pill} st=${actionOf(x.violDays)}/></td></tr>`)}</tbody></table></div>`:html`<${Empty} t="لا يوجد مندوبين في هذا النطاق"/>`}</div>
+          <td class="n">${chPoints(u,from,to)}</td><td class="n">${x.violDays}</td><td><${Pill} st=${actionOf(x.violDays)}/></td></tr>`)}</tbody></table></div>`:html`<${Empty} t="لا يوجد مندوبين في هذا النطاق"/>`}</div>
       <div class="muted small">المجموع = متوسط المعايير بأوزانها. الحساب يبدأ من تاريخ «بداية احتساب النقاط» في الإعدادات${h.startDate?' ('+h.startDate+')':''}. المعيار اللي ما له بيانات (مثلاً فروع بدون أيام زيارة، أو صور بدون تقييم) ما يدخل في الحساب ويتوزع وزنه على الباقي. الإجراء المقترح توصية فقط، والقرار حسب لائحة تنظيم العمل في الشركة.</div>`;
   }
   return html`<div class="row between"><h1>الحضور والحوافز</h1>${Seg}</div>${body}
     ${rv&&html`<${ReviewSheet} uid=${rv} date=${date} onClose=${()=>setRv(null)}/>`}
     ${open&&html`<${Sheet} title=${'نقاط '+nameOf(open)} sub=${month} onClose=${()=>setOpen(null)}><${ScoreCard} x=${scoreFor(open,from,to,s.reports)}/><//>`}`;
-}
-
-/* rep: requirements, uniform standard, incentives and own points */
-function Rules(){
-  const s=useS();const h=HR();const m=today().slice(0,7);const[from,to]=monthRange(m);
-  const x=scoreFor(s.uid,from,to,s.myReports);
-  const reqs=[['سجّل بداية الدوام بصورة لك باللبس الرسمي من كاميرا الجوال، قبل الساعة',hmOf(mins(h.shiftStart)+(+h.grace||0))],
-    ['ما تقدر تسجل أي زيارة قبل صورة بداية الدوام. الوقت والموقع يُسجلون تلقائياً.'],
-    ['زُر كل فروعك المجدولة في يومها، وسجّل الزيارة من التطبيق وأنت في الفرع.'],
-    ['في كل زيارة: صور الرف قبل وبعد الترتيب، والكميات، والنفاد، والمشاكل.'],
-    ['سجّل أسعار الرف لكل منتجاتنا مرة وحدة على الأقل باليوم.'],
-    ['سجّل نهاية الدوام بصورة ثانية باللبس الرسمي، بعد الساعة',h.shiftEnd],
-    ['أرسل تقرير اليوم بعد صورة نهاية الدوام.'],
-    ...h.rules.map(t=>[t])];
-  const tiers=[...h.tiers].sort((a,b)=>b.min-a.min);const b=+h.bonus||0;
-  return html`<h1>المتطلبات والحوافز</h1>
-    <div class="card"><h2>نقاطي هذا الشهر <span class="sub">${m}</span></h2><${ScoreCard} x=${x}/></div>
-    <div class="card"><h2>المتطلبات اليومية</h2><ol class="rules">${reqs.map(([t,v])=>html`<li><span>${t}</span>${v?html` <b dir="ltr">${v}</b>`:''}</li>`)}</ol>
-      <div class="small muted"><span>أيام العمل:</span> <span>${h.workDays.slice().sort((a,b2)=>((a+1)%7)-((b2+1)%7)).map(d=>DAYS[d]).join('، ')}</span></div></div>
-    <div class="card"><h2>معيار اللبس الرسمي للقرية</h2><ul class="rules">${h.uniform.map(t=>html`<li>${t}</li>`)}</ul>
-      <div class="small muted">المشرف يراجع صورة بداية الدوام ونهايته كل يوم، ويعتمد اللبس أو يسجل الملاحظة.</div></div>
-    <div class="card"><h2>نظام النقاط والحوافز</h2>
-      <div class="tw"><table><thead><tr><th>المعيار</th><th class="n">الوزن</th><th>كيف يُحسب</th></tr></thead><tbody>
-        ${CRIT.map(([k,l,d])=>html`<tr><td><b>${l}</b></td><td class="n">${(+h.weights[k]||0)+' نقطة'}</td><td class="small">${d}</td></tr>`)}</tbody></table></div>
-      <div class="tw"><table><thead><tr><th>الفئة</th><th class="n">من</th><th class="n">الحافز</th></tr></thead><tbody>
-        ${tiers.map(t=>html`<tr><td><b>${t.name}</b></td><td class="n">${t.min}</td><td class="n">${t.pct}%${b?html`<div class="small muted">${num(Math.round(b*t.pct/100))} ريال</div>`:''}</td></tr>`)}</tbody></table></div></div>
-    <div class="card"><h2>المخالفات والإجراءات</h2><ul class="rules">${VIOL_TYPES.map(t=>html`<li>${t}</li>`)}</ul>
-      <div class="chips"><span class="pill t-yolk"><span>1 – 2 أيام:</span> <span>تنبيه شفهي</span></span><span class="pill t-warn"><span>3 – 4 أيام:</span> <span>إنذار كتابي</span></span><span class="pill t-bad"><span>5 أيام فأكثر:</span> <span>رفع للموارد البشرية</span></span></div>
-      <div class="small muted">الأعذار والإجازات يسجلها المشرف وما تنحسب عليك.</div></div>`;
 }
 
 /* manager: shift, uniform and incentive settings (settings/hr) */
@@ -1878,7 +1928,7 @@ function HrConfig(){
     if(!f.workDays.length)return toast('اختر أيام العمل','bad');
     setBusy(true);try{await W(()=>put('settings/hr',{startDate:f.startDate||today(),shiftStart:f.shiftStart,shiftEnd:f.shiftEnd,grace:Math.max(0,+f.grace||0),workDays:f.workDays,requirePhotos:!!f.requirePhotos,
       uniform:lines(f.uniformT),rules:lines(f.rulesT),weights:Object.fromEntries(CRIT.map(([k])=>[k,Math.max(0,+f.weights[k]||0)])),
-      tiers:f.tiers.filter(t=>(t.name||'').trim()).map(t=>({min:+t.min||0,name:t.name.trim(),pct:+t.pct||0})),bonus:Math.max(0,+f.bonus||0),updatedAt:Date.now()}),'تم حفظ إعدادات الدوام والحوافز')}catch(e){}setBusy(false)};
+      tiers:f.tiers.filter(t=>(t.name||'').trim()).map(t=>({min:+t.min||0,name:t.name.trim(),pct:+t.pct||0})),bonus:Math.max(0,+f.bonus||0),challengePts:Math.max(0,+f.challengePts||0)||20,challengeReward:(f.challengeReward||'').trim(),uniformPhotos:f.uniformPhotos||[],heroPhoto:f.heroPhoto||'',updatedAt:Date.now()}),'تم حفظ إعدادات الدوام والحوافز')}catch(e){}setBusy(false)};
   const setW=(k,v)=>setF({...f,weights:{...f.weights,[k]:v}});const setT=(i,p)=>setF({...f,tiers:f.tiers.map((t,j)=>j===i?{...t,...p}:t)});
   return html`<div class="card"><h2>الدوام واللبس الرسمي والحوافز <span class="sub">تظهر للمناديب في «المتطلبات والحوافز»</span></h2>
     <div class="fgrid">
@@ -1902,15 +1952,517 @@ function HrConfig(){
         <label class="row small" style="gap:4px">الحافز %<input class="inp" style="width:80px" type="number" value=${t.pct} onInput=${e=>setT(i,{pct:e.target.value})}/></label>
         <button class="btn sm ghost" aria-label="حذف الفئة" onClick=${()=>setF({...f,tiers:f.tiers.filter((x,j)=>j!==i)})}>✕</button></div>`)}
       <div><button class="btn sm" onClick=${()=>setF({...f,tiers:[...f.tiers,{name:'',min:0,pct:0}]})}>＋ فئة</button></div></div>
+    <div class="fld"><span>التحدي اليومي لأسعار المنافسين</span><div class="fgrid">
+      <${Fld} label="نقاط أول مندوب يصوّر أسعار البراند"><input type="number" min="1" inputmode="numeric" value=${f.challengePts} onInput=${e=>setF({...f,challengePts:e.target.value})}/><//>
+      <${Fld} label="المكافأة (تظهر للمناديب)"><input value=${f.challengeReward||''} placeholder="مثال: كل 100 نقطة = 100 ريال" onInput=${e=>setF({...f,challengeReward:e.target.value})}/><//></div></div>
+    <div class="fld"><span>صور اللبس الرسمي للقرية (من دليل الهوية البصرية)، تظهر للمناديب في «المتطلبات والحوافز»</span><${Photos} ids=${f.uniformPhotos||[]} label="اللبس الرسمي" onChange=${ids=>setF({...f,uniformPhotos:ids})}/></div>
+    <div class="fld"><span>صورة الواجهة في صفحة الحوافز (اختياري، مثلاً صورة مولّدة بـ Gemini). بدونها يظهر الرسم الافتراضي</span><${Photos} ids=${f.heroPhoto?[f.heroPhoto]:[]} label="صورة الواجهة" onChange=${ids=>setF({...f,heroPhoto:ids[ids.length-1]||''})}/></div>
     <div class="row"><button class="btn pri" disabled=${busy} onClick=${save}>${busy?'جاري الحفظ…':'حفظ إعدادات الدوام والحوافز'}</button></div>
   </div>`;
 }
 
+/* ================= v14: codes, notifications, rep POs, brand coverage, CEO report, price challenge ================= */
+const codeOf=uid=>String(roleOf(uid).code||'').trim();
+const CodeTag=({uid})=>{const c=codeOf(uid);return c?html`<span class="code" dir="ltr">${c}</span>`:html`<span class="code none">بدون كود</span>`};
+const delDoc=(path,msg)=>W(()=>S.db.doc(path).delete(),msg||'تم الحذف');
+const PTS=()=>Math.max(0,+HR().challengePts||0)||20;
+
+/* ---------- notifications (update requests from manager/supervisor to an employee) ---------- */
+const NT={report:'إعادة تقرير',visit:'تحديث زيارة',po:'طلب شراء',shift:'الدوام',general:'طلب تحديث',challenge:'التحدي اليومي'};
+const sendNotif=(to,kind,msg,ref)=>put('notifs/'+rid(),{to,from:S.uid,kind,msg:msg||'',ref:ref||{},status:'open',date:today(),at:Date.now()});
+const myNotifs=()=>S.notifs.filter(n=>n.to===S.uid).sort((a,b)=>(b.at||0)-(a.at||0));
+const openNotifs=()=>myNotifs().filter(n=>n.status!=='done');
+async function closeNotifs(pred){for(const n of openNotifs().filter(pred))await S.db.doc('notifs/'+n.id).update({status:'done',doneAt:Date.now()}).catch(()=>{})}
+function ReturnBtn({to,kind,ref,label,cls,onSent}){
+  const[o,setO]=useState(false);const[m,setM]=useState('');const[b,setB]=useState(false);
+  if(!to)return null;
+  if(!o)return html`<button type="button" class=${'btn sm '+(cls||'')} onClick=${e=>{e.stopPropagation();setO(true)}}>↩ ${label||'طلب تحديث'}</button>`;
+  const go=async()=>{if(!m.trim())return toast('اكتب وش المطلوب تعديله','bad');setB(true);
+    try{await W(async()=>{await sendNotif(to,kind,m.trim(),ref);if(onSent)await onSent(m.trim())},'تم إرسال الطلب للموظف كإشعار');setO(false);setM('')}catch(e){}setB(false)};
+  return html`<div class="retbox" onClick=${e=>e.stopPropagation()}><input class="inp grow" autofocus placeholder="وش المطلوب تعديله؟" value=${m} onInput=${e=>setM(e.target.value)}/><button type="button" class="btn sm pri" disabled=${b} onClick=${go}>إرسال الإشعار</button><button type="button" class="btn sm ghost" onClick=${()=>setO(false)}>إلغاء</button></div>`;
+}
+function goRef(n){const r=n.ref||{};
+  if(n.kind==='po'&&r.poId){S.gotoPo=r.poId;location.hash='pos'}
+  else if(n.kind==='challenge')location.hash='challenge';
+  else if(r.date){S.gotoDate=r.date;location.hash='today'}
+  bump()}
+function Bell(){
+  const s=useS();const n=openNotifs().length;
+  return html`<button type="button" class=${'btn sm bell'+(n?' on':'')} aria-label="الإشعارات" onClick=${()=>{S.notifOpen=true;bump()}}><span aria-hidden="true">🔔</span>${n?html`<span class="dot">${n}</span>`:''}</button>`;
+}
+function NotifSheet({onClose}){
+  const s=useS();const all=myNotifs();
+  const done=n=>W(()=>S.db.doc('notifs/'+n.id).update({status:'done',doneAt:Date.now()}),'تم');
+  return html`<${Sheet} title="الإشعارات" sub="طلبات التحديث من المدير والمشرف" onClose=${onClose}>
+    ${all.length?html`<div class="list">${all.map(n=>html`<div class=${'li notif'+(n.status==='done'?' done':'')} style="cursor:default;align-items:flex-start">
+      <span class=${'sev '+(n.status==='done'?'ok':'bad')} style="margin-top:7px"></span>
+      <div class="grow"><div><span>${NT[n.kind]||'إشعار'}</span> <span class="small muted">· ${fmtTs(n.at)} · ${nameOf(n.from)}</span></div>
+        <div class="nmsg">${n.msg}</div>${n.ref&&n.ref.label&&html`<div class="small muted">${n.ref.label}</div>`}
+        <div class="row" style="gap:6px;margin-top:6px">${(n.ref&&(n.ref.date||n.ref.poId)||n.kind==='challenge')&&html`<button class="btn sm pri" onClick=${()=>{goRef(n);onClose()}}>فتح وتعديل</button>`}
+          ${n.status!=='done'?html`<button class="btn sm" onClick=${()=>done(n)}>تم التحديث</button>`:html`<${Pill} st=${['تم','ok']}/>`}</div></div></div>`)}</div>`
+    :html`<${Empty} t="ما عندك إشعارات"/>`}<//>`;
+}
+
+/* ---------- purchase orders: rep creates, actual vs requested, manager approves ---------- */
+async function decidePO(p,status,extra){
+  const r=sum(p.received);const st=status==='approved'&&r?(r>=sum(p.items)?'delivered':'partial'):status;
+  await W(()=>S.db.doc('pos/'+p.id).update(clean({status:st,decidedBy:S.uid,decidedAt:Date.now(),...(extra||{})})),st==='rejected'?'تم رفض الطلب':'تمت الموافقة على الطلب');
+}
+const poDiff=p=>{const r=p.received&&Object.keys(p.received).length?sum(p.received):null;return r==null?null:r-sum(p.items)};
+const DiffCell=({d})=>d==null?html`<span class="muted">—</span>`:html`<b style=${'color:var(--'+(d<0?'bad':d>0?'warn':'ok')+')'} dir="ltr">${d>0?'+':''}${num(d)}</b>`;
+function POs(){
+  const s=useS();const role=viewRole();const mgr=role!=='merch';
+  const[f,setF]=useState({date:mgr?today():'',status:'',q:''});const[open,setOpen]=useState(null);
+  useEffect(()=>{if(f.date)widenRange(f.date)},[f.date]);
+  useEffect(()=>{if(!s.gotoPo)return;const p=s.pos.find(x=>x.id===s.gotoPo);if(p){S.gotoPo=null;setOpen({po:p})}},[s.gotoPo,s.pos]);
+  const ids=new Set(scopeBranches().map(b=>b.id));
+  const mine=s.pos.filter(p=>ids.has(p.branchId));
+  const rows=mine.filter(p=>(!f.date||p.deliveryDate===f.date)&&(!f.status||(p.status||'new')===f.status)&&(!f.q||(p.number||'').includes(f.q)||branchName(p.branchId).includes(f.q)))
+    .sort((a,b)=>mgr?((a.deliveryDate||'').localeCompare(b.deliveryDate||'')||branchName(a.branchId).localeCompare(branchName(b.branchId))):((b.createdAt||0)-(a.createdAt||0)));
+  const pend=mgr?mine.filter(p=>p.status==='pending'):[];
+  const totals=products().map(p=>({p,q:rows.reduce((a,o)=>a+(+(o.items||{})[p.id]||0),0),r:rows.reduce((a,o)=>a+(+(o.received||{})[p.id]||0),0)})).filter(x=>x.q);
+  const blank={number:'',branchId:'',orderDate:today(),deliveryDate:today(),items:{},received:{},status:mgr?'new':'pending',notes:''};
+  return html`<div class="row between"><div><h1>طلبات الشراء (PO)</h1>${!mgr&&html`<div class="muted small">اكتب الكمية المطلوبة وجنبها الكمية اللي نزلت فعلياً، ويروح الطلب للمدير للموافقة</div>`}</div>
+      <button class="btn pri" onClick=${()=>setOpen({isNew:true,po:blank})}>＋ ${mgr?'طلب جديد':'طلب شراء جديد'}</button></div>
+    ${pend.length>0&&html`<div class="card flat attn"><div style="padding:14px 16px 0"><h2>بانتظار موافقتك <span class="sub">${pend.length} طلب من المناديب</span></h2></div>
+      <div class="list">${pend.map(p=>html`<div class="li" onClick=${()=>setOpen({po:p})}><div class="grow"><div>${branchName(p.branchId)} ${p.number?html`<span class="muted small">· ${p.number}</span>`:''}</div>
+        <div class="small muted"><${CodeTag} uid=${p.createdBy}/> ${nameOf(p.createdBy)} · التوريد ${fmtDate(p.deliveryDate)} · مطلوب ${num(sum(p.items))} · نزل فعلياً ${p.received&&Object.keys(p.received).length?num(sum(p.received)):'—'}</div></div>
+        <div class="row" style="gap:6px" onClick=${e=>e.stopPropagation()}><button class="btn sm yolk" onClick=${()=>decidePO(p,'approved')}>موافقة</button><button class="btn sm danger" onClick=${()=>decidePO(p,'rejected')}>رفض</button></div></div>`)}</div></div>`}
+    <div class="filters card">
+      <${Fld} label="تاريخ التوريد"><input type="date" value=${f.date} onInput=${e=>setF({...f,date:e.target.value})}/><//>
+      <${Fld} label="الحالة"><select value=${f.status} onChange=${e=>setF({...f,status:e.target.value})}><option value="">الكل</option>${Object.entries(PO_ST).map(([k,v])=>html`<option value=${k}>${v[0]}</option>`)}</select><//>
+      <${Fld} label="بحث برقم الطلب أو الفرع"><input value=${f.q} onInput=${e=>setF({...f,q:e.target.value})}/><//>
+    </div>
+    ${totals.length>0&&html`<div class="card"><h2>إجمالي الكميات <span class="sub">المطلوب / المنزل فعلياً</span></h2><div class="chips">${totals.map(x=>html`<span class="pill t-muted">${x.p.name}: ${num(x.q)} / ${num(x.r)}</span>`)}</div></div>`}
+    <div class="card flat">${rows.length?html`<div class="tw"><table><thead><tr><th>رقم الطلب</th><th>الفرع</th><th>التوريد</th><th class="n">المطلوب</th><th class="n">المنزل فعلياً</th><th class="n">الفرق</th>${mgr&&html`<th>مقدم من</th>`}<th>الحالة</th></tr></thead><tbody>
+      ${rows.map(p=>html`<tr class="click" onClick=${()=>setOpen({po:p})}><td><b>${p.number||'—'}</b></td><td>${branchName(p.branchId)}</td><td>${fmtDate(p.deliveryDate)}</td><td class="n">${num(sum(p.items))}</td><td class="n">${p.received&&Object.keys(p.received).length?num(sum(p.received)):'—'}</td><td class="n"><${DiffCell} d=${poDiff(p)}/></td>${mgr&&html`<td class="small">${p.byRep?html`<${CodeTag} uid=${p.createdBy}/>`:'الإدارة'}</td>`}<td><${Pill} st=${PO_ST[p.status||'new']}/></td></tr>`)}</tbody></table></div>`
+      :html`<${Empty} t=${f.date?'لا توجد طلبات لهذا اليوم':'لا توجد طلبات'}><button class="btn" onClick=${()=>setOpen({isNew:true,po:blank})}>＋ طلب جديد</button><//>`}</div>
+    ${open&&html`<${POSheet} po=${open.po} isNew=${open.isNew} mgr=${mgr} onClose=${()=>setOpen(null)}/>`}`;
+}
+function POSheet({po,isNew,mgr,onClose}){
+  const[p,setP]=useState(()=>({...clone2(po),items:clone2(po.items||{}),received:clone2(po.received||{})}));const[busy,setBusy]=useState(false);
+  const prods=products();const id=po.id||rid();const st=p.status||'new';
+  const editable=mgr||isNew||['pending','returned'].includes(po.status);
+  const canRecv=!isNew&&st!=='rejected';
+  const brs=scopeBranches().filter(b=>b.active!==false);
+  const setQ=(k,pid,v)=>setP({...p,[k]:{...(p[k]||{}),[pid]:v===''?'':+v}});
+  const save=async(extra,msg)=>{if(!p.branchId)return toast('اختر الفرع','bad');if(!sum(p.items))return toast('اكتب الكمية المطلوبة','bad');setBusy(true);
+    try{await W(()=>put('pos/'+id,{...p,...extra,id:undefined,updatedAt:Date.now(),updatedBy:S.uid,createdAt:p.createdAt||Date.now(),createdBy:p.createdBy||S.uid,byRep:p.byRep!=null?p.byRep:!mgr}),msg||'تم حفظ الطلب');
+      if(!mgr)await closeNotifs(n=>n.kind==='po'&&n.ref&&n.ref.poId===id);onClose()}catch(e){}setBusy(false)};
+  const recvStatus=()=>{const r=sum(p.received),q=sum(p.items);return r?(r>=q?'delivered':'partial'):st};
+  const del=()=>delDoc('pos/'+id,'تم حذف الطلب').then(onClose);
+  const trips=S.trips.filter(t=>t.date===p.deliveryDate);
+  const anyRecv=prods.some(x=>hasNum((p.received||{})[x.id]));
+  const footer=mgr?html`<button class="btn pri grow" disabled=${busy} onClick=${()=>save()}>حفظ</button>
+      ${!isNew&&st==='pending'&&html`<button class="btn yolk" disabled=${busy} onClick=${()=>save({status:sum(p.received)?recvStatus():'approved',decidedBy:S.uid,decidedAt:Date.now()},'تمت الموافقة على الطلب')}>موافقة</button><button class="btn danger" disabled=${busy} onClick=${()=>save({status:'rejected',decidedBy:S.uid,decidedAt:Date.now()},'تم رفض الطلب')}>رفض</button>`}
+      ${!isNew&&html`<${Confirm} label="حذف" onYes=${del}/>`}`
+    :editable?html`<button class="btn pri grow" disabled=${busy} onClick=${()=>save({status:'pending',submittedAt:Date.now()},'تم إرسال الطلب للمدير للموافقة')}>${po.status==='returned'?'إعادة الإرسال للمدير':'إرسال للمدير للموافقة'}</button>${!isNew&&html`<${Confirm} label="حذف" onYes=${del}/>`}`
+    :canRecv?html`<button class="btn yolk grow" disabled=${busy} onClick=${()=>save({status:recvStatus(),receivedBy:S.uid,receivedAt:Date.now()},'تم حفظ الكمية المنزلة')}>حفظ الكمية المنزلة فعلياً</button>`:null;
+  return html`<${Sheet} title=${isNew?'طلب شراء جديد':'طلب '+(p.number||'')} sub=${p.branchId?branchName(p.branchId):''} onClose=${onClose} footer=${footer}>
+    ${!isNew&&html`<div class="row between"><${Pill} st=${PO_ST[st]}/>${p.byRep&&html`<span class="small muted">مقدم من <${CodeTag} uid=${p.createdBy}/> ${nameOf(p.createdBy)}${p.submittedAt?' · '+fmtTs(p.submittedAt):''}</span>`}</div>`}
+    ${st==='returned'&&p.returnNote&&html`<div class="notice bad">أعاده المدير للتعديل: ${p.returnNote}</div>`}
+    ${st==='rejected'&&html`<div class="notice bad">الطلب مرفوض${p.decidedBy?' · '+nameOf(p.decidedBy):''}</div>`}
+    <section class="sec"><div class="fgrid">
+      <${Fld} label="رقم الطلب PO"><input id="po-num" dir="ltr" disabled=${!editable} value=${p.number} onInput=${e=>setP({...p,number:e.target.value})}/><//>
+      <${Fld} label="الفرع *"><select id="po-br" disabled=${!editable} value=${p.branchId} onChange=${e=>setP({...p,branchId:e.target.value})}><option value="">—</option>${brs.map(b=>html`<option value=${b.id}>${branchName(b.id)}</option>`)}</select><//>
+      <${Fld} label="تاريخ الطلب"><input type="date" disabled=${!editable} value=${p.orderDate} onInput=${e=>setP({...p,orderDate:e.target.value})}/><//>
+      <${Fld} label="تاريخ التوريد"><input type="date" disabled=${!editable} value=${p.deliveryDate} onInput=${e=>setP({...p,deliveryDate:e.target.value})}/><//>
+      ${mgr&&html`<${Fld} label="الحالة"><select value=${st} onChange=${e=>setP({...p,status:e.target.value})}>${Object.entries(PO_ST).map(([k,v])=>html`<option value=${k}>${v[0]}</option>`)}</select><//>
+      <${Fld} label="الرحلة"><select value=${p.tripId||''} onChange=${e=>setP({...p,tripId:e.target.value})}><option value="">بدون</option>${trips.map(t=>html`<option value=${t.id}>${(truckOf(t.truckId)||{}).plate||'شاحنة'} · ${t.driver||''}</option>`)}</select><//>`}
+    </div></section>
+    <section class="sec"><h3>الكميات <span class="muted small">بالكرتون: المطلوب في الطلب الأصلي وجنبه المنزل فعلياً</span></h3>
+      <div class="tw"><table class="qty"><thead><tr><th>المنتج</th><th>المطلوب</th><th>المنزل فعلياً</th><th class="n">الفرق</th></tr></thead><tbody>
+      ${prods.map(x=>{const q=(p.items||{})[x.id],r=(p.received||{})[x.id];const d=hasNum(r)&&hasNum(q)?r-q:null;return html`<tr><td>${x.name}</td>
+        <td><input type="number" inputmode="numeric" min="0" disabled=${!editable} aria-label=${'مطلوب '+x.name} value=${q??''} onInput=${e=>setQ('items',x.id,e.target.value)}/></td>
+        <td><input type="number" inputmode="numeric" min="0" disabled=${!(editable||canRecv)} aria-label=${'منزل '+x.name} value=${r??''} onInput=${e=>setQ('received',x.id,e.target.value)}/></td>
+        <td class="n"><${DiffCell} d=${d}/></td></tr>`})}</tbody>
+      <tfoot><tr><td><b>الإجمالي</b></td><td><b>${num(sum(p.items))}</b></td><td><b>${anyRecv?num(sum(p.received)):'—'}</b></td><td class="n"><${DiffCell} d=${anyRecv?sum(p.received)-sum(p.items):null}/></td></tr></tfoot></table></div>
+      <${Fld} label="ملاحظة على الكمية المنزلة"><input disabled=${!(editable||canRecv)} value=${p.recvNote||''} onInput=${e=>setP({...p,recvNote:e.target.value})} placeholder="مثال: 3 كراتين مكسورة، أو الفرع طلب أقل"/><//>
+    </section>
+    <${Fld} label="ملاحظات"><textarea disabled=${!editable} value=${p.notes} onInput=${e=>setP({...p,notes:e.target.value})}></textarea><//>
+    ${mgr&&!isNew&&p.byRep&&html`<div class="row"><${ReturnBtn} to=${p.createdBy} kind="po" label="إعادة الطلب للمندوب للتعديل" ref=${{poId:id,label:'طلب '+(p.number||'')+' · '+branchName(p.branchId)}} onSent=${m=>S.db.doc('pos/'+id).update({status:'returned',returnNote:m,returnedAt:Date.now()}).then(onClose)}/></div>`}
+  <//>`;
+}
+
+/* ---------- brand (chain) coverage ---------- */
+function chainStats(from,to,reports,pos,branches){
+  const br=(branches||scopeBranches()).filter(b=>b.active!==false&&!b.demo);const vis={},vc={};
+  for(const r of reports){if(r.demo||r.date<from||r.date>to)continue;for(const v of r.visits||[]){vis[v.branchId]=1;vc[v.branchId]=(vc[v.branchId]||0)+1}}
+  const m={};const bc={};
+  for(const b of br){const c=b.chain||'بدون براند';bc[b.id]=c;const x=m[c]||(m[c]={chain:c,n:0,visited:0,visits:0,req:0,del:0});x.n++;if(vis[b.id])x.visited++;x.visits+=vc[b.id]||0}
+  for(const p of pos){if(p.demo||p.deliveryDate<from||p.deliveryDate>to||['rejected','returned','pending'].includes(p.status))continue;const c=bc[p.branchId];if(!c)continue;const x=m[c];x.req+=sum(p.items);
+    if(p.received&&Object.keys(p.received).length)x.del+=sum(p.received);else if(p.status==='delivered')x.del+=sum(p.items)}
+  return Object.values(m).map(x=>({...x,cov:x.n?x.visited/x.n*100:0,fill:x.req?x.del/x.req*100:null})).sort((a,b)=>b.n-a.n);
+}
+const covTone=v=>v>=80?'ok':v>=50?'warn':'bad';
+function periodRange(per){const t=today();return per==='day'?[t,t]:per==='week'?[addDays(t,-6),t]:[t.slice(0,8)+'01',t]}
+function BrandCoverage(){
+  const s=useS();const[per,setPer]=useState('week');const[from,to]=periodRange(per);
+  useEffect(()=>widenRange(from),[from]);
+  const rows=chainStats(from,to,s.reports,s.pos);
+  const T=rows.reduce((a,x)=>({n:a.n+x.n,visited:a.visited+x.visited,visits:a.visits+x.visits,req:a.req+x.req,del:a.del+x.del}),{n:0,visited:0,visits:0,req:0,del:0});
+  const tc=T.n?T.visited/T.n*100:0;
+  return html`<div class="card"><div class="row between"><h2>البراندات ونسبة التغطية <span class="sub">${from===to?fmtDate(from):fmtDate(from)+' – '+fmtDate(to)}</span></h2>
+      <div class="seg">${[['day','اليوم'],['week','آخر 7 أيام'],['month','هذا الشهر']].map(([k,l])=>html`<button type="button" class=${per===k?'on':''} onClick=${()=>setPer(k)}>${l}</button>`)}</div></div>
+    <div class="btiles">${rows.map(x=>html`<div class=${'btile t-'+covTone(x.cov)}>
+      <div class="row between"><b class="bname">${x.chain}</b><span class="bpct">${Math.round(x.cov)}%</span></div>
+      <div class="bbar"><i style=${'width:'+Math.round(x.cov)+'%'}></i></div>
+      <div class="bfacts"><span><b>${x.n}</b> فرع مسجل</span><span><b>${x.visited}</b> تمت زيارتها</span><span><b>${num(x.del)}</b> كرتون نزل${x.req?html` <span class="muted">من ${num(x.req)}</span>`:''}</span></div></div>`)}
+      ${!rows.length&&html`<${Empty} t="ما فيه فروع مسجلة"/>`}</div>
+    <div class="small muted">الإجمالي: ${T.visited} من ${T.n} فرع (${Math.round(tc)}%) · ${T.visits} زيارة · ${num(T.del)} كرتون نزل فعلياً من ${num(T.req)} مطلوب. التغطية = الفروع اللي تمت زيارتها مرة على الأقل في الفترة ÷ الفروع المسجلة للبراند.</div>
+  </div>`;
+}
+
+/* ---------- CEO executive report (xlsx) ---------- */
+let xlP=null;
+function loadExcel(){return xlP||(xlP=new Promise((res,rej)=>{if(window.ExcelJS)return res(window.ExcelJS);
+  const urls=['https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.4.0/exceljs.min.js','https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js'];let i=0;
+  const next=()=>{if(i>=urls.length){xlP=null;return rej(new Error('load'))}const sc=document.createElement('script');sc.src=urls[i++];sc.onload=()=>window.ExcelJS?res(window.ExcelJS):next();sc.onerror=next;document.head.appendChild(sc)};next()}))}
+function teamRows(from,to,reports,pw){
+  const days=[];for(let d=from;d<=to&&days.length<93;d=addDays(d,1))days.push(d);
+  return S.roles.filter(r=>r.approved&&(r.role||'merch')==='merch').map(r=>r.id).map(u=>{
+    const br=S.branches.filter(b=>b.merchUid===u&&b.active!==false);const rs=reports.filter(r=>r.uid===u&&!r.demo&&r.date>=from&&r.date<=to);const by={};rs.forEach(r=>by[r.date]=r);
+    let planned=0,done=0;for(const d of days){const pl=br.filter(b=>(b.visitDays||[]).includes(weekday(d)));planned+=pl.length;const r=by[d];if(r){const vb=new Set((r.visits||[]).map(v=>v.branchId));done+=pl.filter(b=>vb.has(b.id)).length}}
+    const vs=rs.flatMap(r=>r.visits||[]);const sc=vs.map(v=>v.ai&&v.ai.score).filter(x=>x!=null);
+    const pts=pw.filter(x=>x.uid===u&&!x.demo).reduce((a,x)=>a+(+x.points||0),0);
+    return{u,code:codeOf(u),name:nameOf(u),branches:br.length,visits:vs.length,comp:planned?done/planned*100:null,sent:rs.filter(r=>r.status==='submitted').length,days:rs.length,
+      score:sc.length?avg(sc):null,issues:vs.filter(v=>(v.issues||[]).length).length,oos:vs.reduce((a,v)=>a+(v.oos||[]).length,0),pts,wins:pw.filter(x=>x.uid===u&&!x.demo).length}}).sort((a,b)=>(b.comp??-1)-(a.comp??-1));
+}
+function ceoModel(from,to,reports,pos,pw,fus){
+  const br=S.branches.filter(b=>b.active!==false&&!b.demo);const ids=new Set(br.map(b=>b.id));
+  const reps=reports.filter(r=>!r.demo&&r.date>=from&&r.date<=to);const vs=reps.flatMap(r=>(r.visits||[]).filter(v=>ids.has(v.branchId)));
+  const chains=chainStats(from,to,reps,pos,br);const team=teamRows(from,to,reps,pw);
+  const visited=new Set(vs.map(v=>v.branchId)).size;
+  const P=pos.filter(p=>!p.demo&&p.deliveryDate>=from&&p.deliveryDate<=to&&!['rejected','returned','pending'].includes(p.status));
+  const req=P.reduce((a,p)=>a+sum(p.items),0);const del=P.reduce((a,p)=>a+(p.received&&Object.keys(p.received).length?sum(p.received):p.status==='delivered'?sum(p.items):0),0);
+  const sc=vs.map(v=>v.ai&&v.ai.score).filter(x=>x!=null);
+  const compAll=(()=>{const c=team.filter(x=>x.comp!=null);return c.length?avg(c.map(x=>x.comp)):null})();
+  const it={};vs.forEach(v=>(v.issues||[]).forEach(i=>it[i]=(it[i]||0)+1));
+  const ours={};products().forEach(p=>{const a=vs.map(v=>+(v.prices||{})[p.id]).filter(x=>x>0);ours[p.id]=a.length?avg(a):null});
+  const lastPw={};pw.filter(x=>!x.demo&&x.date>=from&&x.date<=to).sort((a,b)=>(a.at||0)-(b.at||0)).forEach(x=>lastPw[x.chain]=x);
+  const prices=Object.values(lastPw).flatMap(x=>(x.rows||[]).map(c=>{const o=c.vs?ours[c.vs]:null;return{chain:x.chain,date:x.date,code:codeOf(x.uid),competitor:c.brand,product:c.desc||'',vs:c.vs?prodName(c.vs):'',price:+c.price||null,promo:c.promo?(+c.promoPrice||'نعم'):'',ours:o,diff:o&&+c.price?(o-+c.price)/+c.price:null}}));
+  const posBy=Object.entries(PO_ST).map(([k,s])=>{const a=pos.filter(p=>!p.demo&&p.deliveryDate>=from&&p.deliveryDate<=to&&(p.status||'new')===k);return[s[0],a.length,a.reduce((x,p)=>x+sum(p.items),0),a.reduce((x,p)=>x+sum(p.received),0)]}).filter(x=>x[1]);
+  const openFu=vs.filter(v=>(v.issues||[]).length).length-fus.filter(f=>f.status==='closed'&&f.date>=from&&f.date<=to).length;
+  return{from,to,brand:(S.settings&&S.settings.ourBrand)||'القرية',at:new Date().toLocaleString('en-GB'),
+    kpis:[['الفروع النشطة',br.length,'n'],['فروع تمت زيارتها',visited,'n'],['نسبة التغطية',br.length?visited/br.length:0,'%'],['عدد الزيارات',vs.length,'n'],
+      ['الالتزام بجدول الزيارات',compAll==null?null:compAll/100,'%'],['المناديب المعتمدين',team.length,'n'],['تقارير يومية مرسلة',reps.filter(r=>r.status==='submitted').length,'n'],
+      ['زيارات فيها مشاكل',vs.filter(v=>(v.issues||[]).length).length,'n'],['مشاكل بدون إغلاق',Math.max(0,openFu),'n'],['حالات نفاد من الرف',vs.reduce((a,v)=>a+(v.oos||[]).length,0),'n'],
+      ['متوسط تقييم الرف (AI)',sc.length?Math.round(avg(sc)):null,'n'],['طلبات الشراء',P.length,'n'],['كراتين مطلوبة',req,'n'],['كراتين نزلت فعلياً',del,'n'],['نسبة التنفيذ (منزل ÷ مطلوب)',req?del/req:null,'%'],
+      ['قراءات أسعار المنافسين (براندات)',Object.keys(lastPw).length,'n']],
+    chains,team,prices,issues:Object.entries(it).sort((a,b)=>b[1]-a[1]).slice(0,10),posBy};
+}
+async function buildCeoXlsx(XL,M){
+  const wb=new XL.Workbook();wb.creator='متابعة المناديب – القرية';wb.created=new Date();
+  const RED='FFAC1F23',CREAM='FFF2EDD9',CREAM2='FFFBF8F0',YEL='FFE7B13A',WHITE='FFFFFFFF';
+  const font={name:'Arial',size:11};const thin={style:'thin',color:{argb:'FFE7DEC8'}};const border={top:thin,bottom:thin,left:thin,right:thin};
+  const sheet=(name,widths)=>{const ws=wb.addWorksheet(name,{views:[{rightToLeft:true,showGridLines:false}],pageSetup:{orientation:'landscape',fitToPage:true,fitToWidth:1,fitToHeight:0,paperSize:9}});ws.columns=widths.map(w=>({width:w}));return ws};
+  const title=(ws,t,sub,n)=>{ws.mergeCells(1,1,1,n);const c=ws.getCell(1,1);c.value=t;c.font={...font,size:16,bold:true,color:{argb:WHITE}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:RED}};c.alignment={horizontal:'right',vertical:'middle',indent:1};ws.getRow(1).height=34;
+    ws.mergeCells(2,1,2,n);const d=ws.getCell(2,1);d.value=sub;d.font={...font,size:10,color:{argb:'FF6E5A55'}};d.fill={type:'pattern',pattern:'solid',fgColor:{argb:CREAM}};d.alignment={horizontal:'right',indent:1};ws.getRow(2).height=20;return 4};
+  const head=(ws,r,cols)=>{const row=ws.getRow(r);cols.forEach((h,i)=>{const c=row.getCell(i+1);c.value=h;c.font={...font,bold:true,color:{argb:WHITE}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF7A1318'}};c.alignment={horizontal:'center',vertical:'middle',wrapText:true};c.border=border});row.height=30};
+  const body=(ws,r,vals,fmts,zebra)=>{const row=ws.getRow(r);vals.forEach((v,i)=>{const c=row.getCell(i+1);c.value=v==null||v===''?'—':v;c.font=font;c.border=border;c.alignment={horizontal:i===0?'right':'center',vertical:'middle',wrapText:i===0};
+    const f=fmts&&fmts[i];if(f&&typeof v==='number')c.numFmt=f;if(zebra)c.fill={type:'pattern',pattern:'solid',fgColor:{argb:CREAM2}}});row.height=20;return row};
+  const tone=(c,v)=>{if(typeof v!=='number')return;const k=v>=.8?'FF2F7D4A':v>=.5?'FFA0670A':'FFC8401E';c.font={...font,bold:true,color:{argb:k}}};
+  const sub=M.brand+' · قسم البيض · الفترة من '+M.from+' إلى '+M.to+' · أُعد '+M.at;
+  // 1. summary
+  let ws=sheet('الملخص التنفيذي',[38,18,4,30,14,14,14]);let r=title(ws,'التقرير التنفيذي المختصر – متابعة المناديب',sub,7);
+  head(ws,r,['المؤشر','القيمة']);r++;
+  M.kpis.forEach(([l,v,f],i)=>{const row=body(ws,r++,[l,v],[null,f==='%'?'0%':'#,##0'],i%2);if(f==='%')tone(row.getCell(2),v)});
+  let r2=4;
+  ['البراند','التغطية','الفروع','تمت زيارتها'].forEach((h,i)=>{const c=ws.getCell(r2,4+i);c.value=h;c.font={...font,bold:true,color:{argb:WHITE}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF7A1318'}};c.alignment={horizontal:'center',vertical:'middle'};c.border=border});r2++;
+  M.chains.slice(0,8).forEach((x,i)=>{[x.chain,x.cov/100,x.n,x.visited].forEach((v,j)=>{const c=ws.getCell(r2,4+j);c.value=v;c.font=font;c.border=border;c.alignment={horizontal:j?'center':'right'};if(j===1){c.numFmt='0%';tone(c,v)}if(i%2)c.fill={type:'pattern',pattern:'solid',fgColor:{argb:CREAM2}}});r2++});
+  r2+=1;['أكثر المشاكل تكراراً','العدد'].forEach((h,i)=>{const c=ws.getCell(r2,4+i);c.value=h;c.font={...font,bold:true,color:{argb:WHITE}};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF7A1318'}};c.border=border;c.alignment={horizontal:'center'}});r2++;
+  (M.issues.length?M.issues:[['لا توجد مشاكل مسجلة','']]).forEach(([k,n])=>{const a=ws.getCell(r2,4),b=ws.getCell(r2,5);a.value=k;b.value=n;[a,b].forEach(c=>{c.font=font;c.border=border});b.alignment={horizontal:'center'};r2++});
+  // 2. brands
+  ws=sheet('تغطية البراندات',[24,14,14,14,12,16,16,14]);r=title(ws,'البراندات ونسبة التغطية',sub,8);
+  head(ws,r++,['البراند','الفروع المسجلة','تمت زيارتها','نسبة التغطية','الزيارات','كراتين مطلوبة','كراتين نزلت فعلياً','نسبة التنفيذ']);
+  M.chains.forEach((x,i)=>{const row=body(ws,r++,[x.chain,x.n,x.visited,x.cov/100,x.visits,x.req,x.del,x.fill==null?null:x.fill/100],[null,'#,##0','#,##0','0%','#,##0','#,##0','#,##0','0%'],i%2);tone(row.getCell(4),x.cov/100);if(x.fill!=null)tone(row.getCell(8),x.fill/100)});
+  const T=M.chains.reduce((a,x)=>({n:a.n+x.n,v:a.v+x.visited,vs:a.vs+x.visits,q:a.q+x.req,d:a.d+x.del}),{n:0,v:0,vs:0,q:0,d:0});
+  const tr=body(ws,r,['الإجمالي',T.n,T.v,T.n?T.v/T.n:0,T.vs,T.q,T.d,T.q?T.d/T.q:null],[null,'#,##0','#,##0','0%','#,##0','#,##0','#,##0','0%']);tr.eachCell(c=>{c.font={...font,bold:true};c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFFBEFCF'}}});
+  // 3. team (by employee code)
+  ws=sheet('أداء الفريق',[12,26,10,12,16,14,14,12,12,14]);r=title(ws,'أداء المناديب (بالكود)',sub,10);
+  head(ws,r++,['الكود','الاسم','الفروع','الزيارات','الالتزام بالجدول','تقارير مرسلة','تقييم الرف','مشاكل','نفاد','نقاط التحدي']);
+  M.team.forEach((x,i)=>{const row=body(ws,r++,[x.code||'—',x.name,x.branches,x.visits,x.comp==null?null:x.comp/100,x.sent,x.score==null?null:Math.round(x.score),x.issues,x.oos,x.pts],[null,null,'#,##0','#,##0','0%','#,##0','0','#,##0','#,##0','#,##0'],i%2);row.getCell(1).alignment={horizontal:'center'};if(x.comp!=null)tone(row.getCell(5),x.comp/100)});
+  // 4. competitor prices by brand
+  ws=sheet('أسعار المنافسين',[18,12,10,20,20,18,12,12,12,12]);r=title(ws,'أسعار المنافسين حسب البراند (آخر قراءة في الفترة)',sub,10);
+  head(ws,r++,['البراند','التاريخ','الكود','المنافس','المنتج','يقابل منتجنا','سعر المنافس','عرض','متوسط سعرنا','الفرق']);
+  (M.prices.length?M.prices:[{chain:'لا توجد قراءات أسعار في هذه الفترة'}]).forEach((x,i)=>{const row=body(ws,r++,[x.chain,x.date,x.code,x.competitor,x.product,x.vs,x.price,x.promo,x.ours,x.diff],[null,null,null,null,null,null,'0.00',null,'0.00','+0%;-0%;0%'],i%2);
+    if(typeof x.diff==='number')row.getCell(10).font={...font,bold:true,color:{argb:x.diff>.05?'FFC8401E':x.diff<-.05?'FF2F7D4A':'FF6E5A55'}}});
+  ws.getCell(r+1,1).value='الفرق موجب يعني سعرنا أغلى من المنافس.';ws.getCell(r+1,1).font={...font,size:9,italic:true,color:{argb:'FF6E5A55'}};
+  // 5. purchase orders
+  ws=sheet('طلبات الشراء',[26,12,16,18]);r=title(ws,'طلبات الشراء حسب الحالة',sub,4);
+  head(ws,r++,['الحالة','عدد الطلبات','كراتين مطلوبة','كراتين نزلت فعلياً']);
+  (M.posBy.length?M.posBy:[['لا توجد طلبات','','','']]).forEach((x,i)=>body(ws,r++,x,[null,'#,##0','#,##0','#,##0'],i%2));
+  return wb.xlsx.writeBuffer();
+}
+async function ceoExport(from,to,setBusy){
+  setBusy('جاري جمع البيانات…');
+  try{const get=async(col,f)=>(await S.db.collection(col).where(f,'>=',from).where(f,'<=',to).get()).docs.map(d=>({id:d.id,...d.data()}));
+    const[reports,pos,pw,fus]=await Promise.all([get('reports','date'),get('pos','deliveryDate'),get('pricewatch','date'),get('followups','date')]);
+    setBusy('جاري تجهيز ملف الإكسل…');const XL=await loadExcel();
+    const buf=await buildCeoXlsx(XL,ceoModel(from,to,reports,pos,pw,fus));
+    await saveFile('تقرير_الرئيس_التنفيذي_'+from+'_'+to+'.xlsx',new Uint8Array(buf));
+  }catch(e){console.error(e);toast(e&&e.message==='load'?'تعذّر تحميل أداة الإكسل، تأكد من الإنترنت':'تعذّر تجهيز التقرير','bad')}setBusy('')}
+function CeoSheet({onClose}){
+  const t=today();const lm=(()=>{const d=new Date(t+'T12:00:00');d.setDate(0);const e=d.toISOString().slice(0,10);return[e.slice(0,8)+'01',e]})();
+  const P=[['week','آخر 7 أيام',[addDays(t,-6),t]],['month','هذا الشهر',[t.slice(0,8)+'01',t]],['last','الشهر الماضي',lm]];
+  const[r,setR]=useState({from:addDays(t,-6),to:t});const[busy,setBusy]=useState('');
+  return html`<${Sheet} title="تقرير الرئيس التنفيذي" sub="ملف Excel مختصر: الملخص، تغطية البراندات، أداء الفريق بالكود، أسعار المنافسين، طلبات الشراء" onClose=${()=>!busy&&onClose()}
+    footer=${html`<button class="btn pri grow" disabled=${!!busy} onClick=${()=>ceoExport(r.from,r.to,setBusy)}>${busy?html`<span class="spin"></span> ${busy}`:'⬇ تنزيل التقرير (Excel)'}</button>`}>
+    <div class="seg">${P.map(([k,l,[a,b]])=>html`<button type="button" class=${r.from===a&&r.to===b?'on':''} onClick=${()=>setR({from:a,to:b})}>${l}</button>`)}</div>
+    <div class="filters"><${Fld} label="من"><input type="date" value=${r.from} max=${r.to} onInput=${e=>e.target.value&&setR({...r,from:e.target.value})}/><//><${Fld} label="إلى"><input type="date" value=${r.to} max=${t} onInput=${e=>e.target.value&&setR({...r,to:e.target.value})}/><//></div>
+    <div class="ceo-prev"><div><b>1</b> الملخص التنفيذي: 16 مؤشر رئيسي، أكثر البراندات تغطية، أكثر المشاكل</div><div><b>2</b> تغطية البراندات: الفروع المسجلة، المزارة، الكراتين المطلوبة والمنزلة</div><div><b>3</b> أداء الفريق بكود الموظف</div><div><b>4</b> أسعار المنافسين حسب البراند</div><div><b>5</b> طلبات الشراء حسب الحالة</div></div>
+    ${!S.downloads&&html`<div class="notice bad">التنزيل غير متاح في هذا العرض.</div>`}
+  <//>`;
+}
+
+/* ---------- manager: quick follow-up ---------- */
+function Follow(){
+  const s=useS();const d=today();const wd=weekday(d);const h=HR();const[open,setOpen]=useState(null);const[po,setPo]=useState(null);
+  const team=teamScope();const br=scopeBranches().filter(b=>b.active!==false&&!b.demo);const ids=new Set(br.map(b=>b.id));
+  const reps=s.reports.filter(r=>r.date===d&&!r.demo);
+  const pendReg=S.canEdit?s.profiles.filter(p=>p.id!==s.uid&&!roleOf(p.id).approved&&!roleOf(p.id).disabledAt):[];
+  const pendPO=s.pos.filter(p=>p.status==='pending'&&ids.has(p.branchId));
+  const pendUni=team.filter(u=>{const r=reps.find(x=>x.uid===u);const v=revOf(u,d);return r&&r.shiftIn&&!(v&&v.uniform)});
+  const returned=s.reports.filter(r=>r.status==='returned'&&!r.demo&&team.includes(r.uid));
+  const resent=s.reports.filter(r=>r.resubmittedAt&&r.status==='submitted'&&Date.now()-r.resubmittedAt<3*864e5&&team.includes(r.uid));
+  const sentN=s.notifs.filter(n=>n.from&&n.date>=addDays(d,-7)).sort((a,b)=>(b.at||0)-(a.at||0));
+  const now=mins(timeNow());const late=now>mins(h.shiftStart)+(+h.grace||0);
+  const rows=team.map(u=>{const r=reps.find(x=>x.uid===u);const pl=br.filter(b=>b.merchUid===u&&(b.visitDays||[]).includes(wd));const vb=new Set(((r&&r.visits)||[]).map(v=>v.branchId));
+    const done=pl.filter(b=>vb.has(b.id)).length;const st=shiftStat(r);const rv=revOf(u,d);const exc=rv&&rv.excused;
+    const tone=exc?'info':(!(r&&r.shiftIn)&&late&&h.workDays.includes(wd))?'bad':(st.isLate||(pl.length&&done<pl.length&&new Date().getHours()>=13))?'warn':'ok';
+    return{u,r,pl:pl.length,done,st,tone,exc}}).sort((a,b)=>({bad:0,warn:1,info:2,ok:3}[a.tone]-{bad:0,warn:1,info:2,ok:3}[b.tone]));
+  const tasks=[[pendReg.length,'تسجيلات جديدة بانتظار الاعتماد','#team'],[pendPO.length,'طلبات شراء بانتظار موافقتك',null],[pendUni.length,'صور لبس بانتظار المراجعة','#hr'],[openIssues(),'مشاكل مفتوحة في الفروع','#issues'],[returned.length,'تقارير أعدتها للتعديل ولم تُرسل','#follow']];
+  const cnt={ok:rows.filter(x=>x.tone==='ok').length,warn:rows.filter(x=>x.tone==='warn').length,bad:rows.filter(x=>x.tone==='bad').length};
+  return html`<div class="row between"><div><h1>المتابعة السريعة</h1><div class="muted small">${DAYS[wd]} ${d} · كل شيء يحتاجك اليوم في صفحة وحدة</div></div>
+      ${S.canEdit&&html`<button class="btn yolk" onClick=${()=>{S.ceoOpen=true;bump()}}>📊 تقرير الرئيس التنفيذي</button>`}</div>
+    <div class="traffic"><div class="tl ok"><b>${cnt.ok}</b><span>ماشي تمام</span></div><div class="tl warn"><b>${cnt.warn}</b><span>يحتاج انتباه</span></div><div class="tl bad"><b>${cnt.bad}</b><span>متأخر أو ما بدأ</span></div></div>
+    <div class="card"><h2>تحتاج قرارك</h2>
+      <div class="todo">${tasks.map(([n,t,href])=>html`<a class=${'todo-i'+(n?' has':'')} href=${href||'#pos'} onClick=${e=>{if(!href&&n){e.preventDefault();document.getElementById('f-po')&&document.getElementById('f-po').scrollIntoView({behavior:'smooth'})}}}><b>${n}</b><span>${t}</span></a>`)}</div></div>
+    ${pendPO.length>0&&html`<div class="card flat attn" id="f-po"><div style="padding:14px 16px 0"><h2>طلبات شراء بانتظار موافقتك</h2></div><div class="list">${pendPO.map(p=>html`<div class="li" onClick=${()=>setPo(p)}><div class="grow"><div>${branchName(p.branchId)}</div><div class="small muted"><${CodeTag} uid=${p.createdBy}/> ${nameOf(p.createdBy)} · مطلوب ${num(sum(p.items))} · نزل فعلياً ${p.received&&Object.keys(p.received).length?num(sum(p.received)):'—'} <${DiffCell} d=${poDiff(p)}/></div></div>
+      <div class="row" style="gap:6px" onClick=${e=>e.stopPropagation()}><button class="btn sm yolk" onClick=${()=>decidePO(p,'approved')}>موافقة</button><button class="btn sm danger" onClick=${()=>decidePO(p,'rejected')}>رفض</button></div></div>`)}</div></div>`}
+    <div class="card flat"><div style="padding:14px 16px 0"><h2>الفريق اليوم <span class="sub">${team.length} مندوب</span></h2></div>
+      ${rows.length?html`<div class="list">${rows.map(x=>html`<div class="li frow" onClick=${()=>x.r&&setOpen(x.r)} style=${x.r?'':'cursor:default'}>
+        <span class=${'light '+x.tone}></span>
+        <div class="grow"><div><${CodeTag} uid=${x.u}/> ${nameOf(x.u)}</div>
+          <div class="small muted">${x.exc?'عذر: '+x.exc.reason:x.r&&x.r.shiftIn?'بدأ '+x.r.shiftIn.hm+(x.st.isLate?' (متأخر '+x.st.late+' د)':''):'لم يسجل بداية الدوام'} · زيارات ${x.done}/${x.pl} · ${x.r?(x.r.status==='submitted'?'التقرير مرسل':x.r.status==='returned'?'التقرير معاد للتعديل':'التقرير قيد التعبئة'):'لا يوجد تقرير'}</div>
+          <div style="max-width:220px;margin-top:4px"><${Bar} v=${x.done} max=${x.pl||1}/></div></div>
+        <div class="row" style="gap:6px" onClick=${e=>e.stopPropagation()}>${phoneOf(x.u)&&html`<a class="btn sm" href=${'tel:'+phoneOf(x.u)}>📞</a>`}<${ReturnBtn} to=${x.u} kind="general" label="طلب تحديث" ref=${{date:d,label:'اليوم '+d}}/></div></div>`)}</div>`
+      :html`<${Empty} t="لا يوجد مندوبين معتمدين بعد"/>`}</div>
+    ${resent.length>0&&html`<div class="card flat"><div style="padding:14px 16px 0"><h2>تقارير أُعيد إرسالها بعد التعديل</h2></div><div class="list">${resent.map(r=>html`<div class="li" onClick=${()=>setOpen(r)}><div class="grow"><div>${nameOf(r.uid)}</div><div class="small muted">${fmtDate(r.date)} · أُعيد ${fmtTs(r.resubmittedAt)}</div></div><${Pill} st=${['جاهز للمراجعة','ok']}/></div>`)}</div></div>`}
+    <${ChallengeBoard} compact/>
+    <details class="card sum"><summary>طلبات التحديث المرسلة آخر 7 أيام (${sentN.length})</summary>
+      ${sentN.length?html`<div class="list">${sentN.map(n=>html`<div class="li" style="cursor:default"><span class=${'sev '+(n.status==='done'?'ok':'bad')}></span><div class="grow"><div>${nameOf(n.to)} · <span class="small muted">${NT[n.kind]||''} · ${fmtTs(n.at)}</span></div><div class="small">${n.msg}</div></div>
+        <${Pill} st=${n.status==='done'?['تم التحديث','ok']:['بانتظار الموظف','warn']}/>${S.canEdit&&html`<${Confirm} cls="sm ghost" label="حذف" onYes=${()=>delDoc('notifs/'+n.id)}/>`}</div>`)}</div>`:html`<div class="muted small">ما فيه طلبات</div>`}</details>
+    ${open&&html`<${ReportSheet} rep=${s.reports.find(r=>r.id===open.id)||open} onClose=${()=>setOpen(null)}/>`}
+    ${po&&html`<${POSheet} po=${po} mgr=${true} onClose=${()=>setPo(null)}/>`}`;
+}
+
+/* ---------- registrations: show immediately, approve with code + role ---------- */
+function RegCard({p,saveRole}){
+  const r=roleOf(p.id);const[code,setCode]=useState(r.code||'');const[busy,setBusy]=useState(false);
+  const go=async role=>{const c=code.trim().toUpperCase();if(!c)return toast('حدد كود الموظف أولاً','bad');
+    if(S.roles.some(x=>x.id!==p.id&&String(x.code||'').trim().toUpperCase()===c))return toast('الكود '+c+' مستخدم لموظف ثاني','bad');
+    setBusy(true);try{await saveRole(p.id,{approved:true,disabledAt:null,role,code:c},'تم اعتماد '+p.name+' '+(role==='supervisor'?'كمشرف':'كمندوب'))}catch(e){}setBusy(false)};
+  return html`<div class="card regcard"><div class="row between" style="align-items:flex-start"><div><h3>${p.name}</h3><div class="small muted">سجّل ${p.createdAt?fmtTs(p.createdAt):''}</div></div><${Pill} st=${['جديد','warn']}/></div>
+    <dl class="kv"><dt>الجوال</dt><dd><${Phone} n=${p.phone}/></dd>${p.username&&html`<dt>المستخدم</dt><dd dir="ltr" style="text-align:end;justify-self:start">${p.username}</dd>`}<dt>الرقم الوظيفي</dt><dd>${p.empNo||'—'}</dd><dt>المدينة</dt><dd>${p.city||'—'}</dd></dl>
+    <div class="row"><input class="inp" style="width:130px" dir="ltr" placeholder="كود الموظف" aria-label="كود الموظف" value=${code} onInput=${e=>setCode(e.target.value)}/>
+      <button class="btn sm pri" disabled=${busy} onClick=${()=>go('merch')}>اعتماد كمندوب</button><button class="btn sm yolk" disabled=${busy} onClick=${()=>go('supervisor')}>اعتماد كمشرف</button></div></div>`;
+}
+function RegWatch(){
+  const s=useS();const seen=useRef(null);
+  useEffect(()=>{if(!s.canEdit||!s.loaded.profiles||!s.loaded.roles)return;
+    const pend=s.profiles.filter(p=>p.id!==s.uid&&!roleOf(p.id).approved&&!roleOf(p.id).disabledAt).map(p=>p.id);
+    if(seen.current===null){seen.current=new Set(pend);return}
+    for(const id of pend)if(!seen.current.has(id)){seen.current.add(id);toast('🆕 سجّل موظف جديد: '+nameOf(id)+' · اعتمده من «الفريق»')}},[s.profiles,s.roles,s.loaded.profiles,s.loaded.roles]);
+  return null;
+}
+
+/* ---------- daily competitor-price challenge (per brand / chain) ---------- */
+const ckey=c=>'c'+[...String(c)].reduce((h,ch)=>(Math.imul(h,31)+ch.charCodeAt(0))>>>0,7).toString(36);
+const pwOn=d=>S.pricewatch.filter(x=>x.date===d);
+function leaderboard(from,to){const m={};for(const x of S.pricewatch){if(x.demo||x.date<from||x.date>to)continue;const k=x.uid;const e=m[k]||(m[k]={uid:k,pts:0,wins:0,firstAt:x.at});e.pts+=+x.points||0;e.wins++;if(x.at<e.firstAt)e.firstAt=x.at}
+  return Object.values(m).sort((a,b)=>b.pts-a.pts||b.wins-a.wins||a.firstAt-b.firstAt)}
+const chPoints=(uid,from,to)=>S.pricewatch.filter(x=>!x.demo&&x.uid===uid&&x.date>=from&&x.date<=to).reduce((a,x)=>a+(+x.points||0),0);
+function chainsFor(){const vr=viewRole();const act=S.branches.filter(b=>b.active!==false);
+  const mine=[...new Set(act.filter(isMine).map(b=>b.chain).filter(Boolean))];
+  const all=vr==='merch'?[...new Set([...mine,...pwOn(today()).map(x=>x.chain)])]:[...new Set(act.map(b=>b.chain).filter(Boolean))];
+  return{mine,all:all.sort((a,b)=>a.localeCompare(b,'ar'))}}
+const Medal=({i})=>html`<span class=${'medal m'+Math.min(i,4)}>${i<=3?['🥇','🥈','🥉'][i-1]:i}</span>`;
+function ChallengeBoard({compact}){
+  const s=useS();const t=today();const pw=pwOn(t).filter(x=>!x.demo||S.demo).sort((a,b)=>(a.at||0)-(b.at||0));const vr=viewRole();
+  const[from,to]=monthRange(t.slice(0,7));const lb=leaderboard(from,to);const first=pw[0];
+  return html`<div class="card chboard"><div class="row between"><h2>🏆 التحدي اليومي <span class="sub">${pw.length} براند انقفل اليوم</span></h2><a class="small" href="#challenge">التفاصيل</a></div>
+    <div class="firstwin">${first?html`<span class="fw-l">أول من نفّذ اليوم</span><span class="code big" dir="ltr">${codeOf(first.uid)||'—'}</span><span class="small">${first.chain} · ${first.hm||fmtTs(first.at)}</span>`:html`<span class="fw-l">ما أحد نفّذ التحدي اليوم للحين</span>`}</div>
+    ${!compact&&pw.length>0&&html`<div class="chips">${pw.map(x=>html`<span class="pill t-muted">🔒 ${x.chain} · <span dir="ltr">${codeOf(x.uid)||'—'}</span></span>`)}</div>`}
+    ${lb.length>0&&html`<div class="lb">${lb.slice(0,compact?3:10).map((x,i)=>html`<div class=${'lb-r'+(x.uid===s.uid?' me':'')}><${Medal} i=${i+1}/><span class="code" dir="ltr">${codeOf(x.uid)||'—'}</span>${vr!=='merch'||x.uid===s.uid?html`<span class="small grow">${x.uid===s.uid?'أنت':nameOf(x.uid)}</span>`:html`<span class="grow"></span>`}<span class="small muted">${x.wins} براند</span><b>${x.pts} <span class="small">نقطة</span></b></div>`)}</div>`}
+  </div>`;
+}
+function Challenge(){
+  const s=useS();const[cap,setCap]=useState(null);const[win,setWin]=useState(null);const h=HR();const pts=PTS();const t=today();const vr=viewRole();
+  const{mine,all}=chainsFor();const pw=pwOn(t);const by=c=>pw.find(x=>x.chain===c);
+  const[from,to]=monthRange(t.slice(0,7));const lb=leaderboard(from,to);const myPts=chPoints(s.uid,from,to);const rank=lb.findIndex(x=>x.uid===s.uid)+1;
+  const openN=mine.filter(c=>!by(c)).length;
+  return html`<div class="chhero">
+      <div class="chhero-t"><div class="kicker">التحدي اليومي</div><h1>أول من يصوّر أسعار البيض في البراند يكسب <span class="ptsbig">${pts}</span> نقطة</h1>
+        <p>أول ما يصوّر مندوب أسعار البيض في براند (مثل العثيم) في أي فرع من فروعه، ينقفل البراند كامل لكل المناديب لين بكرة، والكود حقه يطلع أول واحد للكل.${h.challengeReward?' المكافأة: '+h.challengeReward:''}</p></div>
+      <${ChallengeArt}/></div>
+    ${vr==='merch'&&html`<div class="kpis"><div class="kpi"><b>${myPts}</b><span>نقاطي هذا الشهر</span></div><div class="kpi"><b>${rank||'—'}</b><span>ترتيبي بين المناديب</span></div><div class=${'kpi'+(openN?' gold':'')}><b>${openN}</b><span>براندات مفتوحة لي اليوم</span></div><div class="kpi"><b dir="ltr">${codeOf(s.uid)||'—'}</b><span>كودي</span></div></div>`}
+    <div class="card"><h2>براندات اليوم <span class="sub">${fmtDate(t)}</span></h2>
+      <div class="chgrid">${all.map(c=>{const x=by(c);const can=mine.includes(c);const st=x?(x.uid===s.uid?'won':'locked'):can?'open':'na';
+        return html`<div class=${'chcard '+st}>
+          <div class="chc-top"><b>${c}</b><span class="chc-ic">${st==='won'?'🏆':st==='locked'?'🔒':st==='open'?'⭐':'—'}</span></div>
+          ${st==='open'?html`<div class="small">متاح الحين · <b>${pts} نقطة</b></div><button class="btn yolk sm" onClick=${()=>setCap(c)}>📷 صوّر الأسعار</button>`
+          :st==='won'?html`<div class="small">فزت فيه الساعة ${x.hm||''} · +${x.points} نقطة</div>`
+          :st==='locked'?html`<div class="small">انقفل الساعة ${x.hm||''} · الكود <b dir="ltr">${codeOf(x.uid)||'—'}</b>${vr!=='merch'?' · '+nameOf(x.uid):''}</div>${vr!=='merch'&&x.branchId&&html`<div class="small muted">${branchName(x.branchId)}</div>`}${S.canEdit&&html`<${Confirm} cls="sm ghost" label="حذف وفتح البراند" ask="حذف القراءة وفتح البراند من جديد؟" onYes=${()=>delDoc('pricewatch/'+x.id,'تم فتح البراند من جديد')}/>`}`
+          :html`<div class="small muted">${vr==='merch'?'ما عندك فروع فيه':'لم يُصوَّر بعد'}</div>`}</div>`})}
+        ${!all.length&&html`<${Empty} t=${vr==='merch'?'ما تم ربطك بفروع بعد':'ما فيه براندات مسجلة'}/>`}</div></div>
+    <${ChallengeBoard}/>
+    ${cap&&html`<${ChallengeSheet} chain=${cap} onClose=${()=>setCap(null)} onWin=${setWin}/>`}
+    ${win&&html`<${WinOverlay} w=${win} onClose=${()=>setWin(null)}/>`}`;
+}
+function ChallengeSheet({chain,onClose,onWin}){
+  const brs=S.branches.filter(b=>isMine(b)&&b.active!==false&&b.chain===chain);const prods=products();
+  const row0=()=>({id:rid(),brand:'',desc:'',vs:'',price:'',promo:false,promoPrice:''});
+  const[f,setF]=useState({branchId:brs.length===1?brs[0].id:'',photos:[],rows:[row0()]});const[busy,setBusy]=useState(false);
+  const compList=[...new Set([...L('competitors').filter(x=>x!=='أخرى'),...S.pricewatch.flatMap(x=>(x.rows||[]).map(c=>c.brand))].filter(Boolean))];
+  const setR=(i,p)=>setF({...f,rows:f.rows.map((r,j)=>j===i?{...r,...p}:r)});
+  const submit=async()=>{
+    if(!f.branchId)return toast('اختر الفرع','bad');if(!f.photos.length)return toast('صوّر رف أسعار البيض أولاً','bad');
+    const rows=f.rows.map(r=>({...r,brand:(r.brand||'').trim()})).filter(r=>r.brand||hasNum(r.price));
+    if(!rows.length)return toast('اكتب سعر منافس واحد على الأقل','bad');if(rows.some(r=>!r.brand||!(+r.price>0)))return toast('اكتب اسم المنافس والسعر في كل سطر','bad');
+    setBusy(true);const id=today()+'_'+ckey(chain);const ref=S.db.doc('pricewatch/'+id);
+    try{const ex=await ref.get();if(ex.exists){const d=ex.data();toast('سبقك الكود '+(codeOf(d.uid)||'—')+' · '+chain+' انقفل اليوم','bad');setBusy(false);onClose();return}
+      const p=PTS();await put('pricewatch/'+id,{date:today(),chain,uid:S.uid,branchId:f.branchId,photos:f.photos,rows,points:p,at:Date.now(),hm:timeNow(),demo:!!S.demo});
+      onWin({chain,pts:p});onClose()}
+    catch(e){console.error(e);const ex=await ref.get().catch(()=>null);toast(ex&&ex.exists?'سبقك أحد، '+chain+' انقفل اليوم':errMsg(e),'bad');if(ex&&ex.exists)onClose()}setBusy(false)};
+  return html`<${Sheet} title=${'تحدي أسعار '+chain} sub="صوّر رف البيض بأسعاره، واكتب أسعار المنافسين" onClose=${onClose}
+    footer=${html`<button class="btn yolk grow" disabled=${busy} onClick=${submit}>${busy?'جاري الإرسال…':'🔒 أرسل واقفل البراند'}</button>`}>
+    <section class="sec"><${Fld} label="الفرع *"><select value=${f.branchId} onChange=${e=>setF({...f,branchId:e.target.value})}><option value="">— اختر الفرع —</option>${brs.map(b=>html`<option value=${b.id}>${branchName(b.id)}</option>`)}</select><//></section>
+    <section class="sec"><h3><span class="num">1</span>صورة رف البيض بالأسعار *</h3><${Photos} ids=${f.photos} label="أسعار البيض" onChange=${ids=>setF({...f,photos:ids})}/></section>
+    <section class="sec"><h3><span class="num">2</span>أسعار المنافسين في ${chain}</h3>
+      <datalist id="ch-comp">${compList.map(x=>html`<option value=${x}/>`)}</datalist>
+      ${f.rows.map((c,i)=>html`<div class="fgrid" style="padding-bottom:10px;border-bottom:1px dashed var(--line)">
+        <${Fld} label="الشركة المنافسة *"><input list="ch-comp" autocomplete="off" value=${c.brand} onInput=${e=>setR(i,{brand:e.target.value})}/><//>
+        <${Fld} label="المنتج"><input value=${c.desc} placeholder="مثال: بيض أبيض 30" onInput=${e=>setR(i,{desc:e.target.value})}/><//>
+        <${Fld} label="يقابل منتجنا"><select value=${c.vs} onChange=${e=>setR(i,{vs:e.target.value})}><option value="">—</option>${prods.map(p=>html`<option value=${p.id}>${p.name}</option>`)}</select><//>
+        <${Fld} label="السعر *"><input type="number" inputmode="decimal" value=${c.price} onInput=${e=>setR(i,{price:e.target.value})}/><//>
+        <${Fld} label="عليه عرض؟"><select value=${c.promo?'1':''} onChange=${e=>setR(i,{promo:!!e.target.value})}><option value="">لا</option><option value="1">نعم</option></select><//>
+        ${c.promo&&html`<${Fld} label="سعر العرض"><input type="number" inputmode="decimal" value=${c.promoPrice} onInput=${e=>setR(i,{promoPrice:e.target.value})}/><//>`}
+        ${f.rows.length>1&&html`<div class="fld"><span> </span><button type="button" class="btn danger sm" onClick=${()=>setF({...f,rows:f.rows.filter((_,j)=>j!==i)})}>حذف السطر</button></div>`}</div>`)}
+      <div><button type="button" class="btn" onClick=${()=>setF({...f,rows:[...f.rows,row0()]})}>＋ سعر منافس ثاني</button></div></section>
+    <div class="notice">أول ما ترسل، ينقفل ${chain} لكل المناديب اليوم ويطلع كودك للكل.</div>
+  <//>`;
+}
+function WinOverlay({w,onClose}){
+  return html`<div class="winov" role="dialog" aria-label="فزت" onClick=${onClose}>
+    <div class="confetti" aria-hidden="true">${Array.from({length:28},(_,i)=>html`<i style=${'--x:'+((i*37)%100)+'%;--d:'+(1.4+(i%7)*.25)+'s;--r:'+(i*47%360)+'deg;--c:'+['#E7B13A','#AC1F23','#F2EDD9','#7A1318'][i%4]}></i>`)}</div>
+    <div class="wincard"><div class="winegg">🏆</div><h2>كفو! +${w.pts} نقطة</h2><p>قفلت <b>${w.chain}</b> لكل المناديب اليوم، وكودك طالع للكل في لوحة الأبطال.</p>${HR().challengeReward&&html`<p class="small">المكافأة: ${HR().challengeReward}</p>`}<button class="btn yolk" onClick=${onClose}>تمام</button></div></div>`;
+}
+function ChWatch(){ // reps: toast when a brand gets locked by someone else
+  const s=useS();const seen=useRef(null);
+  useEffect(()=>{if(!s.loaded.pricewatch)return;const t=today();const cur=pwOn(t);
+    if(seen.current===null){seen.current=new Set(cur.map(x=>x.id));return}
+    for(const x of cur)if(!seen.current.has(x.id)){seen.current.add(x.id);if(x.uid!==S.uid&&!x.demo)toast('🔒 '+x.chain+' انقفل اليوم · فاز به الكود '+(codeOf(x.uid)||'—'))}},[s.pricewatch,s.loaded.pricewatch]);
+  return null;
+}
+/* manager: competitor prices per brand */
+function BrandPrices({f}){
+  const s=useS();const rows=s.pricewatch.filter(x=>!x.demo&&x.date>=f.from&&x.date<=f.to).sort((a,b)=>(b.at||0)-(a.at||0));
+  const vs=filterVisits(f);const ours={};products().forEach(p=>{const a=vs.map(x=>+(x.v.prices||{})[p.id]).filter(x=>x>0);ours[p.id]=a.length?avg(a):null});
+  const g={};rows.forEach(x=>(g[x.chain]=g[x.chain]||[]).push(x));
+  return html`<div class="card"><h2>أسعار المنافسين حسب البراند <span class="sub">من التحدي اليومي · ${rows.length} قراءة</span></h2>
+    ${Object.keys(g).length?html`<div class="stack">${Object.entries(g).map(([c,list])=>{const x=list[0];return html`<details class="bp" open=${Object.keys(g).length<=3}><summary><b>${c}</b> <span class="small muted">آخر قراءة ${fmtDate(x.date)} ${x.hm||''} · <span dir="ltr">${codeOf(x.uid)||'—'}</span> ${nameOf(x.uid)} · ${branchName(x.branchId)} · ${list.length} قراءة</span></summary>
+      <div class="row" style="align-items:flex-start;gap:14px"><div style="max-width:260px"><${Photos} ids=${x.photos}/></div>
+      <div class="tw grow"><table><thead><tr><th>المنافس</th><th>المنتج</th><th>يقابل منتجنا</th><th class="n">سعره</th><th class="n">العرض</th><th class="n">متوسط سعرنا</th><th class="n">الفرق</th></tr></thead><tbody>
+      ${(x.rows||[]).map(r=>{const o=r.vs?ours[r.vs]:null;const d=o&&+r.price?(o-r.price)/r.price*100:null;return html`<tr><td>${r.brand}</td><td>${r.desc||'—'}</td><td>${r.vs?prodName(r.vs):'—'}</td><td class="n">${r.price}</td><td class="n">${r.promo?(r.promoPrice||'نعم'):'—'}</td><td class="n">${o?num(o):'—'}</td><td class="n">${d==null?'—':html`<span style=${'color:var(--'+(d>5?'bad':d<-5?'ok':'muted')+')'}>${d>0?'+':''}${Math.round(d)}%</span>`}</td></tr>`})}</tbody></table></div></div>
+      ${list.length>1&&html`<div class="small muted">قراءات سابقة: ${list.slice(1,8).map(y=>fmtDate(y.date)+' ('+(y.rows||[]).map(r=>r.brand+' '+r.price).join('، ')+')').join(' · ')}</div>`}
+      ${S.canEdit&&html`<div><${Confirm} cls="sm" label="حذف آخر قراءة" onYes=${()=>delDoc('pricewatch/'+x.id)}/></div>`}</details>`})}</div>`
+    :html`<${Empty} t="ما فيه قراءات أسعار من التحدي اليومي في هذه الفترة"/>`}
+    <div class="muted small">الفرق موجب يعني سعرنا أغلى من المنافس. متوسط سعرنا من أسعار الرف في زيارات نفس الفترة.</div></div>`;
+}
+
+/* ---------- requirements & incentives: interactive page ---------- */
+const ChallengeArt=()=>html`<svg class="chart-art" viewBox="0 0 220 170" role="img" aria-label="رسم كأس وبيضة">
+  <ellipse cx="110" cy="158" rx="78" ry="8" fill="rgba(0,0,0,.18)"/>
+  <path d="M70 40h80v22c0 26-18 44-40 44S70 88 70 62z" fill="#E7B13A"/><path d="M70 48H52c0 22 10 32 22 34M150 48h18c0 22-10 32-22 34" fill="none" stroke="#E7B13A" stroke-width="8" stroke-linecap="round"/>
+  <rect x="100" y="104" width="20" height="22" fill="#c9952b"/><rect x="80" y="124" width="60" height="16" rx="4" fill="#7A1318"/><rect x="72" y="138" width="76" height="14" rx="4" fill="#AC1F23"/>
+  <ellipse cx="110" cy="58" rx="17" ry="22" fill="#FBF8F0"/><circle cx="110" cy="63" r="8" fill="#E7B13A" opacity=".85"/>
+  <g fill="#FBF8F0"><path d="M30 30l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/><path d="M186 22l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/><path d="M192 96l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/></g></svg>`;
+const MerchArt=({photo})=>photo?html`<img class="merch-photo" src=${imgSrc(photo)} alt="مندوب القرية باللبس الرسمي"/>`:html`<svg class="merch-art" viewBox="0 0 240 260" role="img" aria-label="رسم مندوب القرية باللبس الرسمي">
+  <ellipse cx="120" cy="248" rx="80" ry="9" fill="rgba(0,0,0,.15)"/>
+  <rect x="84" y="176" width="30" height="66" rx="10" fill="#2b1517"/><rect x="126" y="176" width="30" height="66" rx="10" fill="#2b1517"/>
+  <rect x="80" y="232" width="38" height="14" rx="7" fill="#111"/><rect x="122" y="232" width="38" height="14" rx="7" fill="#111"/>
+  <path d="M72 104c0-18 22-30 48-30s48 12 48 30v84H72z" fill="#AC1F23"/>
+  <path d="M104 76l16 22 16-22" fill="#FBF8F0"/><path d="M110 82l10 14 10-14" fill="#7A1318"/>
+  <rect x="134" y="116" width="22" height="30" rx="3" fill="#FBF8F0"/><rect x="138" y="122" width="14" height="4" rx="2" fill="#AC1F23"/><rect x="138" y="130" width="10" height="3" rx="1.5" fill="#bba99c"/>
+  <path d="M86 118c4-3 10-3 14 0" stroke="#F2EDD9" stroke-width="3" fill="none"/><circle cx="93" cy="128" r="5" fill="#F2EDD9"/>
+  <path d="M72 108c-14 14-18 40-12 62" stroke="#AC1F23" stroke-width="18" stroke-linecap="round" fill="none"/>
+  <path d="M168 108c16 10 22 26 20 40" stroke="#AC1F23" stroke-width="18" stroke-linecap="round" fill="none"/>
+  <rect x="160" y="140" width="56" height="20" rx="4" fill="#E7B13A"/><g fill="#FBF8F0"><ellipse cx="170" cy="140" rx="6" ry="7"/><ellipse cx="183" cy="139" rx="6" ry="7"/><ellipse cx="196" cy="140" rx="6" ry="7"/><ellipse cx="208" cy="139" rx="6" ry="7"/></g>
+  <circle cx="120" cy="50" r="28" fill="#c98e6b"/><path d="M90 42c0-20 60-20 60 0v4H90z" fill="#AC1F23"/><path d="M88 46h66" stroke="#7A1318" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="110" cy="54" r="3" fill="#2b1517"/><circle cx="130" cy="54" r="3" fill="#2b1517"/><path d="M111 66c5 4 13 4 18 0" stroke="#2b1517" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`;
+function Ring({v,size,label}){const s=size||120,r=s/2-9,c=2*Math.PI*r,p=v==null?0:Math.max(0,Math.min(100,v));
+  return html`<svg class="ring" width=${s} height=${s} viewBox=${'0 0 '+s+' '+s} role="img" aria-label=${(label||'')+' '+Math.round(p)}><circle cx=${s/2} cy=${s/2} r=${r} fill="none" stroke="var(--surface2)" stroke-width="12"/>
+    <circle cx=${s/2} cy=${s/2} r=${r} fill="none" stroke=${p>=90?'var(--ok)':p>=70?'var(--yolk)':'var(--accent)'} stroke-width="12" stroke-linecap="round" stroke-dasharray=${c} stroke-dashoffset=${c*(1-p/100)} transform=${'rotate(-90 '+s/2+' '+s/2+')'} style="transition:stroke-dashoffset 1s ease"/>
+    <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle" class="ring-t">${v==null?'—':Math.round(v)}</text></svg>`}
+function Rules(){
+  const s=useS();const h=HR();const t=today();const m=t.slice(0,7);const[from,to]=monthRange(m);
+  const x=scoreFor(s.uid,from,to,s.myReports);const pts=chPoints(s.uid,from,to);const wins=S.pricewatch.filter(y=>y.uid===s.uid&&!y.demo&&y.date>=from).length;
+  const[openC,setOpenC]=useState(null);const[uniOk,setUniOk]=useState(()=>ls.get('uniChk:'+t)||[]);
+  const rep=s.myReports.find(r=>r.id===t+'_'+s.uid)||{visits:[]};const wd=weekday(t);
+  const pl=s.branches.filter(b=>isMine(b)&&b.active!==false&&(b.visitDays||[]).includes(wd));const vb=new Set((rep.visits||[]).map(v=>v.branchId));const dn=pl.filter(b=>vb.has(b.id)).length;
+  const mission=[['📷','صورة بداية الدوام باللبس الرسمي',!!rep.shiftIn,rep.shiftIn?rep.shiftIn.hm:'قبل '+hmOf(mins(h.shiftStart)+(+h.grace||0))],
+    ['🏪','زيارة الفروع المجدولة',pl.length?dn>=pl.length:(rep.visits||[]).length>0,pl.length?dn+'/'+pl.length:(rep.visits||[]).length+' زيارة'],
+    ['🖼️','صور الرف قبل وبعد في كل زيارة',(rep.visits||[]).length>0&&rep.visits.every(v=>(v.before||[]).length&&(v.after||[]).length),''],
+    ['💲','أسعار رفنا مرة باليوم',(rep.visits||[]).some(pricesDone),''],
+    ['🏆','التحدي اليومي (نقاط إضافية)',pwOn(t).some(y=>y.uid===s.uid),'+'+PTS()],
+    ['📷','صورة نهاية الدوام',!!rep.shiftOut,rep.shiftOut?rep.shiftOut.hm:'بعد '+h.shiftEnd],
+    ['📨','إرسال تقرير اليوم',rep.status==='submitted','']];
+  const mDone=mission.filter(y=>y[2]).length;
+  const tiers=[...h.tiers].sort((a,b)=>a.min-b.min);const nxt=tiers.find(y=>x.total!=null&&y.min>x.total);const b=+h.bonus||0;
+  const badges=[['⏰','منضبط','بدون تأخير هذا الشهر',x.work>=5&&!x.late],['🔒','صياد الأسعار','فزت بتحدي واحد على الأقل',wins>=1],['🏆','بطل التحدي','5 براندات أو أكثر هذا الشهر',wins>=5],
+    ['✨','رف مثالي','متوسط تقييم الرف 85 أو أكثر',x.s.shelf!=null&&x.s.shelf>=85],['📋','تقارير كاملة','اكتمال التقارير 95% أو أكثر',x.s.reports!=null&&x.s.reports>=95],['👔','أناقة القرية','لبسك مطابق كل الأيام المراجعة',x.uniOk>=5&&!x.uniBad]];
+  const togU=it=>{const n=uniOk.includes(it)?uniOk.filter(y=>y!==it):[...uniOk,it];setUniOk(n);ls.set('uniChk:'+t,n)};
+  const TIPS={schedule:'ابدأ بالفروع البعيدة بدري، وسجّل كل زيارة وأنت داخل الفرع.',punctual:'صوّر بداية الدوام أول ما توصل أول فرع، قبل نهاية فترة السماح.',uniform:'راجع بنود اللبس تحت قبل ما تصوّر نفسك.',shelf:'رتّب الرف وقدّم الأقدم، وصوّر الرف كامل بإضاءة واضحة.',reports:'لا تنسى صور قبل وبعد، وأرسل التقرير بعد صورة نهاية الدوام.'};
+  return html`<div class="rhero"><div class="rhero-t"><div class="kicker">المتطلبات والحوافز</div><h1>كل يوم تكسب فيه نقاط، وآخر الشهر يطلع حافزك</h1>
+      <p>نقاطك تنحسب تلقائياً من شغلك اليومي. كمّل مهمات اليوم، والتزم باللبس الرسمي، وشارك في التحدي اليومي.</p>
+      <div class="row"><span class="code big" dir="ltr">${codeOf(s.uid)||'—'}</span><a class="btn yolk sm" href="#challenge">🏆 التحدي اليومي</a></div></div>
+      <${MerchArt} photo=${h.heroPhoto}/></div>
+    <div class="grid2">
+      <div class="card"><h2>نقاطي هذا الشهر <span class="sub">${m}</span></h2>
+        <div class="row" style="gap:18px;flex-wrap:nowrap"><${Ring} v=${x.total} size=${132} label="نقاطي"/>
+          <div class="stack" style="gap:6px">${x.tier&&html`<${Pill} st=${[x.tier.name+' · حافز '+x.tier.pct+'%',x.tier.pct>=75?'ok':x.tier.pct>0?'yolk':'bad']}/>`}
+            ${b>0&&x.tier&&html`<div><b>${num(bonusOf(x))}</b> ريال متوقعة</div>`}
+            ${nxt?html`<div class="small">باقي لك <b>${Math.ceil(nxt.min-(x.total||0))}</b> نقطة وتوصل لفئة «${nxt.name}»</div>`:x.total!=null&&html`<div class="small">أنت في أعلى فئة 👏</div>`}
+            <div class="small muted">+ <b>${pts}</b> نقطة تحدي من ${wins} براند</div></div></div>
+        <div class="ladder">${tiers.map(y=>html`<div class=${'step'+(x.tier&&x.tier.name===y.name?' on':'')+(x.total!=null&&x.total>=y.min?' done':'')}><b>${y.min}+</b><span>${y.name}</span><small>${y.pct}%${b?' · '+num(Math.round(b*y.pct/100))+' ر':''}</small></div>`)}</div></div>
+      <div class="card"><div class="row between"><h2>مهمات اليوم</h2><span class="pill t-yolk">${mDone}/${mission.length}</span></div>
+        <div class="bar yolk"><i style=${'width:'+Math.round(mDone/mission.length*100)+'%'}></i></div>
+        <div class="mission">${mission.map(([ic,l,ok,v])=>html`<div class=${'mi'+(ok?' ok':'')}><span class="mi-c">${ok?'✓':ic}</span><span class="grow">${l}</span>${v&&html`<b class="small" dir="ltr">${v}</b>`}</div>`)}</div>
+        <a class="btn sm" href="#today">افتح تقرير اليوم</a></div>
+    </div>
+    <div class="card"><h2>كيف تنحسب نقاطك <span class="sub">اضغط على أي معيار</span></h2>
+      <div class="crit">${CRIT.map(([k,l,d])=>{const v=x.s[k];const o=openC===k;return html`<button type="button" class=${'critc'+(o?' open':'')} onClick=${()=>setOpenC(o?null:k)} aria-expanded=${o}>
+        <div class="row between" style="flex-wrap:nowrap"><span><b>${l}</b> <span class="small muted">· ${(+h.weights[k]||0)} نقطة</span></span><b>${v==null?'—':Math.round(v)+'%'}</b></div><${Bar} v=${v||0} max=${100}/>
+        ${o&&html`<div class="small crit-d"><div>${d}</div><div>💡 ${TIPS[k]}</div></div>`}</button>`})}</div></div>
+    <div class="card"><h2>اللبس الرسمي للقرية <span class="sub">جهّز نفسك قبل صورة الدوام</span></h2>
+      ${(h.uniformPhotos||[]).length?html`<div class="unigal">${h.uniformPhotos.map(id=>html`<img src=${imgSrc(id)} alt="اللبس الرسمي للقرية" loading="lazy" onClick=${()=>{S.lightbox=id;bump()}}/>`)}</div>`:html`<div class="unisvg"><${MerchArt}/></div>`}
+      <div class="unichk">${h.uniform.map((it,i)=>{const on=uniOk.includes(it);return html`<button type="button" class=${'unirow'+(on?' good':'')} onClick=${()=>togU(it)}><b>${on?'✓':i+1}</b><span class="grow">${it}</span></button>`})}</div>
+      <div class="small muted">${uniOk.length===h.uniform.length?'جاهز 👌 صوّر بداية الدوام الحين':'علّم كل بند بعد ما تتأكد منه. المشرف يراجع صورتك كل يوم.'}</div></div>
+    <div class="card"><h2>أوسمتي</h2><div class="badges">${badges.map(([ic,n,d,on])=>html`<div class=${'badge'+(on?' on':'')} title=${d}><span class="bi">${ic}</span><b>${n}</b><small>${d}</small></div>`)}</div></div>
+    ${h.rules.length>0&&html`<div class="card"><h2>متطلبات إضافية من الإدارة</h2><ul class="rules">${h.rules.map(r=>html`<li>${r}</li>`)}</ul></div>`}
+    <details class="card sum"><summary>المخالفات والإجراءات (${x.viol.length} هذا الشهر)</summary>
+      <ul class="rules">${VIOL_TYPES.map(y=>html`<li>${y}</li>`)}</ul>
+      <div class="chips"><span class="pill t-yolk"><span>1 – 2 أيام:</span> <span>تنبيه شفهي</span></span><span class="pill t-warn"><span>3 – 4 أيام:</span> <span>إنذار كتابي</span></span><span class="pill t-bad"><span>5 أيام فأكثر:</span> <span>رفع للموارد البشرية</span></span></div>
+      ${x.viol.length>0&&html`<div class="list">${x.viol.map(v=>html`<div class="li" style="cursor:default"><span class="sev bad"></span><div class="grow small"><span>${fmtDate(v.d)}</span> · <span>${v.t}</span></div></div>`)}</div>`}
+      <div class="small muted">الأعذار والإجازات يسجلها المشرف وما تنحسب عليك. أيام العمل: ${h.workDays.slice().sort((a,b2)=>((a+1)%7)-((b2+1)%7)).map(d=>DAYS[d]).join('، ')}</div></details>`;
+}
+
 /* ---------------- shell ---------------- */
 const TABS={
-  merch:[['today','تقرير اليوم',Today],['history','سجلي',History],['pos','طلبات الشراء',POs],['trips','الشاحنات',Trips],['rules','المتطلبات والحوافز',Rules],['account','حسابي',Account]],
-  supervisor:[['dash','لوحة المتابعة',Dash],['hr','الحضور والحوافز',Hr],['perf','أداء الفريق',Perf],['reports','الزيارات',Reports],['issues','المتابعة',Issues],['prices','أسعار المنافسين',Prices],['pos','طلبات الشراء',POs],['trips','الشاحنات',Trips],['today','زيارتي',Today],['account','حسابي',Account]],
-  manager:[['dash','لوحة المتابعة',Dash],['hr','الحضور والحوافز',Hr],['perf','أداء الفريق',Perf],['reports','الزيارات',Reports],['issues','المتابعة',Issues],['prices','أسعار المنافسين',Prices],['pos','طلبات الشراء',POs],['trips','الشاحنات والرحلات',Trips],['branches','المناطق والفروع',Branches],['team','الفريق',Team],['config','الإعدادات',Config],['account','حسابي',Account]]
+  merch:[['today','تقرير اليوم',Today],['challenge','التحدي اليومي',Challenge],['history','سجلي',History],['pos','طلبات الشراء',POs],['trips','الشاحنات',Trips],['rules','المتطلبات والحوافز',Rules],['account','حسابي',Account]],
+  supervisor:[['follow','المتابعة السريعة',Follow],['dash','لوحة المتابعة',Dash],['hr','الحضور والحوافز',Hr],['perf','أداء الفريق',Perf],['reports','الزيارات',Reports],['issues','المتابعة',Issues],['prices','أسعار المنافسين',Prices],['challenge','التحدي اليومي',Challenge],['pos','طلبات الشراء',POs],['trips','الشاحنات',Trips],['today','زيارتي',Today],['account','حسابي',Account]],
+  manager:[['follow','المتابعة السريعة',Follow],['dash','لوحة المتابعة',Dash],['hr','الحضور والحوافز',Hr],['perf','أداء الفريق',Perf],['reports','الزيارات',Reports],['issues','المتابعة',Issues],['prices','أسعار المنافسين',Prices],['challenge','التحدي اليومي',Challenge],['pos','طلبات الشراء',POs],['trips','الشاحنات والرحلات',Trips],['branches','المناطق والفروع',Branches],['team','الفريق',Team],['config','الإعدادات',Config],['account','حسابي',Account]]
 };
 function App(){
   const s=useS();
@@ -1927,12 +2479,14 @@ function App(){
   if(body)return html`<div class="wrap">${body}</div><${Overlays}/>`;
   const vr=viewRole();const tabs=TABS[vr];const cur=tabs.find(t=>t[0]===tab)||tabs[0];const C=cur[2];
   const openFu=vr!=='merch'?openIssues():0;
+  const pendPO=vr!=='merch'?s.pos.filter(p=>p.status==='pending'&&scopeBranches().some(b=>b.id===p.branchId)).length:0;
+  const chOpen=vr==='merch'?chainsFor().mine.filter(c=>!pwOn(today()).some(x=>x.chain===c)).length:0;
   const pend=vr==='manager'?s.profiles.filter(p=>!roleOf(p.id).approved&&!roleOf(p.id).disabledAt&&p.id!==s.uid).length:0;
   return html`<header class="top"><div class="wrap">
       <div class="topbar"><${Logo}/><div class="brand"><h1>متابعة المناديب</h1><small>قسم البيض</small></div>
-        <div class="me"><${LangSw}/><b class="hide-sm">${s.profile.name}</b><span class=${'pill '+(vr==='manager'?'t-info':vr==='supervisor'?'t-yolk':'t-ok')}>${S.demo?'تجربة: مندوب':ROLE[vr]}</span>
+        <div class="me"><${Bell}/><${LangSw}/><b class="hide-sm">${s.profile.name}</b><span class=${'pill '+(vr==='manager'?'t-info':vr==='supervisor'?'t-yolk':'t-ok')}>${S.demo?'تجربة: مندوب':ROLE[vr]}</span>
           ${s.canEdit&&html`<button class=${'btn sm'+(S.demo?' yolk':'')} onClick=${()=>toggleDemo()}>${S.demo?'رجوع لحساب المدير':'تجربة كمندوب'}</button>`}</div></div>
-      <nav class="tabs">${tabs.map(t=>html`<a href=${'#'+t[0]} class=${t===cur?'on':''}>${t[1]}${t[0]==='team'&&pend?html`<span class="dot">${pend}</span>`:''}${t[0]==='issues'&&openFu?html`<span class="dot">${openFu}</span>`:''}</a>`)}</nav>
+      <nav class="tabs">${tabs.map(t=>html`<a href=${'#'+t[0]} class=${t===cur?'on':''}>${t[1]}${t[0]==='team'&&pend?html`<span class="dot">${pend}</span>`:''}${t[0]==='issues'&&openFu?html`<span class="dot">${openFu}</span>`:''}${t[0]==='follow'&&pendPO?html`<span class="dot">${pendPO}</span>`:''}${t[0]==='pos'&&pendPO?html`<span class="dot">${pendPO}</span>`:''}${t[0]==='challenge'&&chOpen?html`<span class="dot">${chOpen}</span>`:''}</a>`)}</nav>
     </div></header>
     <main class="wrap">${S.demo&&html`<${DemoBar}/>`}${s.errors.length>0&&html`<div class="notice bad">بعض البيانات ما تحمّلت. أعد فتح الصفحة، وإذا تكرر تواصل مع المدير.</div>`}<${C}/></main>
     <${Overlays}/>`;
@@ -1940,7 +2494,7 @@ function App(){
 /* ---------------- auto update ----------------
    APP_VERSION goes up with every publish. The manager's page records the newest version in
    settings/app; every open phone listens to that doc live and reloads itself onto the new copy. */
-const APP_VERSION=13;
+const APP_VERSION=14;
 const newerVersion=()=>S.appInfo&&+S.appInfo.version>APP_VERSION?+S.appInfo.version:0;
 function hardReload(){location.reload()}
 function UpdateWatch(){
@@ -1960,7 +2514,8 @@ function UpdateWatch(){
 }
 function Overlays(){
   const s=useS();
-  return html`${s.db&&html`<${UpdateWatch}/>`}${s.lightbox&&html`<div class="lightbox" onClick=${()=>{S.lightbox=null;bump()}}><img src=${imgSrc(s.lightbox)} alt="صورة الرف"/></div>`}
+  return html`${s.db&&html`<${UpdateWatch}/>`}${s.db&&s.canEdit&&html`<${RegWatch}/>`}${s.db&&html`<${ChWatch}/>`}
+    ${s.notifOpen&&html`<${NotifSheet} onClose=${()=>{S.notifOpen=false;bump()}}/>`}${s.ceoOpen&&html`<${CeoSheet} onClose=${()=>{S.ceoOpen=false;bump()}}/>`}${s.lightbox&&html`<div class="lightbox" onClick=${()=>{S.lightbox=null;bump()}}><img src=${imgSrc(s.lightbox)} alt="صورة الرف"/></div>`}
     ${s.toast&&html`<div class=${'toast '+(s.toast.tone||'')} role="status">${s.toast.msg}</div>`}`;
 }
 render(html`<${App}/>`,document.getElementById('app'));
